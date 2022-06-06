@@ -16,3 +16,6 @@ function showYourself(a){
 function changeType(a){
     document.getElementById(a).classList.toggle("bigBoi");
 }
+
+const randomColor = "#"+((1<<24)*Math.random()|0).toString(16); 
+document.documentElement.style.setProperty('--main-bg-color', randomColor);
