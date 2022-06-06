@@ -1,8 +1,18 @@
 body {
     margin: 0;
 }
+
 img {
     width: 100vw;
     height: 100vh;
     object-fit: contain;
+}
+
+.hidden {
+    display: none;
+    visibility: hidden;
+}
+
+.bigBoi {
+    object-fit: fill;
 }
