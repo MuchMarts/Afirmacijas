@@ -10,11 +10,13 @@ img {
     width: 100vw;
     height: 100vh;
     object-fit: contain;
-}
-
-.hidden {
     display: none;
     visibility: hidden;
+}
+
+.shown {
+    display: initial;
+    visibility: initial;
 }
 
 .bigBoi {
