@@ -1,12 +1,21 @@
-var chance;
 
-function randomEqualFunny(){
-    chance = (Math.floor(Math.random()*100) + 1);
-    console.log(chance)
-    if(chance < 31)         {showYourself(1)}
-    else if(chance < 61)    {showYourself(2)}
-    else if(chance < 98)    {showYourself(3)}
-    else                    {showYourself(4)}
+var canvas = document.getElementById('viewport');
+context = canvas.getContext('2d');
+
+console.log(canvas);
+
+
+function add_img(src) {
+    img = new Image();
+    img.src = src;
+    img.onload = function(){
+    img.crossOrigin = false;
+    context.drawImage(img,0,0,1000,1000);
+    }
+}
+function save_canvas() {
+
+    ReImg.fromCanvas(document.querySelector('canvas')).downloadPng();
 }
 
 function showYourself(a){
@@ -36,3 +45,4 @@ function handleFiles(){
        place.appendChild(img);
     }
 }
+add_img('a69.png')

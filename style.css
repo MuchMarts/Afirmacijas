@@ -1,22 +1,8 @@
-html {
-    background-color: var(--main-bg-color);
-}
-
 body {
-    margin: 0;
+    display: flex;
+    justify-content: center;
 }
 
-img {
-    width: 100vw;
-    height: 100vh;
-    object-fit: contain;
-}
-
-.hidden {
-    display: none;
-    visibility: hidden;
-}
-
-.bigBoi {
-    object-fit: fill;
+canvas {
+    border: 2px solid #000000;
 }
