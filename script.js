@@ -1,9 +1,9 @@
 const width = window.innerWidth;
 const height = window.innerHeight;
 var canw = 0; var canh = 0;
-const reslq = 100;
-const resmq = 1000;
-const reshq = 4200;
+const reslq = 3600;
+const resmq = 720;
+const reshq = 1080;
 
 var canvas = document.getElementById("viewport");
 context = canvas.getContext('2d');
