@@ -63,14 +63,14 @@ function save_canvas(canva) {
 }
 
 function hq(){
-    igors.saveHQ;
+    igors.saveHQ();
 }
 function mq(){
-    igors.saveMQ;
+    igors.saveMQ();
 }
 
 function lq(){
-    igors.saveLQ;
+    igors.saveLQ();
 }
 
 function showYourself(a){
