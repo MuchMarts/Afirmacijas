@@ -82,7 +82,6 @@ function test_save(){
 }
 
 function hq(){
-    console.log("imhere");
     igors.saveHQ();
 }
 function mq(){
