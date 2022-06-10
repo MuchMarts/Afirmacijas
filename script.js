@@ -1,8 +1,11 @@
+const width = window.innerWidth;
+const height = window.innerHeight;
+var canw = 0; var canh = 0;
 const reslq = 100;
 const resmq = 1000;
 const reshq = 4200;
 
-var canvas = document.getElementById('viewport');
+var canvas = document.getElementById("viewport");
 context = canvas.getContext('2d');
 
 console.log(canvas);
@@ -14,8 +17,19 @@ function ConstAfirmacija() {
     this.borderCol = "notSet";
 }
 
-const igors = new ConstAfirmacija()
+if(width > 1020 && height > 1020){
+    canw = 1000; canh = 1000;
+} else if (width > height){
+    canw = height - 50; canh = height - 50;
+    canvas.setAttribute("width", canw);
+    canvas.setAttribute("height", canh);
+} else {
+    canw = width - 50; canh = width - 50;
+    canvas.setAttribute("width", canw);
+    canvas.setAttribute("height", canh);
+}
 
+const igors = new ConstAfirmacija();
     
 function createCanvas(size){
     var new_canvas = document.createElement('canvas');
@@ -58,7 +72,8 @@ function add_img(src) {
     img = new Image();
     img.src = src;
     img.onload = function(){
-    context.drawImage(img,0,0,1000,1000);
+    img.crossOrigin = false;
+    context.drawImage(img,0,0,canw,canh);
     }
 }
 function save_canvas(canva) {
@@ -90,10 +105,6 @@ function changeType(a){
 
 const userFile = document.getElementById("userFile");
 var place = document.getElementById ("text");
-
-function display(){
-    place.innerHTML = userFile.files[0].name + ": " + userFile.files[0].size + " biti woow";
-}
 
 function handleFiles(){
     console.log(userFile.files.length);

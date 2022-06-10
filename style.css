@@ -3,6 +3,7 @@ canvas {
 }
 
 body {
+    margin: 20px;
     background-color: coral;
     font-family: Helvetica, Arial, sans-serif;
 }
