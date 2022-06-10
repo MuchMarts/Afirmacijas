@@ -10,7 +10,7 @@ context = canvas.getContext('2d');
 
 console.log(canvas);
 
-if(width > 1020 && height > 1020){
+if(width > 1050 && height > 1050){
     canw = 1000; canh = 1000;
 } else if (width > height){
     canw = height - 50; canh = height - 50;
