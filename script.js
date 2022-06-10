@@ -83,6 +83,10 @@ function save_canvas(canva) {
     link.click();
 }
 
+function test_save(){
+    save_canvas(canvas);
+}
+
 function hq(){
     console.log("imhere");
     igors.saveHQ();
