@@ -19,6 +19,8 @@ function ConstAfirmacija() {
 
 if(width > 1050 && height > 1050){
     canw = 1000; canh = 1000;
+    canvas.setAttribute("width", canw);
+    canvas.setAttribute("height", canh);
 } else if (width > height){
     canw = height - 50; canh = height - 50;
     canvas.setAttribute("width", canw);
