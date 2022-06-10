@@ -1,7 +1,7 @@
 const width = window.innerWidth;
 const height = window.innerHeight;
 var canw = 0; var canh = 0;
-const reslq = 3600;
+const reslq = 360;
 const resmq = 720;
 const reshq = 1080;
 
