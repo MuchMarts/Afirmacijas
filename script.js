@@ -38,6 +38,7 @@ function createCanvas(size){
 function dwnImg(size){
     createCanvas(size);
     var bob = document.getElementById("finalCopy");
+    bob.classList.add('sneaky')
     f_add_img(igors.imgURL, size, bob);
 }
 
