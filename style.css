@@ -1,24 +1,8 @@
-html {
-    background-color: var(--main-bg-color);
+div {
+    display: flex;
+    justify-content: center;
 }
 
-body {
-    margin: 0;
-}
-
-img {
-    width: 100vw;
-    height: 100vh;
-    object-fit: contain;
-    display: none;
-    visibility: hidden;
-}
-
-.shown {
-    display: initial;
-    visibility: initial;
-}
-
-.bigBoi {
-    object-fit: fill;
+canvas {
+    border: 2px solid #000000;
 }
