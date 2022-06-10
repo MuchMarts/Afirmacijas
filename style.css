@@ -1,3 +1,41 @@
 canvas {
     border: 2px solid #000000;
 }
+
+body {
+    background-color: coral;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+.button {
+    position: left;
+    background-color: rgba(4, 101, 6, 0.95);
+    border: 2px solid #ffffff;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.sneaky + label {
+    position: left;
+    background-color: rgba(4, 101, 6, 0.95);
+    border: 2px solid #ffffff;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.sneaky {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}

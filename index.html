@@ -9,12 +9,12 @@
 </head>
 <body>
     <canvas id="viewport" width="1000" height="1000"></canvas>
-      
-    <input type="file" id="userFile" name="filename" accept="image/*">
-    <input type="submit" onclick="handleFiles()">
-
-    <div id="finished"></div>
-
+    <p id="text">Spied lejā, lai izvēlētos un augšupielādētu savu bildi!</p>
+    <input type="file" id="userFile" class="sneaky" name="filename" accept="image/*">
+    <label for="userFile">Izvēlēties failu</label>
+    <input type="submit" id="submit" class="sneaky" onclick="handleFiles()">
+    <label for="submit">Augšupielādēt</label>  
+    <button class="button" onclick="save_canvas()">Download</button> 
     <script src="script.js"></script> 
 </body>
 </html>
