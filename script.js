@@ -14,8 +14,10 @@ function add_img(src) {
     }
 }
 function save_canvas() {
-
-    ReImg.fromCanvas(document.querySelector('canvas')).downloadPng();
+    var link = document.createElement('a');
+    link.download = 'afirmacija.png';
+    link.href = canvas.toDataURL();
+    link.click();
 }
 
 function showYourself(a){
@@ -26,9 +28,6 @@ function changeType(a){
     document.getElementById(a).classList.toggle("bigBoi");
 }
 
-const randomColor = "#"+((1<<24)*Math.random()|0).toString(16); 
-document.documentElement.style.setProperty('--main-bg-color', randomColor);
-
 function handleFiles(){
     var userFile = document.getElementById("userFile");
     var place = document.getElementById ("text");
@@ -38,11 +37,6 @@ function handleFiles(){
     } else if(userFile.files.length > 1){
         place.innerHTML = "Izvēlies vienu failu pls...:(";   
     } else {
-       const img = document.createElement("img");
-       img.src = URL.createObjectURL(userFile.files[0]);
-       img.height = 500;
-       place.innerHTML = " ";
-       place.appendChild(img);
+       add_img(URL.createObjectURL(userFile.files[0]));
     }
 }
-add_img('a69.png')
