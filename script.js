@@ -1,16 +1,30 @@
+const width = window.innerWidth;
+const height = window.innerHeight;
+var canw = 0; var canh = 0;
 
-var canvas = document.getElementById('viewport');
+var canvas = document.getElementById("viewport");
 context = canvas.getContext('2d');
 
 console.log(canvas);
 
+if(width > 1020 && height > 1020){
+    canw = 1000; canh = 1000;
+} else if (width > height){
+    canw = height - 50; canh = height - 50;
+    canvas.setAttribute("width", canw);
+    canvas.setAttribute("height", canh);
+} else {
+    canw = width - 50; canh = width - 50;
+    canvas.setAttribute("width", canw);
+    canvas.setAttribute("height", canh);
+}
 
 function add_img(src) {
     img = new Image();
     img.src = src;
     img.onload = function(){
     img.crossOrigin = false;
-    context.drawImage(img,0,0,1000,1000);
+    context.drawImage(img,0,0,canw,canh);
     }
 }
 function save_canvas() {
@@ -30,10 +44,6 @@ function changeType(a){
 
 const userFile = document.getElementById("userFile");
 var place = document.getElementById ("text");
-
-function display(){
-    place.innerHTML = userFile.files[0].name + ": " + userFile.files[0].size + " biti woow";
-}
 
 function handleFiles(){
     console.log(userFile.files.length);
