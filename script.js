@@ -1,3 +1,4 @@
+
 var canvas = document.getElementById('viewport');
 context = canvas.getContext('2d');
 
@@ -8,8 +9,13 @@ function add_img(src) {
     img = new Image();
     img.src = src;
     img.onload = function(){
-        context.drawImage(img,0,0,1000,1000)
+    img.crossOrigin = false;
+    context.drawImage(img,0,0,1000,1000);
     }
 }
+function save_canvas() {
 
-add_img('a1.png')
+    ReImg.fromCanvas(document.querySelector('canvas')).downloadPng();
+}
+
+add_img('a69.png')
