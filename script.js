@@ -8,8 +8,6 @@ const reshq = 4200;
 var canvas = document.getElementById("viewport");
 context = canvas.getContext('2d');
 
-console.log(canvas);
-
 function ConstAfirmacija() {
     this.imgURL = "notSet";
     this.text = "notSet";
@@ -19,18 +17,13 @@ function ConstAfirmacija() {
 
 if(width > 1050 && height > 1050){
     canw = 1000; canh = 1000;
-    canvas.setAttribute("width", canw);
-    canvas.setAttribute("height", canh);
 } else if (width > height){
     canw = height - 50; canh = height - 50;
-    canvas.setAttribute("width", canw);
-    canvas.setAttribute("height", canh);
 } else {
     canw = width - 50; canh = width - 50;
-    canvas.setAttribute("width", canw);
-    canvas.setAttribute("height", canh);
 }
-
+canvas.setAttribute("width", canw);
+canvas.setAttribute("height", canh);
 const igors = new ConstAfirmacija();
     
 function createCanvas(size){
@@ -45,14 +38,10 @@ function createCanvas(size){
 function dwnImg(size){
     createCanvas(size);
     var bob = document.getElementById("finalCopy");
-    console.log(igors.imgURL);
-    f_add_img(igors.imgURL, size, bob.getContext('2d'));
-    save_canvas(bob);
-    document.getElementById('finished').removeChild(bob);
+    f_add_img(igors.imgURL, size, bob);
 }
 
 function saveHQ(){
-    console.log("Imhere")
     dwnImg(reshq);
 }
 function saveMQ(){
@@ -62,11 +51,14 @@ function saveLQ(){
     dwnImg(reslq);
 }
 
-function f_add_img(src, size, new_context) {
+function f_add_img(src, size, bob) {
     img = new Image();
+    new_context = bob.getContext('2d');
     img.src = src;
     img.onload = function(){
     new_context.drawImage(img,0,0,size,size);
+    save_canvas(bob);
+    document.getElementById('finished').removeChild(bob);
     }
 }
 
@@ -74,7 +66,6 @@ function add_img(src) {
     img = new Image();
     img.src = src;
     img.onload = function(){
-    img.crossOrigin = false;
     context.drawImage(img,0,0,canw,canh);
     }
 }
@@ -82,11 +73,12 @@ function save_canvas(canva) {
     var link = document.createElement('a');
     link.download = 'afirmacija.png';
     link.href = canva.toDataURL();
+    document.body.appendChild(link);
     link.click();
+    document.body.removeChild(link);
 }
 
 function test_save(){
-    save_canvas(canvas);
 }
 
 function hq(){
