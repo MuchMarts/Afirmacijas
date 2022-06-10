@@ -10,6 +10,13 @@ context = canvas.getContext('2d');
 
 console.log(canvas);
 
+function ConstAfirmacija() {
+    this.imgURL = "notSet";
+    this.text = "notSet";
+    this.textCol = "notSet";
+    this.borderCol = "notSet";
+}
+
 if(width > 1050 && height > 1050){
     canw = 1000; canh = 1000;
 } else if (width > height){
@@ -21,45 +28,45 @@ if(width > 1050 && height > 1050){
     canvas.setAttribute("width", canw);
     canvas.setAttribute("height", canh);
 }
-class afirmation {
-    constructor(){
-        this.imgUrl;
-        this.text;
-        this.textCol;
-        this.borderCol;
-    };
-    setUrl(url) {
-        this.imgUrl = url;
-    }
 
-    createCanvas(size){
-        var new_canvas = document.createElement('canvas');
-        new_canvas.id = "finalCopy";
-        new_canvas.width = size;
-        new_canvas.height = size;
-        var body = document.getElementById('finished');
-        body.appendChild(new_canvas);
-    }
-
-    saveCanva(res){
-        this.createCanvas(res);
-        var bob = document.getElementById("finalCopy");
-        add_img(this.imgUrl);
-        save_canvas(bob);
-        document.getElementById('finished').removeChild(bob);
-    }
-    saveHQ(){
-        this.saveCanva(reshq);
-    }
-    saveMQ(){
-        this.saveCanva(resmq);
-    }
-    saveLQ(){
-        this.saveCanva(reslq);
-    }
+const igors = new ConstAfirmacija();
+    
+function createCanvas(size){
+    var new_canvas = document.createElement('canvas');
+    new_canvas.id = "finalCopy";
+    new_canvas.width = size;
+    new_canvas.height = size;
+    var body = document.getElementById('finished');
+    body.appendChild(new_canvas);
 }
 
-let igors = new afirmation(); 
+function dwnImg(size){
+    createCanvas(size);
+    var bob = document.getElementById("finalCopy");
+    console.log(igors.imgURL);
+    f_add_img(igors.imgURL, size, bob.getContext('2d'));
+    save_canvas(bob);
+    document.getElementById('finished').removeChild(bob);
+}
+
+function saveHQ(){
+    console.log("Imhere")
+    dwnImg(reshq);
+}
+function saveMQ(){
+    dwnImg(resmq);
+}
+function saveLQ(){
+    dwnImg(reslq);
+}
+
+function f_add_img(src, size, new_context) {
+    img = new Image();
+    img.src = src;
+    img.onload = function(){
+    new_context.drawImage(img,0,0,size,size);
+    }
+}
 
 function add_img(src) {
     img = new Image();
@@ -77,6 +84,7 @@ function save_canvas(canva) {
 }
 
 function hq(){
+    console.log("imhere");
     igors.saveHQ();
 }
 function mq(){
@@ -107,7 +115,8 @@ function handleFiles(){
     } else {
         place.innerHTML = userFile.files[0].name + ": " + userFile.files[0].size + " biti";
         tempUrl = URL.createObjectURL(userFile.files[0]);
-        igors.setUrl(tempUrl);
+        console.log(tempUrl);
+        igors.imgURL = tempUrl;
         add_img(tempUrl);
     }
 }
