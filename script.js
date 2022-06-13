@@ -1,31 +1,17 @@
+
+//  Properties
 const width = window.innerWidth;
 const height = window.innerHeight;
-var canw = 0; var canh = 0;
-const reslq = 360;
-const resmq = 720;
-const reshq = 1080;
 
-var canvas = document.getElementById("viewport");
-var context = canvas.getContext('2d');
+var canw = 0; var canh = 0;
 
 function ConstAfirmacija() {
+    //Storage
     this.imgURL = "notSet";
     this.text = "notSet";
     this.textCol = "notSet";
     this.borderCol = "notSet";
-}
-
-if(width > 1050 && height > 1050){
-    canw = 1000; canh = 1000;
-} else if (width > height){
-    canw = height - 50; canh = height - 50;
-} else {
-    canw = width - 50; canh = width - 50;
-}
-canvas.setAttribute("width", canw);
-canvas.setAttribute("height", canh);
-
-const igors = new ConstAfirmacija();
+}  
 
 function mergeCanvas(pictureID, overlayID){
     var picture = document.getElementById(pictureID);
@@ -112,28 +98,71 @@ function save_canvas(canva) {
     document.body.removeChild(link);
 }
 */
-function test_save(){
 }
 
-function hq(){
-    igors.saveHQ();
-}
-function mq(){
-    igors.saveMQ();
+const igors = new ConstAfirmacija();
+
+const canvas = document.getElementById("viewport");
+context = canvas.getContext('2d');
+
+//Diferent workspace size for diferent device
+if(width>1050 && height>1050){canw = 1000; canh = 1000;
+} else {
+    if(width>height){canw = height - 50; canh = height - 50;}
+    if(width<height){canw = width - 50; canh = width - 50;}
 }
 
-function lq(){
-    igors.saveLQ();
+canvas.setAttribute("width", canw);
+canvas.setAttribute("height", canh);
+
+//Creates new canva element with export resolution
+function save_finished_canvas(size){
+    var new_canvas = document.createElement('canvas');
+    new_canvas.id = "finalCopy";
+    new_canvas.width = size;
+    new_canvas.height = size;
+    var body = document.getElementById('finished');
+    body.appendChild(new_canvas);
+    new_canvas.classList.add('sneaky');
+    add_image_canva(size, new_canvas, true);
 }
 
+//Adds image to canva
+function add_image_canva(size, canvaElem, final) {
+    img = new Image();
+    img.src = igors.imgURL;
+    ctx = canvaElem.getContext("2d");
+    img.onload = function() {
+        ctx.drawImage(img, 0, 0, size, size);
+        if(final){
+            //If export then saves and deletes the element from html
+            save_canvas(canvaElem);
+            document.getElementById('finished').removeChild(canvaElem);
+        }
+
+    }
+}
+//Downloads image and removes clutter
+function save_canvas(canva) {
+    var link = document.createElement('a');
+    link.download = 'afirmacija.png';
+    link.href = canva.toDataURL();
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+//Show/Hide smth
 function showYourself(a){
     document.getElementsByClassName("banana")[a-1].classList.toggle("hidden");
 }
 
+//Strecth smth
 function changeType(a){
     document.getElementById(a).classList.toggle("bigBoi");
 }
 
+//Handle image upload
 const userFile = document.getElementById("userFile");
 var place = document.getElementById ("text");
 
@@ -146,11 +175,16 @@ function handleFiles(){
     } else {
         place.innerHTML = userFile.files[0].name + ": " + userFile.files[0].size + " biti";
         tempUrl = URL.createObjectURL(userFile.files[0]);
-        console.log(tempUrl);
         igors.imgURL = tempUrl;
-        add_img(tempUrl);
+        add_image_canva(canw, canvas, false);
+        //add_img(tempUrl);
     }
 }
+
+//Used to save image
+function saveFile(exportSize){
+    save_finished_canvas(exportSize);
+
 
 function convertHex(hexCode, opacity = 1){ //stolen code src="https://gist.github.com/danieliser/b4b24c9f772066bcf0a6.js"
     var hex = hexCode.replace('#', '');
