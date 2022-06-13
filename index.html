@@ -9,8 +9,10 @@
 </head>
 <body>
     <div>
-        <canvas id="viewport"></canvas>
-        <canvas id="border" class="bordercanvas"></canvas>
+        <canvas id="image" class="baseCanvas"></canvas>
+        <canvas id="border" class="borderCanvas"></canvas>
+        <canvas id="textBlur" class="textCanvas"></canvas>
+        <canvas id="text" class="textCanvas"></canvas>
         <div>
             <p id="text">Spied lejā, lai izvēlētos un augšupielādētu savu bildi!</p>
             <input type="file" id="userFile" class="button" name="filename" accept="image/*">
@@ -24,6 +26,7 @@
             <button class="button" id="dumb" onclick="saveFile(4096)">DownloadHQ</button>
             <button class="button" id="dumb" onclick="saveFile(2048)">DownloadMQ</button> 
             <button class="button" id="dumb" onclick="saveFile(1080)">DownloadLQ</button>
+            <button class="button" id="dumb" onclick="clearAll()">Clear</button>
         </div> 
     </div>
     <script src="script.js"></script> 

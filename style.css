@@ -2,7 +2,13 @@ canvas {
     border: 2px solid #000000;
 }
 
-.bordercanvas {
+.borderCanvas {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    z-index: 1;
+}
+.textCanvas {
     position: absolute;
     left: 20px;
     top: 20px;
