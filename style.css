@@ -1,24 +1,53 @@
-html {
-    background-color: var(--main-bg-color);
+canvas {
+    border: 2px solid #000000;
+}
+
+.bordercanvas {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    z-index: 1;
 }
 
 body {
-    margin: 0;
+    margin: 20px;
+    background-color: rgb(255, 156, 232);
+    font-family: Helvetica, Arial, sans-serif;
 }
 
-img {
-    width: 100vw;
-    height: 100vh;
-    object-fit: contain;
-    display: none;
-    visibility: hidden;
+div {
+    margin: 10px 0px;
 }
 
-.shown {
-    display: initial;
-    visibility: initial;
+.button {
+    position: left;
+    background-color: rgba(4, 101, 6, 0.95);
+    border: 2px solid #ffffff;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
 }
 
-.bigBoi {
-    object-fit: fill;
+.sneaky + label {
+    position: left;
+    background-color: rgba(4, 101, 6, 0.95);
+    border: 2px solid #ffffff;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.sneaky {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
 }

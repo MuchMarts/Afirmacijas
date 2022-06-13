@@ -4,21 +4,29 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">    
-    <script src="script.js"></script> 
-    <link id="dynamic-favicon" rel="icon" type="image/jpg" href="A_Icon.ico"/>
+    <link rel="stylesheet" href="style.css">
     <title>Afirmacijas</title>
 </head>
 <body>
-    <canvas id="viewport"></canvas>
-    <p id="text">Spied lejā, lai izvēlētos un augšupielādētu savu bildi!</p>
-    <input type="file" id="userFile" class="sneaky" name="filename" accept="image/*">
-    <label for="userFile">Izvēlēties failu</label>
-    <input type="submit" id="submit" class="sneaky" onclick="handleFiles()">
-    <label for="submit">Augšupielādēt</label>  
-    <button class="button" id="dumb" onclick="saveFile(4096)">DownloadHQ</button>
-    <button class="button" id="dumb" onclick="saveFile(2048 )">DownloadMQ</button> 
-    <button class="button" id="dumb" onclick="saveFile(1080)">DownloadLQ</button> 
+    <div>
+        <canvas id="viewport"></canvas>
+        <canvas id="border" class="bordercanvas"></canvas>
+        <div>
+            <p id="text">Spied lejā, lai izvēlētos un augšupielādētu savu bildi!</p>
+            <input type="file" id="userFile" class="button" name="filename" accept="image/*">
+            <!-- <label for="userFile">Izvēlēties failu</label> -->
+            <input type="submit" id="submit" class="sneaky" onclick="handleFiles()">
+            <label for="submit">Augšupielādēt</label> 
+            <div id="colors"> 
+                <label for="colorpicker">Izvēlies krāsu rāmim: </label>
+                <input type="color" id="colorpicker">
+            </div>
+            <button class="button" id="dumb" onclick="saveFile(4096)">DownloadHQ</button>
+            <button class="button" id="dumb" onclick="saveFile(2048)">DownloadMQ</button> 
+            <button class="button" id="dumb" onclick="saveFile(1080)">DownloadLQ</button>
+        </div> 
+    </div>
     <script src="script.js"></script> 
 </body>
+<div id="finished"></div>
 </html>
