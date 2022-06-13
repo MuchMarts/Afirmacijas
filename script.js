@@ -5,101 +5,14 @@ const height = window.innerHeight;
 
 var canw = 0; var canh = 0;
 
+//Storage
 function ConstAfirmacija() {
-    //Storage
+    
     this.imgURL = "notSet";
     this.text = "notSet";
     this.textCol = "notSet";
     this.borderCol = "notSet";
 }  
-
-function mergeCanvas(pictureID, overlayID){
-    var picture = document.getElementById(pictureID);
-    var overlay = document.getElementById(overlayID);
-
-    var pctx = picture.getContext("2d");
-    pctx.drawImage(overlay, 0, 0, canw, canh);
-}
-
-function downloadCanvas(size){
-    mergeCanvas("viewport", "border");
-    var new_canvas = document.createElement("canvas");
-    new_canvas.id = "finalCopy";
-    new_canvas.width = size;
-    new_canvas.height = size;
-    var body = document.getElementById('finished');
-    //body.appendChild(new_canvas);
-
-    let nwctx = new_canvas.getContext("2d");
-    nwctx.drawImage(canvas, 0, 0, size, size);
-
-    let canvasUrl = new_canvas.toDataURL();
-    const temp = document.createElement("a");
-    temp.href = canvasUrl;
-    temp.download = "afirmacija";
-    temp.click();
-    temp.remove;
-
-}
-
-/*    
-function createCanvas(size){
-    var new_canvas = document.createElement('canvas');
-    new_canvas.id = "finalCopy";
-    new_canvas.width = size;
-    new_canvas.height = size;
-    var body = document.getElementById('finished');
-    body.appendChild(new_canvas);
-}
-
-function dwnImg(size){
-    createCanvas(size);
-    var bob = document.getElementById("finalCopy");
-    bob.classList.add('sneaky')
-    f_add_img(igors.imgURL, size, bob);
-}
-*/
-function saveHQ(){
-    downloadCanvas(reshq);
-}
-
-function saveMQ(){
-    downloadCanvas(resmq);
-}
-function saveLQ(){
-    downloadCanvas(reslq);
-}
-/*
-function f_add_img(canvas, size, bob) {
-    img = new Image();
-    new_context = bob.getContext('2d');
-    img.src = src;
-    //img.onload = function(){
-        new_context.drawImage(img,0,0,size,size);
-        save_canvas(bob);
-        document.getElementById('finished').removeChild(bob);
-    //}
-}
-*/
-function add_img(src) {
-    img = new Image();
-    img.src = src;
-    img.onload = function(){
-        context.drawImage(img,0,0,canw,canh);
-    }
-}
-/*
-function save_canvas(canva) {
-    var link = document.createElement('a');
-    link.download = 'afirmacija.png';
-    link.href = canva.toDataURL();
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-}
-*/
-}
-
 const igors = new ConstAfirmacija();
 
 const canvas = document.getElementById("viewport");
@@ -115,51 +28,55 @@ if(width>1050 && height>1050){canw = 1000; canh = 1000;
 canvas.setAttribute("width", canw);
 canvas.setAttribute("height", canh);
 
-//Creates new canva element with export resolution
-function save_finished_canvas(size){
-    var new_canvas = document.createElement('canvas');
-    new_canvas.id = "finalCopy";
-    new_canvas.width = size;
-    new_canvas.height = size;
-    var body = document.getElementById('finished');
-    body.appendChild(new_canvas);
-    new_canvas.classList.add('sneaky');
-    add_image_canva(size, new_canvas, true);
-}
-
-//Adds image to canva
-function add_image_canva(size, canvaElem, final) {
+// Add image on canva
+function add_img(src) {
     img = new Image();
-    img.src = igors.imgURL;
-    ctx = canvaElem.getContext("2d");
-    img.onload = function() {
-        ctx.drawImage(img, 0, 0, size, size);
-        if(final){
-            //If export then saves and deletes the element from html
-            save_canvas(canvaElem);
-            document.getElementById('finished').removeChild(canvaElem);
-        }
-
+    img.src = src;
+    img.onload = function(){
+        context.drawImage(img,0,0,canw,canh);
     }
 }
-//Downloads image and removes clutter
-function save_canvas(canva) {
-    var link = document.createElement('a');
-    link.download = 'afirmacija.png';
-    link.href = canva.toDataURL();
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+
+//Merge multiple canvas
+function mergeCanvas(imageID, borderID, textID){
+    var baseCanva = document.getElementById(imageID);
+    var border = document.getElementById(borderID);
+
+    var ctx = baseCanva.getContext("2d");
+    ctx.drawImage(border, 0, 0, canw, canh);
 }
 
 //Show/Hide smth
-function showYourself(a){
-    document.getElementsByClassName("banana")[a-1].classList.toggle("hidden");
-}
+function showYourself(a){document.getElementsByClassName("banana")[a-1].classList.toggle("hidden")}
 
 //Strecth smth
-function changeType(a){
-    document.getElementById(a).classList.toggle("bigBoi");
+function changeType(a){document.getElementById(a).classList.toggle("bigBoi")}
+
+//Used to save image
+function saveFile(exportSize){downloadCanvas(exportSize);}
+
+// Creates final canva and exports it
+function downloadCanvas(size){
+    //Merge all layers
+    mergeCanvas("viewport", "border");
+    
+    //Create final canva element
+    var new_canvas = document.createElement("canvas");
+    new_canvas.id = "finalCopy";
+    new_canvas.width = size;
+    new_canvas.height = size;
+
+    let nwctx = new_canvas.getContext("2d");
+    nwctx.drawImage(canvas, 0, 0, size, size);
+
+    let canvasUrl = new_canvas.toDataURL();
+    
+    //Download canva
+    const temp = document.createElement("a");
+    temp.href = canvasUrl;
+    temp.download = "afirmacija";
+    temp.click();
+    temp.remove;
 }
 
 //Handle image upload
@@ -176,15 +93,9 @@ function handleFiles(){
         place.innerHTML = userFile.files[0].name + ": " + userFile.files[0].size + " biti";
         tempUrl = URL.createObjectURL(userFile.files[0]);
         igors.imgURL = tempUrl;
-        add_image_canva(canw, canvas, false);
-        //add_img(tempUrl);
+        add_img(tempUrl);
     }
 }
-
-//Used to save image
-function saveFile(exportSize){
-    save_finished_canvas(exportSize);
-
 
 function convertHex(hexCode, opacity = 1){ //stolen code src="https://gist.github.com/danieliser/b4b24c9f772066bcf0a6.js"
     var hex = hexCode.replace('#', '');
@@ -206,11 +117,16 @@ function convertHex(hexCode, opacity = 1){ //stolen code src="https://gist.githu
 }
 
 const brdwd = canw/30;
+
 var borderlayer = document.getElementById("border");
+
 borderlayer.setAttribute("width", canw);
 borderlayer.setAttribute("height", canh);
+
 var ctxb = borderlayer.getContext("2d");
+
 var color = document.getElementById("colorpicker").value;
+
 document.getElementById("colorpicker").addEventListener("change", function(){
     color = this.value;
     igors.borderCol = color;
