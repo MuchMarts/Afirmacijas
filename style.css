@@ -2,10 +2,21 @@ canvas {
     border: 2px solid #000000;
 }
 
+.bordercanvas {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    z-index: 1;
+}
+
 body {
     margin: 20px;
     background-color: rgb(255, 156, 232);
     font-family: Helvetica, Arial, sans-serif;
+}
+
+div {
+    margin: 10px 0px;
 }
 
 .button {
