@@ -1,25 +1,30 @@
-
 //  Properties
 const width = window.innerWidth;
 const height = window.innerHeight;
 
 var canw = 0; var canh = 0;
 
+function init(){
+    document.getElementById("toptext").value = "";
+    document.getElementById("bottomtext").value = "";
+}
+window.onload = init;
+
 //Storage
 function ConstAfirmacija() {
     
-    this.imgURL = "notSet";
+    this.imgURL = "null";
     this.text = {
-        topTxt : "",
-        botTxt : "",
-        txtSize: ""
+        topTxt : "null",
+        botTxt : "null",
+        txtSize: -1
     }
-    this.borderCol = "notSet";
+    this.borderCol = "null";
 }  
 const igors = new ConstAfirmacija();
 
 const canvas = document.getElementById("image");
-context = canvas.getContext('2d');
+const context = canvas.getContext('2d');
 
 //Diferent workspace size for diferent device
 if(width>1050 && height>1050){canw = 1000; canh = 1000;
@@ -32,11 +37,12 @@ canvas.setAttribute("width", canw);
 canvas.setAttribute("height", canh);
 
 // Add image on canva
-function add_img(src) {
+function add_img(src, canva, size) {
+    var ctx = canva.getContext("2d");
     img = new Image();
     img.src = src;
     img.onload = function(){
-        context.drawImage(img,0,0,canw,canh);
+        ctx.drawImage(img,0,0,size,size);
     }
 }
 
@@ -52,6 +58,35 @@ function mergeCanvas(imageID, borderID, textID, textBlurID, ctx, size){
     ctx.drawImage(textBlur, 0, 0, size, size);
     ctx.drawImage(text, 0, 0, size, size);
 }
+
+//Construct canva from stored data
+
+function constructCanva(canva, size){
+
+    var ctx = canva.getContext("2d");
+    img = new Image();
+    img.src = igors.imgURL;
+    img.onload = function(){
+        ctx.drawImage(img,0,0,size,size);
+        if(igors.borderCol != "null"){setBorder(igors.borderCol, ctx, size);}
+        //if(igors.text.topTxt != "null" && igors.text.txtSize != -1){
+            //drawTopTxt(canva, igors.text.topTxt, igors.text.txtSize);
+        //}
+        //if(igors.text.botTxt != "null" && igors.text.txtSize != -1){
+            //drawBotTxt(canva, igors.text.botTxt, igors.text.txtSize);
+        //}
+        
+        ctx.drawImage(document.getElementById("text"), 0, 0, size, size)
+
+        const temp = document.createElement("a");
+        temp.href = canva.toDataURL();
+        temp.download = "afirmacija";
+        temp.click();
+        temp.remove;
+        canva.remove();
+    }
+}
+
 
 //Show/Hide smth
 function showYourself(a){document.getElementsByClassName("banana")[a-1].classList.toggle("hidden");}
@@ -80,22 +115,25 @@ function downloadCanvas(size){
     
     
     //Create final canva element
+    var anch = document.getElementById("finished");
     var new_canvas = document.createElement("canvas");
+    anch.appendChild(new_canvas);
     new_canvas.id = "finalCopy";
     new_canvas.width = size;
     new_canvas.height = size;
 
-    let nwctx = new_canvas.getContext("2d");
-    mergeCanvas("image", "border", "text", "textBlur", nwctx, size);
-
-    let canvasUrl = new_canvas.toDataURL();
+    //let nwctx = new_canvas.getContext("2d");
+    //mergeCanvas("image", "border", "text", "textBlur", nwctx, size);
     
+    //Constructs canva and downloads it
+    constructCanva(new_canvas, size);
+
     //Download canva
-    const temp = document.createElement("a");
-    temp.href = canvasUrl;
-    temp.download = "afirmacija";
-    temp.click();
-    temp.remove;
+    //const temp = document.createElement("a");
+    //temp.href = canvasUrl;
+    //temp.download = "afirmacija";
+    //temp.click();
+    //temp.remove;
 }
 
 //Handle image upload
@@ -112,7 +150,7 @@ function handleFiles(){
         place.innerHTML = userFile.files[0].name + ": " + userFile.files[0].size + " biti";
         tempUrl = URL.createObjectURL(userFile.files[0]);
         igors.imgURL = tempUrl;
-        add_img(tempUrl);
+        add_img(tempUrl, canvas, canw);
     }
 }
 
@@ -181,6 +219,7 @@ function setGradient(x, y, x1, y1, color){
 
 //Text bs
 
+
 const maxWidth = canw * 0.9;
 
 const textLayer = document.getElementById("text");
@@ -190,28 +229,32 @@ textLayer.setAttribute("height", canh);
 
 const txtctx = textLayer.getContext("2d");
 
-const textBlurLayer = document.getElementById("textBlur");
+//const textBlurLayer = document.getElementById("textBlur");
 
-textBlurLayer.setAttribute("width", canw);
-textBlurLayer.setAttribute("height", canh);
+//textBlurLayer.setAttribute("width", canw);
+//textBlurLayer.setAttribute("height", canh);
 
-const blurctx = textBlurLayer.getContext("2d");
+//const blurctx = textBlurLayer.getContext("2d");
 
-function drawText(text, fontSize, x, y, txtCon, blurCon){
+function drawText(text, fontSize, x, y, txtCon){
     txtCon.textAlign = 'center';    
-    txtCon.font = 'bold '+fontSize + 'px serif';
+    txtCon.font = '700 '+ fontSize + 'px Work Sans';
     txtCon.fillStyle = '#FFFFFF';
-    txtCon.fillText(text, x, y, maxWidth);
-    
-    blurCon.filter = 'blur(5px)';
-    blurCon.textAlign = 'center';    
-    blurCon.font = 'bold '+fontSize + 'px serif';
-    blurCon.fillStyle = document.getElementById("textcolor").value;
-    blurCon.fillText(text, x, y, maxWidth);
+    txtCon.shadowColor = document.getElementById("textcolor").value;
+    txtCon.shadowBlur = 10;
 
+    //blurCon.filter = 'blur(5px)';
+    //blurCon.textAlign = 'center';    
+    //blurCon.font = 'bold '+ fontSize + 'px Ariel';
+    //blurCon.fillStyle = document.getElementById("textcolor").value;
+    
+    //blurCon.fillText(text, x, y, maxWidth);
+    txtCon.fillText(text, x, y, maxWidth);
+    txtCon.fillText(text, x, y, maxWidth);
+    //txtCon.fillText(text, x, y, maxWidth);
 }
 
-igors.text.size = 74;
+igors.text.txtSize = 90;
 
 document.getElementById("textcolor").addEventListener("change", function(){
     if(igors.text.botTxt.length != 0){
@@ -222,18 +265,28 @@ document.getElementById("textcolor").addEventListener("change", function(){
     }
 })
 
+function drawTopTxt(canva, text, txtSize){
+    var ctx = canva.getContext("2d");
+    drawText(text, txtSize, canva.width/2, canva.height*0.15, ctx);
+}
+
+function drawBotTxt(canva, text, txtSize){
+    var ctx = canva.getContext("2d");
+    drawText(text, txtSize, canva.width/2, canva.height*0.9, ctx);
+}
+
 function setBttmTxt(){
     txtctx.clearRect(0, 0, canw, canh/2);
-    blurctx.clearRect(0, 0, canw, canh/2);
+    //blurctx.clearRect(0, 0, canw, canh/2);
     igors.text.topTxt = document.getElementById("toptext").value.toUpperCase();
-    drawText(igors.text.topTxt, 74, canw/2, canh*0.1, txtctx, blurctx);
+    drawText(igors.text.topTxt, igors.text.txtSize, canw/2, canh*0.15, txtctx);
 }
 
 function setTopTxt(){
     txtctx.clearRect(0, canh/2, canw, canh/2);
-    blurctx.clearRect(0, canh/2, canw, canh/2);
+    //blurctx.clearRect(0, canh/2, canw, canh/2);
     igors.text.botTxt = document.getElementById("bottomtext").value.toUpperCase();
-    drawText(igors.text.botTxt, 74, canw/2, canh*0.9, txtctx, blurctx);
+    drawText(igors.text.botTxt, igors.text.txtSize, canw/2, canh*0.9, txtctx);
 }
 
 document.getElementById("toptext").addEventListener("change", function(){
