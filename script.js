@@ -206,14 +206,40 @@ function drawText(text, fontSize, x, y, txtCon, blurCon){
     blurCon.filter = 'blur(5px)';
     blurCon.textAlign = 'center';    
     blurCon.font = 'bold '+fontSize + 'px serif';
-    blurCon.fillStyle = '#00FF00';
+    blurCon.fillStyle = document.getElementById("textcolor").value;
     blurCon.fillText(text, x, y, maxWidth);
 
 }
 
-igors.text.topTxt = "Es esmu laba";
-igors.text.botTxt = "SKOLOTAJA"
 igors.text.size = 74;
 
-drawText("Es esmu laba", 74, canw/2, canh*0.1, txtctx, blurctx);
-drawText("SKOLOTAJA", 74, canw/2, canh*0.9, txtctx, blurctx);
+document.getElementById("textcolor").addEventListener("change", function(){
+    if(igors.text.botTxt.length != 0){
+        setBttmTxt();
+    }
+    if(igors.text.botTxt.length != 0){
+        setTopTxt();
+    }
+})
+
+function setBttmTxt(){
+    txtctx.clearRect(0, 0, canw, canh/2);
+    blurctx.clearRect(0, 0, canw, canh/2);
+    igors.text.topTxt = document.getElementById("toptext").value.toUpperCase();
+    drawText(igors.text.topTxt, 74, canw/2, canh*0.1, txtctx, blurctx);
+}
+
+function setTopTxt(){
+    txtctx.clearRect(0, canh/2, canw, canh/2);
+    blurctx.clearRect(0, canh/2, canw, canh/2);
+    igors.text.botTxt = document.getElementById("bottomtext").value.toUpperCase();
+    drawText(igors.text.botTxt, 74, canw/2, canh*0.9, txtctx, blurctx);
+}
+
+document.getElementById("toptext").addEventListener("change", function(){
+    setBttmTxt();
+});
+
+document.getElementById("bottomtext").addEventListener("change", function(){
+    setTopTxt();
+});
