@@ -17,7 +17,7 @@ function ConstAfirmacija() {
     this.text = {
         topTxt : "null",
         botTxt : "null",
-        txtSize: -1
+        txtRatio: -1
     }
     this.borderCol = "null";
 }  
@@ -69,14 +69,14 @@ function constructCanva(canva, size){
     img.onload = function(){
         ctx.drawImage(img,0,0,size,size);
         if(igors.borderCol != "null"){setBorder(igors.borderCol, ctx, size);}
-        //if(igors.text.topTxt != "null" && igors.text.txtSize != -1){
-            //drawTopTxt(canva, igors.text.topTxt, igors.text.txtSize);
-        //}
-        //if(igors.text.botTxt != "null" && igors.text.txtSize != -1){
-            //drawBotTxt(canva, igors.text.botTxt, igors.text.txtSize);
-        //}
+        if(igors.text.topTxt != "null" && igors.text.txtRatio != -1){
+            drawTopTxt(canva, igors.text.topTxt, igors.text.txtRatio);
+        }
+        if(igors.text.botTxt != "null" && igors.text.txtRatio != -1){
+            drawBotTxt(canva, igors.text.botTxt, igors.text.txtRatio);
+        }
         
-        ctx.drawImage(document.getElementById("text"), 0, 0, size, size)
+        //ctx.drawImage(document.getElementById("text"), 0, 0, size, size)
 
         const temp = document.createElement("a");
         temp.href = canva.toDataURL();
@@ -236,9 +236,10 @@ const txtctx = textLayer.getContext("2d");
 
 //const blurctx = textBlurLayer.getContext("2d");
 
-function drawText(text, fontSize, x, y, txtCon){
+function drawText(text, fontSize, x, y, txtCon, size){
+    
     txtCon.textAlign = 'center';    
-    txtCon.font = '700 '+ fontSize + 'px Work Sans';
+    txtCon.font = '700 '+ fontSize * size + 'px Work Sans';
     txtCon.fillStyle = '#FFFFFF';
     txtCon.shadowColor = document.getElementById("textcolor").value;
     txtCon.shadowBlur = 10;
@@ -254,7 +255,7 @@ function drawText(text, fontSize, x, y, txtCon){
     //txtCon.fillText(text, x, y, maxWidth);
 }
 
-igors.text.txtSize = 90;
+igors.text.txtRatio = 100/canw;
 
 document.getElementById("textcolor").addEventListener("change", function(){
     if(igors.text.botTxt.length != 0){
@@ -265,28 +266,28 @@ document.getElementById("textcolor").addEventListener("change", function(){
     }
 })
 
-function drawTopTxt(canva, text, txtSize){
+function drawTopTxt(canva, text, txtRatio){
     var ctx = canva.getContext("2d");
-    drawText(text, txtSize, canva.width/2, canva.height*0.15, ctx);
+    drawText(text, txtRatio, canva.width/2, canva.height*0.15, ctx, canva.width);
 }
 
-function drawBotTxt(canva, text, txtSize){
+function drawBotTxt(canva, text, txtRatio){
     var ctx = canva.getContext("2d");
-    drawText(text, txtSize, canva.width/2, canva.height*0.9, ctx);
+    drawText(text, txtRatio, canva.width/2, canva.height*0.9, ctx, canva.width);
 }
 
 function setBttmTxt(){
     txtctx.clearRect(0, 0, canw, canh/2);
     //blurctx.clearRect(0, 0, canw, canh/2);
     igors.text.topTxt = document.getElementById("toptext").value.toUpperCase();
-    drawText(igors.text.topTxt, igors.text.txtSize, canw/2, canh*0.15, txtctx);
+    drawText(igors.text.topTxt, igors.text.txtRatio, canw/2, canh*0.15, txtctx, canw);
 }
 
 function setTopTxt(){
     txtctx.clearRect(0, canh/2, canw, canh/2);
     //blurctx.clearRect(0, canh/2, canw, canh/2);
     igors.text.botTxt = document.getElementById("bottomtext").value.toUpperCase();
-    drawText(igors.text.botTxt, igors.text.txtSize, canw/2, canh*0.9, txtctx);
+    drawText(igors.text.botTxt, igors.text.txtRatio, canw/2, canh*0.9, txtctx, canw);
 }
 
 document.getElementById("toptext").addEventListener("change", function(){
