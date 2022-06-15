@@ -128,18 +128,9 @@ function downloadCanvas(size){
     new_canvas.width = size;
     new_canvas.height = size;
 
-    //let nwctx = new_canvas.getContext("2d");
-    //mergeCanvas("image", "border", "text", "textBlur", nwctx, size);
-    
     //Constructs canva and downloads it
     constructCanva(new_canvas, size);
 
-    //Download canva
-    //const temp = document.createElement("a");
-    //temp.href = canvasUrl;
-    //temp.download = "afirmacija";
-    //temp.click();
-    //temp.remove;
 }
 
 //Handle image upload
@@ -225,7 +216,6 @@ function setGradient(x, y, x1, y1, color){
 
 //Text bs
 
-
 const maxWidth = canw * 0.9;
 
 const textLayer = document.getElementById("text");
@@ -235,13 +225,6 @@ textLayer.setAttribute("height", canh);
 
 const txtctx = textLayer.getContext("2d");
 
-//const textBlurLayer = document.getElementById("textBlur");
-
-//textBlurLayer.setAttribute("width", canw);
-//textBlurLayer.setAttribute("height", canh);
-
-//const blurctx = textBlurLayer.getContext("2d");
-
 function drawText(text, fontSize, x, y, txtCon, size){
     
     txtCon.textAlign = 'center';    
@@ -250,15 +233,8 @@ function drawText(text, fontSize, x, y, txtCon, size){
     txtCon.shadowColor = document.getElementById("textcolor").value;
     txtCon.shadowBlur = 10;
 
-    //blurCon.filter = 'blur(5px)';
-    //blurCon.textAlign = 'center';    
-    //blurCon.font = 'bold '+ fontSize + 'px Ariel';
-    //blurCon.fillStyle = document.getElementById("textcolor").value;
-    
-    //blurCon.fillText(text, x, y, maxWidth);
     txtCon.fillText(text, x, y, maxWidth);
     txtCon.fillText(text, x, y, maxWidth);
-    //txtCon.fillText(text, x, y, maxWidth);
 }
 
 igors.text.txtRatio = 100/canw;
