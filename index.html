@@ -40,16 +40,24 @@
             
             <div id="addText" class="section">
                 <div id="input">
-                    <label for="toptext">Teksts augšā: </label>
-                    <input type="text" id="toptext">
-                    <label for="bottomtext">Teksts apakšā: </label>
-                    <input type="text" id="bottomtext">
+                    <div>
+                        <label for="toptext">Teksts augšā: </label>
+                        <input type="text" id="toptext">
+                        <label for="textcolor">Teksta lielums augšā: </label>
+                        <input type="range" min="1" max="200" value="100" class="slider" id="TopRange">
+                    </div>
+                    <div>
+                        <label for="bottomtext">Teksts apakšā: </label>
+                        <input type="text" id="bottomtext">
+                        <label for="textcolor">Teksta lielums: </label>
+                        <input type="range" min="1" max="200" value="100" class="slider" id="BotRange">
+                    </div>
                 </div>
                 <div id="settings">
                     <label for="textcolor">Krāsa tekstam: </label>
                     <input type="color" id="textcolor">
-                    <label for="textcolor">Teksta lielums: </label>
-                    <input type="range" min="1" max="200" value="100" class="slider" id="myRange">
+                    
+                    
                 </div>
             </div>
 

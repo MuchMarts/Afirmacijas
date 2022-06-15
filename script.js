@@ -17,7 +17,8 @@ var imgURL = "";
 var text = {  
     topTxt : "null",
     botTxt : "null",
-    txtRatio: 100/canw
+    txtRatioTop: 100/canw,
+    txtRatioBot: 100/canw,
 }
 var borderCol = "null";
 
@@ -36,7 +37,8 @@ document.getElementById('interface').style.width = canw + 'px';
 function init(){
     document.getElementById("toptext").value = "";
     document.getElementById("bottomtext").value = "";
-    document.getElementById("myRange").value = 100;
+    document.getElementById("TopRange").value = 100;
+    document.getElementById("BotRange").value = 100;
     }
 
 // Add image on canva
@@ -73,10 +75,10 @@ function constructCanva(canva, size){
         ctx.drawImage(img,0,0,size,size);
         if(borderCol != "null"){setBorder(borderCol, ctx, size);}
         if(text.topTxt != "null" && text.txtRatio != -1){
-            drawTopTxt(canva, text.topTxt, text.txtRatio);
+            drawTopTxt(canva, text.topTxt, text.txtRatioTop);
         }
         if(text.botTxt != "null" && text.txtRatio != -1){
-            drawBotTxt(canva, text.botTxt, text.txtRatio);
+            drawBotTxt(canva, text.botTxt, text.txtRatioBot);
         }
         
         const temp = document.createElement("a");
@@ -230,10 +232,10 @@ function drawText(text, fontSize, x, y, txtCon, size){
 
 document.getElementById("textcolor").addEventListener("change", function(){
     if(text.botTxt.length != 0){
-        setBttmTxt();
+        setTopTxt();
     }
     if(text.botTxt.length != 0){
-        setTopTxt();
+        setBttmTxt();
     }
 })
 
@@ -247,32 +249,38 @@ function drawBotTxt(canva, text, txtRatio){
     drawText(text, txtRatio, canva.width/2, canva.height*0.9, ctx, canva.width);
 }
 
-function setBttmTxt(){
+function setTopTxt(){
     txtctx.clearRect(0, 0, canw, canh/2);
     //blurctx.clearRect(0, 0, canw, canh/2);
     text.topTxt = document.getElementById("toptext").value.toUpperCase();
-    drawText(text.topTxt, text.txtRatio, canw/2, canh*0.15, txtctx, canw);
+    drawText(text.topTxt, text.txtRatioTop, canw/2, canh*0.15, txtctx, canw);
 }
 
-function setTopTxt(){
+function setBttmTxt(){
     txtctx.clearRect(0, canh/2, canw, canh/2);
     //blurctx.clearRect(0, canh/2, canw, canh/2);
     text.botTxt = document.getElementById("bottomtext").value.toUpperCase();
-    drawText(text.botTxt, text.txtRatio, canw/2, canh*0.9, txtctx, canw);
+    drawText(text.botTxt, text.txtRatioBot, canw/2, canh*0.9, txtctx, canw);
 }
 
 document.getElementById("toptext").addEventListener("change", function(){
-    document.fonts.load("Work Sans").then(setBttmTxt());
+    document.fonts.load("Work Sans").then(setTopTxt());
 });
 
 document.getElementById("bottomtext").addEventListener("change", function(){
-    document.fonts.load("Work Sans").then(setTopTxt());
+    document.fonts.load("Work Sans").then(setBttmTxt());
 });
 
-var slider = document.getElementById("myRange");
+var sliderTop = document.getElementById("TopRange");
 
-slider.oninput = function() {
-    text.txtRatio = this.value/canw;
-    document.fonts.load("Work Sans").then(setBttmTxt());
+sliderTop.oninput = function() {
+    text.txtRatioTop = this.value/canw;
     document.fonts.load("Work Sans").then(setTopTxt());
+}
+
+var sliderBot = document.getElementById("BotRange");
+
+sliderBot.oninput = function() {
+    text.txtRatioBot = this.value/canw;
+    document.fonts.load("Work Sans").then(setBttmTxt());
 }
