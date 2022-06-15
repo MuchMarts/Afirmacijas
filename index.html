@@ -22,14 +22,10 @@
         </div>
 
         <div id="interface">
-            
-            
-            
+             
             <p id="text">Spied lejā, lai izvēlētos un augšupielādētu savu bildi!</p>
 
-            <div id="inputFile" class="section">    
-                
-                
+            <div id="inputFile" class="section">      
                 <input type="file" id="userFile" class="button" name="filename" accept="image/*">
                     
                 <!-- <label for="userFile">Izvēlēties failu</label> -->
@@ -49,15 +45,19 @@
                     <label for="bottomtext">Teksts apakšā: </label>
                     <input type="text" id="bottomtext">
                 </div>
-                <div>
+                <div id="settings">
                     <label for="textcolor">Krāsa tekstam: </label>
                     <input type="color" id="textcolor">
+                    <label for="textcolor">Teksta lielums: </label>
+                    <input type="range" min="1" max="200" value="100" class="slider" id="myRange">
                 </div>
             </div>
+
             <div id="finalControls" class="section">
                 <button class="button" id="dumb" onclick="saveFile(1080)">Lejupielādēt</button>
                 <button class="button" id="dumb" onclick="clearAll()">Izdzēst</button>
             </div>
+
         </div> 
     </div>
     <script src="script.js"></script> 
