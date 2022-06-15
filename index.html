@@ -25,7 +25,7 @@
             
             <p id="text">Spied lejā, lai izvēlētos un augšupielādētu savu bildi!</p>
 
-            <div id="inputFile">    
+            <div id="inputFile" class="section">    
                 
                 
                 <input type="file" id="userFile" class="button" name="filename" accept="image/*">
@@ -35,20 +35,24 @@
                 <label for="submit">Augšupielādēt</label> 
             </div>
 
-            <div id="colors"> 
+            <div id="colors" class="section"> 
                 <label for="colorpicker">Izvēlies krāsu rāmim: </label>
                 <input type="color" id="colorpicker">
             </div>
             
-            <div id="addText">
-                <label for="toptext">Teksts augšā: </label>
-                <input type="text" id="toptext">
-                <label for="bottomtext">Teksts apakšā: </label>
-                <input type="text" id="bottomtext">
-                <label for="textcolor">Krāsa tekstam: </label>
-                <input type="color" id="textcolor">
+            <div id="addText" class="section">
+                <div id="input">
+                    <label for="toptext">Teksts augšā: </label>
+                    <input type="text" id="toptext">
+                    <label for="bottomtext">Teksts apakšā: </label>
+                    <input type="text" id="bottomtext">
+                </div>
+                <div>
+                    <label for="textcolor">Krāsa tekstam: </label>
+                    <input type="color" id="textcolor">
+                </div>
             </div>
-            <div id="finalControls">
+            <div id="finalControls" class="section">
                 <button class="button" id="dumb" onclick="saveFile(1080)">Lejupielādēt</button>
                 <button class="button" id="dumb" onclick="clearAll()">Izdzēst</button>
             </div>

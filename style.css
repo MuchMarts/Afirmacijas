@@ -50,6 +50,8 @@ body {
 }
 
 #interface {
+    width: 800px;
+    margin: auto;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -62,7 +64,7 @@ body {
 }
 
 #inputFile {
-    width: 1000px;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: stretch;
@@ -113,8 +115,33 @@ body {
 }
 
 #finalControls{
-    width: 800px;
+    width: 100%;
     display: flex;
     justify-content: space-between;
 }
 
+#addText {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 600;
+    font-size: large;
+}
+
+#addText > #input {
+    display: flex;
+    flex-direction: column;
+}
+
+.section {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#colors {
+    margin-left: auto;
+    font-weight: 600;
+    font-size: large;
+}

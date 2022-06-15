@@ -40,8 +40,7 @@ canvas.setAttribute("height", canh);
 document.getElementById('result').style.width = canw + 'px';
 document.getElementById('result').style.height = canh + 'px';
 
-document.getElementById('inputFile').style.width = canw + 'px';
-document.getElementById('finalControls').style.width = canw + 'px';
+document.getElementById('width').style.width = canw + 'px';
 
 // Add image on canva
 function add_img(src, canva, size) {
