@@ -1,52 +1,108 @@
-canvas {
-    border: 2px solid #000000;
+:root {
+    --main: #5cdb95;
+    --ui: #05386b;
+    --accent: #edf5e1;
+    --altAc: #8ee4af;
 }
 
-.borderCanvas {
-    position: absolute;
-    left: 20px;
-    top: 20px;
-    z-index: 1;
+@font-face {
+    font-family: 'Work Sans';
+    src: url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap');
 }
-.textCanvas {
-    position: absolute;
-    left: 20px;
-    top: 20px;
-    z-index: 1;
+
+html {
+    margin: 0px;
+    padding: 0px;
 }
 
 body {
-    margin: 20px;
-    background-color: rgb(255, 156, 232);
-    font-family: Helvetica, Arial, sans-serif;
+    background-color: var(--main);
+    font-family: 'Work Sans', Arial, sans-serif;
+    font-size: large;
+    text-align: center;
+
+}
+#result {
+    width: 1000px;
+    height: 1000px;
+    position: relative;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    border: 10px double var(--ui);
 }
 
-div {
-    margin: 10px 0px;
+.creator {
+    position: absolute;
+}
+
+#image {
+    z-index: 1;
+}
+
+#border {
+    z-index: 2;
+}
+
+#text {
+    z-index: 3;
+}
+
+#interface {
+    width: 800px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#text {
+    font-size: x-large;
+    font-weight: 600;
+}
+
+#inputFile {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
 }
 
 .button {
-    position: left;
-    background-color: rgba(4, 101, 6, 0.95);
-    border: 2px solid #ffffff;
-    color: white;
+    background-color: var(--ui);
+    color: var(--accent);
     padding: 15px 32px;
+    border-radius: 20px;
+    border: 0px solid;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: large;
+    font-weight: 700;
+    font-family: 'Work Sans';
+}
+
+.button:hover {
+    color: var(--altAc);
 }
 
 .sneaky + label {
-    position: left;
-    background-color: rgba(4, 101, 6, 0.95);
-    border: 2px solid #ffffff;
-    color: white;
+    background-color: var(--ui);
+    color: var(--accent);
     padding: 15px 32px;
+    border-radius: 20px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: large;
+    font-weight: 700;
+    font-family: 'Work Sans';
+}
+
+.sneaky + label:hover {
+    color: var(--altAc);
 }
 
 .sneaky {
@@ -56,4 +112,36 @@ div {
 	overflow: hidden;
 	position: absolute;
 	z-index: -1;
+}
+
+#finalControls{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+#addText {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 600;
+    font-size: large;
+}
+
+#addText > #input {
+    display: flex;
+    flex-direction: column;
+}
+
+.section {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#colors {
+    margin-left: auto;
+    font-weight: 600;
+    font-size: large;
 }

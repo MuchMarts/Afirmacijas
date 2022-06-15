@@ -7,39 +7,55 @@
     <title>Afirmacijas</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet"> 
     <link rel="stylesheet" href="style.css">
-
 </head>
 <body>
     <div>
-        <div style="font-family: Work Sans;"> </div>
-        <canvas id="image" class="baseCanvas"></canvas>
-        <canvas id="border" class="borderCanvas"></canvas>
-        <!--<canvas id="textBlur" class="textCanvas"></canvas>-->
-        <canvas id="text" class="textCanvas"></canvas>
-        <div>
+        <h1> Afirmāciju taisītājs</h1>
+        
+        <div id="result">
+            <canvas id="image" class="creator"></canvas>
+            <canvas id="border" class="creator"></canvas>
+            <canvas id="text" class="creator"></canvas>
+        </div>
+
+        <div id="interface">
+            
+            
+            
             <p id="text">Spied lejā, lai izvēlētos un augšupielādētu savu bildi!</p>
-            <input type="file" id="userFile" class="button" name="filename" accept="image/*">
-            <!-- <label for="userFile">Izvēlēties failu</label> -->
-            <input type="submit" id="submit" class="sneaky" onclick="handleFiles()">
-            <label for="submit">Augšupielādēt</label> 
-            <div id="colors"> 
+
+            <div id="inputFile" class="section">    
+                
+                
+                <input type="file" id="userFile" class="button" name="filename" accept="image/*">
+                    
+                <!-- <label for="userFile">Izvēlēties failu</label> -->
+                <input type="submit" id="submit" class="sneaky" onclick="handleFiles()">
+                <label for="submit">Augšupielādēt</label> 
+            </div>
+
+            <div id="colors" class="section"> 
                 <label for="colorpicker">Izvēlies krāsu rāmim: </label>
                 <input type="color" id="colorpicker">
             </div>
-            <div>
-                <label for="toptext">Teksts augšā: </label>
-                <input type="text" id="toptext">
-                <label for="bottomtext">Teksts apakšā: </label>
-                <input type="text" id="bottomtext">
-                <label for="textcolor">Krāsa tekstam: </label>
-                <input type="color" id="textcolor">
+            
+            <div id="addText" class="section">
+                <div id="input">
+                    <label for="toptext">Teksts augšā: </label>
+                    <input type="text" id="toptext">
+                    <label for="bottomtext">Teksts apakšā: </label>
+                    <input type="text" id="bottomtext">
+                </div>
+                <div>
+                    <label for="textcolor">Krāsa tekstam: </label>
+                    <input type="color" id="textcolor">
+                </div>
             </div>
-            <button class="button" id="dumb" onclick="saveFile(4096)">DownloadHQ</button>
-            <button class="button" id="dumb" onclick="saveFile(2048)">DownloadMQ</button> 
-            <button class="button" id="dumb" onclick="saveFile(1080)">DownloadLQ</button>
-            <button class="button" id="dumb" onclick="clearAll()">Clear</button>
+            <div id="finalControls" class="section">
+                <button class="button" id="dumb" onclick="saveFile(1080)">Lejupielādēt</button>
+                <button class="button" id="dumb" onclick="clearAll()">Izdzēst</button>
+            </div>
         </div> 
     </div>
     <script src="script.js"></script> 
