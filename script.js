@@ -40,7 +40,7 @@ canvas.setAttribute("height", canh);
 document.getElementById('result').style.width = canw + 'px';
 document.getElementById('result').style.height = canh + 'px';
 
-document.getElementById('width').style.width = canw + 'px';
+document.getElementById('interface').style.width = canw + 'px';
 
 // Add image on canva
 function add_img(src, canva, size) {

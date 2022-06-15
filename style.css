@@ -23,8 +23,8 @@ body {
 
 }
 #result {
-    width: 1000px;
-    height: 1000px;
+    width: 800px;
+    height: 800px;
     position: relative;
 
     margin-left: auto;
@@ -34,6 +34,8 @@ body {
 }
 
 .creator {
+    left: 0px;
+    top: 0px;
     position: absolute;
 }
 
