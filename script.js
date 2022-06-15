@@ -28,7 +28,7 @@ const canvas = document.getElementById("image");
 const context = canvas.getContext('2d');
    
 //Diferent workspace size for diferent device
-if(width>850 && height>850){canw = 800; canh = 800;
+if(width>1050 && height>1050){canw = 1000; canh = 1000;
 } else {
     if(width>height){canw = height - 50; canh = height - 50;}
     if(width<height){canw = width - 50; canh = width - 50;}
@@ -39,7 +39,6 @@ canvas.setAttribute("height", canh);
 
 document.getElementById('result').style.width = canw + 'px';
 document.getElementById('result').style.height = canh + 'px';
-
 document.getElementById('interface').style.width = canw + 'px';
 
 // Add image on canva
