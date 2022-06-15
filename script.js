@@ -4,12 +4,6 @@ const height = window.innerHeight;
 
 var canw = 0; var canh = 0;
 
-function init(){
-    document.getElementById("toptext").value = "";
-    document.getElementById("bottomtext").value = "";
-}
-window.onload = init;
-
 //Storage
 function ConstAfirmacija() {
     
@@ -23,11 +17,18 @@ function ConstAfirmacija() {
 }  
 const igors = new ConstAfirmacija();
 
+function init(){
+    document.getElementById("toptext").value = "";
+    document.getElementById("bottomtext").value = "";
+
+}
+window.onload = init;
+
 const canvas = document.getElementById("image");
 const context = canvas.getContext('2d');
-
+   
 //Diferent workspace size for diferent device
-if(width>1050 && height>1050){canw = 1000; canh = 1000;
+if(width>850 && height>850){canw = 800; canh = 800;
 } else {
     if(width>height){canw = height - 50; canh = height - 50;}
     if(width<height){canw = width - 50; canh = width - 50;}
@@ -35,6 +36,12 @@ if(width>1050 && height>1050){canw = 1000; canh = 1000;
 
 canvas.setAttribute("width", canw);
 canvas.setAttribute("height", canh);
+
+document.getElementById('result').style.width = canw + 'px';
+document.getElementById('result').style.height = canh + 'px';
+
+document.getElementById('inputFile').style.width = canw + 'px';
+document.getElementById('finalControls').style.width = canw + 'px';
 
 // Add image on canva
 function add_img(src, canva, size) {
@@ -291,9 +298,9 @@ function setTopTxt(){
 }
 
 document.getElementById("toptext").addEventListener("change", function(){
-    setBttmTxt();
+    document.fonts.load("700 Work Sans").then(setBttmTxt());
 });
 
 document.getElementById("bottomtext").addEventListener("change", function(){
-    setTopTxt();
+    document.fonts.load("700 Work Sans").then(setTopTxt());
 });
