@@ -273,9 +273,9 @@ function setTopTxt(){
 }
 
 document.getElementById("toptext").addEventListener("change", function(){
-    document.fonts.load("700 Work Sans").then(setBttmTxt());
+    document.fonts.load("Work Sans").then(setBttmTxt());
 });
 
 document.getElementById("bottomtext").addEventListener("change", function(){
-    document.fonts.load("700 Work Sans").then(setTopTxt());
+    document.fonts.load("Work Sans").then(setTopTxt());
 });
