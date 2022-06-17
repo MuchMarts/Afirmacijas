@@ -191,3 +191,8 @@ a:link {
 a:visited {
     color: var(--accent);
 }
+
+figure {
+    aspect-ratio: 1/1;
+    width: 1000px;
+}
