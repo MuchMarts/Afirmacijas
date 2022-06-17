@@ -35,6 +35,24 @@ h1{
     text-align: center;
 }
 
+.column{
+    float: left;
+    width: 50%;
+    padding: 15px;
+}
+
+.row:after{
+    content: "";
+    display: table;
+    clear: both;
+}
+
+@media screen and (max-width:600px) {
+    .column {
+      width: 100%;
+    }
+  }
+
 #result {
     width: 800px;
     height: 800px;
