@@ -183,3 +183,11 @@ h1{
     font-weight: 600;
     font-size: large;
 }
+
+a:link {
+    color: var(--accent);
+}
+
+a:visited {
+    color: var(--accent);
+}
