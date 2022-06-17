@@ -54,20 +54,12 @@ h1{
   }
 
 #result {
-    width: 800px;
-    height: 800px;
     position: relative;
 
     margin-left: auto;
     margin-right: auto;
 
     border: 10px double var(--ui);
-}
-
-.creator {
-    left: 0px;
-    top: 0px;
-    position: absolute;
 }
 
 #image {
@@ -192,7 +184,16 @@ a:visited {
     color: var(--accent);
 }
 
-figure {
-    aspect-ratio: 1/1;
-    width: 1000px;
+figure { 
+    aspect-ratio: 9/16;
+    max-width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+.relative-full { position: absolute; width: 100%; height: 100%; left: 0px; top: 0px;}
+.fixed-fullscreen { position: fixed; left: 0; top: 0; width: 100vw; height: 100vh; z-index: 1; }
+.inset { position: absolute; left: 5px; top: 5px; }
+
+canvas {
+    border: solid 2px red;
 }
