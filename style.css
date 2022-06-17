@@ -1,8 +1,10 @@
 :root {
-    --main: #5cdb95;
-    --ui: #05386b;
-    --accent: #edf5e1;
-    --altAc: #8ee4af;
+    --main: #B3B2D2;
+    --ui: #629460;
+    --accent: #F5EBE0;
+    --altAc: #053225;
+    --ihardlyknowher: #454372;
+    --nav: #000080;
 }
 
 @font-face {
@@ -30,7 +32,42 @@ h1{
 
 .header{
     color: var(--accent);
-    background-color: var(--ui);
+    background-color: var(--ihardlyknowher);
+    padding: 20px;
+    text-align: center;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: var(--nav);
+  }
+  
+  li {
+    float: left;
+  }
+  
+  li a {
+    display: block;
+    color: var(--accent);
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  li a:hover {
+    background-color: #111;
+  }
+
+.footer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: var(--accent);
+    background-color: var(--ihardlyknowher);
     padding: 20px;
     text-align: center;
 }
