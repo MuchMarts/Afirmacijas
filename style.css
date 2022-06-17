@@ -20,8 +20,21 @@ body {
     font-family: 'Work Sans', Arial, sans-serif;
     font-size: large;
     text-align: center;
+    margin:0;
 
 }
+
+h1{
+    font-size: 50px;
+}
+
+.header{
+    color: var(--accent);
+    background-color: var(--ui);
+    padding: 20px;
+    text-align: center;
+}
+
 #result {
     width: 800px;
     height: 800px;

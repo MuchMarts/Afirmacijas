@@ -56,11 +56,11 @@ function mergeCanvas(imageID, borderID, textID, textBlurID, ctx, size){
     var baseCanva = document.getElementById(imageID);
     var border = document.getElementById(borderID);
     var text = document.getElementById(textID);
-    var textBlur = document.getElementById(textBlurID);
+    //var textBlur = document.getElementById(textBlurID);
     
     ctx.drawImage(baseCanva, 0, 0, size, size);
     ctx.drawImage(border, 0, 0, size, size);
-    ctx.drawImage(textBlur, 0, 0, size, size);
+    //ctx.drawImage(textBlur, 0, 0, size, size);
     ctx.drawImage(text, 0, 0, size, size);
 }
 
@@ -74,6 +74,7 @@ function constructCanva(canva, size){
     img.onload = function(){
         ctx.drawImage(img,0,0,size,size);
         if(borderCol != "null"){setBorder(borderCol, ctx, size);}
+        ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 0;
         if(text.topTxt != "null" && text.txtRatio != -1){
             drawTopTxt(canva, text.topTxt, text.txtRatioTop);
         }
@@ -145,7 +146,10 @@ function handleFiles(){
     }
 }
 
-function convertHex(hexCode, opacity = 1){ //stolen code src="https://gist.github.com/danieliser/b4b24c9f772066bcf0a6.js"
+//Border
+
+function convertHex(hexCode, opacity = 1){ 
+    //code src="https://gist.github.com/danieliser/b4b24c9f772066bcf0a6.js"
     var hex = hexCode.replace('#', '');
 
     if (hex.length === 3) {
@@ -180,19 +184,29 @@ document.getElementById("colorpicker").addEventListener("change", function(){
 });
 
 function setBorder(borderColour, ctxborder, width){  
+    //Formats and sets border with user color input
 
-    borderWidth = width/30;
+    clearCanvas(borderlayer);
+
+    borderWidth = width/40;
+    ctxborder.fillStyle = borderColour;
+    ctxborder.shadowColor = borderColour;
+    ctxborder.shadowBlur = 30;
 
     ctxborder.fillStyle = setGradient(0, 0, 0, borderWidth, borderColour);
+    ctxborder.shadowOffsetY = 5;
     ctxborder.fillRect(0, 0, width, borderWidth); //top
 
     ctxborder.fillStyle = setGradient(0, 0, borderWidth, 0, borderColour);
+    ctxborder.shadowOffsetX = 5;
     ctxborder.fillRect(0, 0, borderWidth, width); //left
 
     ctxborder.fillStyle = setGradient(0, width, 0, width-borderWidth, borderColour);
+    ctxborder.shadowOffsetY = -5;
     ctxborder.fillRect(0, width-borderWidth, width, borderWidth); //bottom
 
     ctxborder.fillStyle = setGradient(width, 0, width-borderWidth, 0, borderColour);
+    ctxborder.shadowOffsetX = -5;
     ctxborder.fillRect(width-borderWidth, 0, borderWidth, width); //right
 }
 
@@ -207,7 +221,7 @@ function setGradient(x, y, x1, y1, color){
     return gradient;
 }
 
-//Text bs
+//Text
 
 const maxWidth = canw * 0.9;
 
@@ -219,6 +233,7 @@ textLayer.setAttribute("height", canh);
 const txtctx = textLayer.getContext("2d");
 
 function drawText(text, fontSize, x, y, txtCon, size){
+    //Text formatting
     
     txtCon.textAlign = 'center';    
     txtCon.font = '700 '+ fontSize * size + 'px Work Sans';
@@ -231,6 +246,7 @@ function drawText(text, fontSize, x, y, txtCon, size){
 }
 
 document.getElementById("textcolor").addEventListener("change", function(){
+    //Changes text color on user color input
     if(text.botTxt.length != 0){
         setTopTxt();
     }
@@ -250,30 +266,33 @@ function drawBotTxt(canva, text, txtRatio){
 }
 
 function setTopTxt(){
+    //TOP text setter
     txtctx.clearRect(0, 0, canw, canh/2);
-    //blurctx.clearRect(0, 0, canw, canh/2);
     text.topTxt = document.getElementById("toptext").value.toUpperCase();
     drawText(text.topTxt, text.txtRatioTop, canw/2, canh*0.15, txtctx, canw);
 }
 
 function setBttmTxt(){
+    //BOTTOM text setter
     txtctx.clearRect(0, canh/2, canw, canh/2);
-    //blurctx.clearRect(0, canh/2, canw, canh/2);
     text.botTxt = document.getElementById("bottomtext").value.toUpperCase();
     drawText(text.botTxt, text.txtRatioBot, canw/2, canh*0.9, txtctx, canw);
 }
 
 document.getElementById("toptext").addEventListener("change", function(){
+    //Sets TOP text on user text input
     document.fonts.load("Work Sans").then(setTopTxt());
 });
 
 document.getElementById("bottomtext").addEventListener("change", function(){
+    //Sets BOTTOM text on user text input
     document.fonts.load("Work Sans").then(setBttmTxt());
 });
 
-var sliderTop = document.getElementById("TopRange");
+var sliderTop = document.getElementById("TopRange"); 
 
 sliderTop.oninput = function() {
+    //Changes TOP text size on user slider input
     text.txtRatioTop = this.value/canw;
     document.fonts.load("Work Sans").then(setTopTxt());
 }
@@ -281,6 +300,7 @@ sliderTop.oninput = function() {
 var sliderBot = document.getElementById("BotRange");
 
 sliderBot.oninput = function() {
+    //Changes BOTTOM text size on user slider input
     text.txtRatioBot = this.value/canw;
     document.fonts.load("Work Sans").then(setBttmTxt());
 }
