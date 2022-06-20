@@ -18,7 +18,7 @@ var text = {
     txtRatioBot: 100/imgcanvas.width,
 }
 var borderCol = "";
-
+var aspectAnchor = 0; // for 1080p whether bottom or left is 1080 px if 0 bottom if 1 side
 
 function init(){
     document.getElementById("toptext").value = "";
@@ -28,17 +28,17 @@ function init(){
     }
 
 // Add image on canva
-function add_img(src, canva, width, height) {
+function add_img(src, canva) {
     ctx = canva.getContext("2d")
     img = new Image();
     img.src = src;
     img.onload = function(){
-        ctx.drawImage(img,0,0,width,height);
+        ctx.drawImage(img,0,0,canva.clientWidth,canva.clientHeight);
     }
 }
 
 //Merge multiple canvas
-function mergeCanvas(imageID, borderID, textID, textBlurID, ctx, size){
+function mergeCanvas(imageID, borderID, textID, ctx, size){
     var baseCanva = document.getElementById(imageID);
     var border = document.getElementById(borderID);
     var text = document.getElementById(textID);
@@ -52,15 +52,15 @@ function mergeCanvas(imageID, borderID, textID, textBlurID, ctx, size){
 
 //Construct canva from stored data
 
-function constructCanva(canva, size){
+function constructCanva(canva){
 
     var ctx = canva.getContext("2d");
     img = new Image();
     img.src = imgURL;
     img.onload = function(){
-        ctx.drawImage(img,0,0,size,size);
-        if(borderCol != "null"){setBorder(borderCol, ctx, size);}
-        ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 0;
+        ctx.drawImage(img,0,0,canva.clientWidth,canva.clientHeight);
+        if(borderCol != "null"){setBorder(borderCol, ctx, canva.clientWidth, canva.clientHeight);}
+        ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 0; //wtf is this???
         if(text.topTxt != "null" && text.txtRatio != -1){
             drawTopTxt(canva, text.topTxt, text.txtRatioTop);
         }
@@ -87,10 +87,16 @@ function changeType(a){document.getElementById(a).classList.toggle("bigBoi");}
 //Used to save image
 function saveFile(exportSize){downloadCanvas(exportSize);}
 
+//Update imgAspect
+function changeAspect(){
+    if(aspectAnchor){aspectAnchor = 0; return} 
+    aspectAnchor = 1;
+}
+
 //Clear canvas
 function clearCanvas(elem){
     var ctx = elem.getContext("2d");
-    ctx.clearRect(0, 0, imgcanvas.width, imgcanvas.height);}
+    ctx.clearRect(0, 0, imgcanvas.clientWidth, imgcanvas.clientHeight);}
 
 //Clear all
 function clearAll(){
@@ -104,13 +110,22 @@ function downloadCanvas(size){
     //Create final canva element
     var anch = document.getElementById("finished");
     var new_canvas = document.createElement("canvas");
+    var aspectRatio = imgcanvas.clientWidth/imgcanvas.clientHeight;
+
     anch.appendChild(new_canvas);
     new_canvas.id = "finalCopy";
-    new_canvas.width = size;
-    new_canvas.height = size;
+    
+    if(aspectAnchor){
+        //size == height
+        new_canvas.width = size * aspectRatio; 
+        new_canvas.height = size;   
+    } else {
+        new_canvas.width = size;
+        new_canvas.height = size / aspectRatio;
+    }
 
     //Constructs canva and downloads it
-    constructCanva(new_canvas, size);
+    constructCanva(new_canvas);
 
 }
 
@@ -159,15 +174,14 @@ function convertHex(hexCode, opacity = 1){
 var color = document.getElementById("colorpicker").value;
 
 document.getElementById("colorpicker").addEventListener("change", function(){
+    clearCanvas(bordercanvas);
     color = this.value;
     borderCol = color;
-    setBorder(color, ctxb, canw);
+    setBorder(color, ctxb, bordercanvas.clientWidth, bordercanvas.clientHeight);
 });
 
 function setBorder(borderColour, ctxborder, width, height){  
     //Formats and sets border with user color input
-
-    clearCanvas(bordercanvas);
 
     borderWidth = width/40;
     ctxborder.fillStyle = borderColour;
@@ -204,14 +218,16 @@ function setGradient(x, y, x1, y1, color){
 
 //Text
 
-const maxWidth = imgcanvas.width * 0.9;
-
 
 
 function drawText(text, fontSize, x, y, txtCon, size){
+    var  maxWidth = size * 0.9;
+    
     //Text formatting
     
     txtCon.textAlign = 'center';    
+    //if add changable boldness
+    //txtCon.font = fontWeight + ' '+ fontSize * size + 'px Work Sans';
     txtCon.font = '700 '+ fontSize * size + 'px Work Sans';
     txtCon.fillStyle = '#FFFFFF';
     txtCon.shadowColor = document.getElementById("textcolor").value;
@@ -233,7 +249,7 @@ document.getElementById("textcolor").addEventListener("change", function(){
 
 function drawTopTxt(canva, text, txtRatio){
     var ctx = canva.getContext("2d");
-    drawText(text, txtRatio, canva.width/2, canva.height*0.15, ctx, canva.width);
+    drawText(text, txtRatio, canva.clientWidth/2, canva.clientHeight*0.15, ctx, canva.clientWidth);
 }
 
 function drawBotTxt(canva, text, txtRatio){
@@ -269,28 +285,28 @@ function setBttmTxt(){
 
 document.getElementById("toptext").addEventListener("change", function(){
     //Sets TOP text on user text input
-    document.fonts.load("Work Sans").then(setTopTxt());
+    setTopTxt();
 });
 
 document.getElementById("bottomtext").addEventListener("change", function(){
     //Sets BOTTOM text on user text input
-    document.fonts.load("Work Sans").then(setBttmTxt());
+    setBttmTxt();
 });
 
 var sliderTop = document.getElementById("TopRange"); 
 
 sliderTop.oninput = function() {
     //Changes TOP text size on user slider input
-    text.txtRatioTop = this.value/canw;
-    document.fonts.load("Work Sans").then(setTopTxt());
+    text.txtRatioTop = this.value/this.clientWidth;
+    setTopTxt();
 }
 
 var sliderBot = document.getElementById("BotRange");
 
 sliderBot.oninput = function() {
     //Changes BOTTOM text size on user slider input
-    text.txtRatioBot = this.value/canw;
-    document.fonts.load("Work Sans").then(setBttmTxt());
+    text.txtRatioBot = this.value/textcanvas.clientWidth;
+    setBttmTxt();
 }
 
 function canvasDims(canvas) {
@@ -303,8 +319,6 @@ function canvasDims(canvas) {
 }
 
 function rerender() {
-    clearAll();
-
     let {cssWidth, cssHeight, pxWidth, pxHeight, dpr} = canvasDims(imgcanvas);
     
     imgcanvas.width = pxWidth;
@@ -324,7 +338,7 @@ function rerender() {
 
     add_img(imgURL, imgcanvas, cssWidth, cssHeight);
     if(borderCol != ""){setBorder(borderCol, ctxb, cssWidth, cssHeight);}
-    if(text.topTxt !== "" && text.botTxt !== ""){redrawText(ctxt, width, height);}
+    if(text.topTxt !== "" && text.botTxt !== ""){redrawText(ctxt, cssWidth, cssHeight);}
 }
 
 new ResizeObserver(() => rerender()).observe(imgcanvas);
