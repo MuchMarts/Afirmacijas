@@ -14,8 +14,8 @@ var imgURL = "";
 var text = {  
     topTxt : "",
     botTxt : "",
-    txtRatioTop: 100/imgcanvas.width,
-    txtRatioBot: 100/imgcanvas.width,
+    txtRatioTop: 100/imgcanvas.clientWidth,
+    txtRatioBot: 100/imgcanvas.clientWidth,
 }
 var borderCol = "";
 var aspectAnchor = 0; // for 1080p whether bottom or left is 1080 px if 0 bottom if 1 side
@@ -216,6 +216,7 @@ function setGradient(x, y, x1, y1, color){
 function drawText(text, fontSize, x, y, txtCon, size){
     var  maxWidth = size * 0.9;
     
+    console.log(fontSize)
     //Text formatting
     
     txtCon.textAlign = 'center';    
@@ -242,20 +243,20 @@ document.getElementById("textcolor").addEventListener("change", function(){
 
 function drawTopTxt(canva, text, txtRatio){
     var ctx = canva.getContext("2d");
-    drawText(text, txtRatio, canva.clientWidth/2, canva.clientHeight*0.15, ctx, canva.clientWidth);
+    drawText(text, txtRatio, canva.clientWidth/2, canva.clientHeight*0.2, ctx, canva.clientWidth);
 }
 
 function drawBotTxt(canva, text, txtRatio){
     var ctx = canva.getContext("2d");
-    drawText(text, txtRatio, canva.width/2, canva.height*0.9, ctx, canva.width);
+    drawText(text, txtRatio, canva.width/2, canva.height*0.95, ctx, canva.width);
 }
 
 function redrawTopTxt(ctx, text, txtRatio, width, height){
-    drawText(text, txtRatio, width/2, height*0.15, ctx, width);
+    drawText(text, txtRatio, width/2, height*0.2, ctx, width);
 }
 
 function redrawBotTxt(ctx, text, txtRatio, width, height){
-    drawText(text, txtRatio, width/2, height*0.9, ctx, width);
+    drawText(text, txtRatio, width/2, height*0.95, ctx, width);
 }
 function redrawText(ctx, width, height){
     redrawTopTxt(ctx, text.topTxt, text.txtRatioTop, width, height);
@@ -290,7 +291,7 @@ var sliderTop = document.getElementById("TopRange");
 
 sliderTop.oninput = function() {
     //Changes TOP text size on user slider input
-    text.txtRatioTop = this.value/this.clientWidth;
+    text.txtRatioTop = this.value/textcanvas.clientWidth;
     setTopTxt();
 }
 
