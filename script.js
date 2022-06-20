@@ -1,38 +1,24 @@
 window.onload = init;
 
 //  Properties
-const width = window.innerWidth;
-const height = window.innerHeight;
+const imgcanvas = document.getElementById("image");
+const ctxi = imgcanvas.getContext('2d');
 
-var canw = 0; var canh = 0;
+const bordercanvas = document.getElementById("border");
+const ctxb = bordercanvas.getContext("2d");
 
-//Diferent workspace size for diferent device
-if(width>1050 && height>1050){canw = 1000; canh = 1000;
-} else {
-    if(width>height){canw = height - 50; canh = height - 50;}
-    if(width<height){canw = width - 50; canh = width - 50;}
-}
+const textcanvas = document.getElementById("text");
+const ctxt = textcanvas.getContext("2d");
 
 var imgURL = "";
 var text = {  
-    topTxt : "null",
-    botTxt : "null",
-    txtRatioTop: 100/canw,
-    txtRatioBot: 100/canw,
+    topTxt : "",
+    botTxt : "",
+    txtRatioTop: 100/imgcanvas.width,
+    txtRatioBot: 100/imgcanvas.width,
 }
-var borderCol = "null";
-
-const canvas = document.getElementById("image");
-const context = canvas.getContext('2d');
-   
-
-
-canvas.setAttribute("width", canw);
-canvas.setAttribute("height", canh);
-
-document.getElementById('result').style.width = canw + 'px';
-document.getElementById('result').style.height = canh + 'px';
-document.getElementById('interface').style.width = canw + 'px';
+var borderCol = "";
+var aspectAnchor = 0; // for 1080p whether bottom or left is 1080 px if 0 bottom if 1 side
 
 function init(){
     document.getElementById("toptext").value = "";
@@ -42,17 +28,17 @@ function init(){
     }
 
 // Add image on canva
-function add_img(src, canva, size) {
-    var ctx = canva.getContext("2d");
+function add_img(src, canva) {
+    ctx = canva.getContext("2d")
     img = new Image();
     img.src = src;
     img.onload = function(){
-        ctx.drawImage(img,0,0,size,size);
+        ctx.drawImage(img,0,0,canva.clientWidth,canva.clientHeight);
     }
 }
 
 //Merge multiple canvas
-function mergeCanvas(imageID, borderID, textID, textBlurID, ctx, size){
+function mergeCanvas(imageID, borderID, textID, ctx, size){
     var baseCanva = document.getElementById(imageID);
     var border = document.getElementById(borderID);
     var text = document.getElementById(textID);
@@ -66,15 +52,15 @@ function mergeCanvas(imageID, borderID, textID, textBlurID, ctx, size){
 
 //Construct canva from stored data
 
-function constructCanva(canva, size){
+function constructCanva(canva){
 
     var ctx = canva.getContext("2d");
     img = new Image();
     img.src = imgURL;
     img.onload = function(){
-        ctx.drawImage(img,0,0,size,size);
-        if(borderCol != "null"){setBorder(borderCol, ctx, size);}
-        ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 0;
+        ctx.drawImage(img,0,0,canva.clientWidth,canva.clientHeight);
+        if(borderCol != "null"){setBorder(borderCol, ctx, canva.clientWidth, canva.clientHeight);}
+        ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 0; //wtf is this???
         if(text.topTxt != "null" && text.txtRatio != -1){
             drawTopTxt(canva, text.topTxt, text.txtRatioTop);
         }
@@ -94,10 +80,16 @@ function constructCanva(canva, size){
 //Used to save image
 function saveFile(exportSize){downloadCanvas(exportSize);}
 
+//Update imgAspect
+function changeAspect(){
+    if(aspectAnchor){aspectAnchor = 0; return} 
+    aspectAnchor = 1;
+}
+
 //Clear canvas
 function clearCanvas(elem){
     var ctx = elem.getContext("2d");
-    ctx.clearRect(0, 0, canh, canw);}
+    ctx.clearRect(0, 0, imgcanvas.clientWidth, imgcanvas.clientHeight);}
 
 //Clear all
 function clearAll(){
@@ -111,13 +103,22 @@ function downloadCanvas(size){
     //Create final canva element
     var anch = document.getElementById("finished");
     var new_canvas = document.createElement("canvas");
+    var aspectRatio = imgcanvas.clientWidth/imgcanvas.clientHeight;
+
     anch.appendChild(new_canvas);
     new_canvas.id = "finalCopy";
-    new_canvas.width = size;
-    new_canvas.height = size;
+    
+    if(aspectAnchor){
+        //size == height
+        new_canvas.width = size * aspectRatio; 
+        new_canvas.height = size;   
+    } else {
+        new_canvas.width = size;
+        new_canvas.height = size / aspectRatio;
+    }
 
     //Constructs canva and downloads it
-    constructCanva(new_canvas, size);
+    constructCanva(new_canvas);
 
 }
 
@@ -135,7 +136,7 @@ function handleFiles(){
         place.innerHTML = userFile.files[0].name + ": " + userFile.files[0].size + " biti";
         tempUrl = URL.createObjectURL(userFile.files[0]);
         imgURL = tempUrl;
-        add_img(tempUrl, canvas, canw);
+        add_img(tempUrl, imgcanvas, imgcanvas.clientWidth, imgcanvas.clientHeight);
     }
 }
 
@@ -161,25 +162,19 @@ function convertHex(hexCode, opacity = 1){
     return rgba;
 }
 
-const borderlayer = document.getElementById("border");
 
-borderlayer.setAttribute("width", canw);
-borderlayer.setAttribute("height", canh);
-
-const ctxb = borderlayer.getContext("2d");
 
 var color = document.getElementById("colorpicker").value;
 
 document.getElementById("colorpicker").addEventListener("change", function(){
+    clearCanvas(bordercanvas);
     color = this.value;
     borderCol = color;
-    setBorder(color, ctxb, canw);
+    setBorder(color, ctxb, bordercanvas.clientWidth, bordercanvas.clientHeight);
 });
 
-function setBorder(borderColour, ctxborder, width){  
+function setBorder(borderColour, ctxborder, width, height){  
     //Formats and sets border with user color input
-
-    clearCanvas(borderlayer);
 
     borderWidth = width/40;
     ctxborder.fillStyle = borderColour;
@@ -192,15 +187,15 @@ function setBorder(borderColour, ctxborder, width){
 
     ctxborder.fillStyle = setGradient(0, 0, borderWidth, 0, borderColour);
     ctxborder.shadowOffsetX = 5;
-    ctxborder.fillRect(0, 0, borderWidth, width); //left
+    ctxborder.fillRect(0, 0, borderWidth, height); //left
 
-    ctxborder.fillStyle = setGradient(0, width, 0, width-borderWidth, borderColour);
+    ctxborder.fillStyle = setGradient(0, height, 0, height-borderWidth, borderColour);
     ctxborder.shadowOffsetY = -5;
-    ctxborder.fillRect(0, width-borderWidth, width, borderWidth); //bottom
+    ctxborder.fillRect(0, height-borderWidth, height, borderWidth); //bottom
 
-    ctxborder.fillStyle = setGradient(width, 0, width-borderWidth, 0, borderColour);
+    ctxborder.fillStyle = setGradient(height, 0, height-borderWidth, 0, borderColour);
     ctxborder.shadowOffsetX = -5;
-    ctxborder.fillRect(width-borderWidth, 0, borderWidth, width); //right
+    ctxborder.fillRect(height-borderWidth, 0, borderWidth, height); //right
 }
 
 function setGradient(x, y, x1, y1, color){
@@ -216,19 +211,16 @@ function setGradient(x, y, x1, y1, color){
 
 //Text
 
-const maxWidth = canw * 0.9;
 
-const textLayer = document.getElementById("text");
-
-textLayer.setAttribute("width", canw);
-textLayer.setAttribute("height", canh);
-
-const txtctx = textLayer.getContext("2d");
 
 function drawText(text, fontSize, x, y, txtCon, size){
+    var  maxWidth = size * 0.9;
+    
     //Text formatting
     
     txtCon.textAlign = 'center';    
+    //if add changable boldness
+    //txtCon.font = fontWeight + ' '+ fontSize * size + 'px Work Sans';
     txtCon.font = '700 '+ fontSize * size + 'px Work Sans';
     txtCon.fillStyle = '#FFFFFF';
     txtCon.shadowColor = document.getElementById("textcolor").value;
@@ -250,7 +242,7 @@ document.getElementById("textcolor").addEventListener("change", function(){
 
 function drawTopTxt(canva, text, txtRatio){
     var ctx = canva.getContext("2d");
-    drawText(text, txtRatio, canva.width/2, canva.height*0.15, ctx, canva.width);
+    drawText(text, txtRatio, canva.clientWidth/2, canva.clientHeight*0.15, ctx, canva.clientWidth);
 }
 
 function drawBotTxt(canva, text, txtRatio){
@@ -258,42 +250,88 @@ function drawBotTxt(canva, text, txtRatio){
     drawText(text, txtRatio, canva.width/2, canva.height*0.9, ctx, canva.width);
 }
 
+function redrawTopTxt(ctx, text, txtRatio, width, height){
+    drawText(text, txtRatio, width/2, height*0.15, ctx, width);
+}
+
+function redrawBotTxt(ctx, text, txtRatio, width, height){
+    drawText(text, txtRatio, width/2, height*0.9, ctx, width);
+}
+function redrawText(ctx, width, height){
+    redrawTopTxt(ctx, text.topTxt, text.txtRatioTop, width, height);
+    redrawBotTxt(ctx, text.botTxt, text.txtRatioBot, width, height);
+}
+
 function setTopTxt(){
     //TOP text setter
-    txtctx.clearRect(0, 0, canw, canh/2);
+    ctxt.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight/2);
     text.topTxt = document.getElementById("toptext").value.toUpperCase();
-    drawText(text.topTxt, text.txtRatioTop, canw/2, canh*0.15, txtctx, canw);
+    drawText(text.topTxt, text.txtRatioTop, textcanvas.clientWidth/2, textcanvas.clientHeight*0.15, ctxt, textcanvas.clientWidth);
 }
 
 function setBttmTxt(){
     //BOTTOM text setter
-    txtctx.clearRect(0, canh/2, canw, canh/2);
+    ctxt.clearRect(0, textcanvas.clientHeight/2, textcanvas.clientWidth, textcanvas.clientHeight/2);
     text.botTxt = document.getElementById("bottomtext").value.toUpperCase();
-    drawText(text.botTxt, text.txtRatioBot, canw/2, canh*0.9, txtctx, canw);
+    drawText(text.botTxt, text.txtRatioBot, textcanvas.clientWidth/2, textcanvas.clientHeight*0.9, ctxt, textcanvas.clientWidth);
 }
 
 document.getElementById("toptext").addEventListener("change", function(){
     //Sets TOP text on user text input
-    document.fonts.load("Work Sans").then(setTopTxt());
+    setTopTxt();
 });
 
 document.getElementById("bottomtext").addEventListener("change", function(){
     //Sets BOTTOM text on user text input
-    document.fonts.load("Work Sans").then(setBttmTxt());
+    setBttmTxt();
 });
 
 var sliderTop = document.getElementById("TopRange"); 
 
 sliderTop.oninput = function() {
     //Changes TOP text size on user slider input
-    text.txtRatioTop = this.value/canw;
-    document.fonts.load("Work Sans").then(setTopTxt());
+    text.txtRatioTop = this.value/this.clientWidth;
+    setTopTxt();
 }
 
 var sliderBot = document.getElementById("BotRange");
 
 sliderBot.oninput = function() {
     //Changes BOTTOM text size on user slider input
-    text.txtRatioBot = this.value/canw;
-    document.fonts.load("Work Sans").then(setBttmTxt());
+    text.txtRatioBot = this.value/textcanvas.clientWidth;
+    setBttmTxt();
 }
+
+function canvasDims(canvas) {
+    let dpr = window.devicePixelRatio;
+    let cssWidth = canvas.clientWidth;
+    let cssHeight = canvas.clientHeight;
+    let pxWidth = Math.round(dpr * cssWidth);
+    let pxHeight = Math.round(dpr * cssHeight);
+    return {dpr, cssWidth, cssHeight, pxWidth, pxHeight};
+}
+
+function rerender() {
+    let {cssWidth, cssHeight, pxWidth, pxHeight, dpr} = canvasDims(imgcanvas);
+    
+    imgcanvas.width = pxWidth;
+    imgcanvas.height = pxHeight;
+    bordercanvas.width = pxWidth;
+    bordercanvas.height = pxHeight;
+    textcanvas.width = pxWidth;
+    textcanvas.height = pxHeight;
+
+    let ctxi = imgcanvas.getContext("2d");
+    let ctxb = bordercanvas.getContext("2d");
+    let ctxt = textcanvas.getContext("2d");
+
+    ctxi.scale(dpr, dpr);
+    ctxb.scale(dpr, dpr);
+    ctxt.scale(dpr, dpr);
+
+    add_img(imgURL, imgcanvas, cssWidth, cssHeight);
+    if(borderCol != ""){setBorder(borderCol, ctxb, cssWidth, cssHeight);}
+    if(text.topTxt !== "" && text.botTxt !== ""){redrawText(ctxt, cssWidth, cssHeight);}
+}
+
+new ResizeObserver(() => rerender()).observe(imgcanvas);
