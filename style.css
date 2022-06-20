@@ -215,7 +215,7 @@ a:visited {
 }
 
 figure { 
-    aspect-ratio: 16/9;
+    aspect-ratio: 1/1;
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
