@@ -72,7 +72,7 @@ ul {
 }
 
 .column{
-    float: left;
+    float: center;
     width: 50%;
     padding: 15px;
 }
@@ -82,12 +82,6 @@ ul {
     display: table;
     clear: both;
 }
-
-@media screen and (max-width:600px) {
-    .column {
-      width: 100%;
-    }
-  }
 
 #result {
     position: relative;
@@ -111,7 +105,7 @@ ul {
 }
 
 #interface {
-    width: 800px;
+    width: 95%;
     margin: auto;
     display: flex;
     justify-content: center;
@@ -222,7 +216,7 @@ a:visited {
 
 figure { 
     aspect-ratio: 1/1;
-    max-width: 50%;
+    max-width: 100%;
     margin-left: auto;
     margin-right: auto;
   }
@@ -232,4 +226,22 @@ figure {
 
 canvas {
     border: solid 2px red;
+}
+
+@media only screen and (min-width:768px) {
+    figure { 
+        max-width: 80%;
+    }
+    #interface {
+        width: 75%;
+    }
+}
+
+@media only screen and (min-width:1440px) {
+    figure { 
+        max-width: 1080px;
+    }
+    #interface {
+        width: 1080px;
+    }
 }
