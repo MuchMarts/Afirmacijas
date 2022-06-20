@@ -77,13 +77,6 @@ function constructCanva(canva){
     }
 }
 
-
-//Show/Hide smth
-function showYourself(a){document.getElementsByClassName("banana")[a-1].classList.toggle("hidden");}
-
-//Strecth smth
-function changeType(a){document.getElementById(a).classList.toggle("bigBoi");}
-
 //Used to save image
 function saveFile(exportSize){downloadCanvas(exportSize);}
 

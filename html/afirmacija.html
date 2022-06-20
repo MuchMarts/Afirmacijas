@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
     <link rel="icon" type="image/jpg" href="A_Icon.ico"/>
 </head>
 <body>
@@ -16,15 +16,19 @@
         <h1> Afirmāciju taisītājs</h1>
         <p>Dalies ar savām afirmācijām <i>Instagram</i> un ietago @rv1g_afirmacijas!</p>
     </div>
-    <div class="row">
-        <!--colum results-->
-        <figure id="result">
-            <div class="relative-full">
-                <canvas id="image" class="creator relative-full" style="width: 100%; height: 100%"></canvas>
-                <canvas id="border" class="creator relative-full" style="width: 100%; height: 100%"></canvas>
-                <canvas id="text" class="creator relative-full" style="width: 100%; height: 100%"></canvas>
-            </div>
-        </figure>
+    <ul>
+        <li><a class="active" href="#home">Home</a></li>
+        <li><a href="html/afirmacija.html">Uztaisīt afirmāciju</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#about">About</a></li>
+    </ul>
+    <div class="row" id="workspace">
+
+        <div id="result" class="column">
+            <canvas id="image" class="creator"></canvas>
+            <canvas id="border" class="creator"></canvas>
+            <canvas id="text" class="creator"></canvas>
+        </div>
 
         <div id="interface" class="column">
              
@@ -70,9 +74,13 @@
                 <button class="button" id="dumb" onclick="saveFile(1080)">Lejupielādēt</button>
                 <button class="button" id="dumb" onclick="clearAll()">Izdzēst</button>
             </div>
-        </div>
+
+        </div> 
     </div>
-    <div class="footer">
+    <div class="header">
         <p>Epic mājaslapa created by <a href="https://instagram.com/rv1g_afirmacijas" target="_blank">@rv1g_afirmacijas</a> un <a href="https://instagram.com/much_marts" target="_blank">Mārtiņš</a></p>
     </div>
+    <script src="script.js"></script> 
 </body>
+<div id="finished"></div>
+</html>
