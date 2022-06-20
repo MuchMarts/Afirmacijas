@@ -176,7 +176,10 @@ document.getElementById("colorpicker").addEventListener("change", function(){
 function setBorder(borderColour, ctxborder, width, height){  
     //Formats and sets border with user color input
 
-    borderWidth = width/40;
+    console.log(width);
+    console.log(height)
+
+    borderWidth = width/50;
     ctxborder.fillStyle = borderColour;
     ctxborder.shadowColor = borderColour;
     ctxborder.shadowBlur = 30;
@@ -191,11 +194,11 @@ function setBorder(borderColour, ctxborder, width, height){
 
     ctxborder.fillStyle = setGradient(0, height, 0, height-borderWidth, borderColour);
     ctxborder.shadowOffsetY = -5;
-    ctxborder.fillRect(0, height-borderWidth, height, borderWidth); //bottom
+    ctxborder.fillRect(0, height-borderWidth, width, borderWidth); //bottom
 
     ctxborder.fillStyle = setGradient(height, 0, height-borderWidth, 0, borderColour);
     ctxborder.shadowOffsetX = -5;
-    ctxborder.fillRect(height-borderWidth, 0, borderWidth, height); //right
+    ctxborder.fillRect(width-borderWidth, 0, borderWidth, height); //right
 }
 
 function setGradient(x, y, x1, y1, color){
