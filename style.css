@@ -23,14 +23,13 @@ body {
     font-size: large;
     text-align: center;
     margin:0;
-    height: 100%;
 }
 
 h1{
     font-size: 50px;
 }
 
-.header{
+header{
     color: var(--accent);
     background-color: var(--ihardlyknowher);
     padding: 20px;
@@ -216,7 +215,7 @@ a:visited {
 
 figure { 
     aspect-ratio: 1/1;
-    max-width: 100%;
+    max-height: 100%;
     margin-left: auto;
     margin-right: auto;
   }
@@ -224,24 +223,21 @@ figure {
 .fixed-fullscreen { position: fixed; left: 0; top: 0; width: 100vw; height: 100vh; z-index: 1; }
 .inset { position: absolute; left: 5px; top: 5px; }
 
-canvas {
-    border: solid 2px red;
-}
-
 @media only screen and (min-width:768px) {
     figure { 
-        max-width: 80%;
+        max-height: 65vh;
     }
     #interface {
-        width: 75%;
+        max-width: 75%;
     }
 }
 
 @media only screen and (min-width:1440px) {
     figure { 
-        max-width: 1080px;
+        max-height: 55vh;
     }
     #interface {
-        width: 1080px;
+        max-width: 50%;
     }
 }
+

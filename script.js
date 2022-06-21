@@ -237,7 +237,6 @@ function setGradient(x, y, x1, y1, color){
 function drawText(text, fontSize, x, y, txtCon, size){
     var  maxWidth = size * 0.9;
     
-    console.log(fontSize)
     //Text formatting
     
     txtCon.textAlign = 'center';    
@@ -246,7 +245,7 @@ function drawText(text, fontSize, x, y, txtCon, size){
     txtCon.font = '700 '+ fontSize * size + 'px Work Sans';
     txtCon.fillStyle = '#FFFFFF';
     txtCon.shadowColor = document.getElementById("textcolor").value;
-    txtCon.shadowBlur = 10;
+    txtCon.shadowBlur = 15;
 
     txtCon.fillText(text, x, y, maxWidth);
     txtCon.fillText(text, x, y, maxWidth);
@@ -264,7 +263,7 @@ document.getElementById("textcolor").addEventListener("change", function(){
 
 function drawTopTxt(canva, text, txtRatio){
     var ctx = canva.getContext("2d");
-    drawText(text, txtRatio, canva.clientWidth/2, canva.clientHeight*0.2, ctx, canva.clientWidth);
+    drawText(text, txtRatio, canva.clientWidth/2, canva.clientHeight*(0.2 + text.txtRatioTop *0.4), ctx, canva.clientWidth);
 }
 
 function drawBotTxt(canva, text, txtRatio){
@@ -273,7 +272,7 @@ function drawBotTxt(canva, text, txtRatio){
 }
 
 function redrawTopTxt(ctx, text, txtRatio, width, height){
-    drawText(text, txtRatio, width/2, height*0.2, ctx, width);
+    drawText(text, txtRatio, width/2, height*(0.2 + text.txtRatioTop *0.4), ctx, width);
 }
 
 function redrawBotTxt(ctx, text, txtRatio, width, height){
@@ -288,7 +287,7 @@ function setTopTxt(){
     //TOP text setter
     ctxt.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight/2);
     text.topTxt = document.getElementById("toptext").value.toUpperCase();
-    drawText(text.topTxt, text.txtRatioTop, textcanvas.clientWidth/2, textcanvas.clientHeight*0.15, ctxt, textcanvas.clientWidth);
+    drawText(text.topTxt, text.txtRatioTop, textcanvas.clientWidth/2, textcanvas.clientHeight*(0.2 + text.txtRatioTop * 0.4), ctxt, textcanvas.clientWidth);
 }
 
 function setBttmTxt(){
