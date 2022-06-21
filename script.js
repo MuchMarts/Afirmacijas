@@ -53,8 +53,26 @@ function mergeCanvas(imageID, borderID, textID, ctx, size){
 //Construct canva from stored data
 
 function constructCanva(canva){
-
     var ctx = canva.getContext("2d");
+
+    if(imgURL == ""){
+        if(borderCol != ""){setBorder(borderCol, ctx, canva.clientWidth, canva.clientHeight);}
+        ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 0; //wtf is this???
+        if(text.topTxt != "" && text.txtRatio != -1){
+            drawTopTxt(canva, text.topTxt, text.txtRatioTop);
+        }
+        if(text.botTxt != "" && text.txtRatio != -1){
+            drawBotTxt(canva, text.botTxt, text.txtRatioBot);
+        }
+        const temp = document.createElement("a");
+        temp.href = canva.toDataURL();
+        temp.download = "afirmacija";
+        temp.click();
+        temp.remove;
+        canva.remove(); 
+        return;
+    }
+
     img = new Image();
     img.src = imgURL;
     img.onload = function(){
