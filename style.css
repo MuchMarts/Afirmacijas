@@ -271,3 +271,8 @@ figure {
     }
 }
 
+p > a {
+    font-family: "Work Sans";
+    font-weight: 600;
+    color: var(black);
+}
