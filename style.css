@@ -43,23 +43,23 @@ ul {
     padding: 0;
     overflow: hidden;
     background-color: var(--nav);
-  }
+}
   
-  li {
+li {
     float: left;
-  }
+}
   
-  li a {
+li a {
     display: block;
     color: var(--accent);
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-  }
+}
   
-  li a:hover {
+li a:hover {
     background-color: #111;
-  }
+}
 
 .footer{
     left: 0;
@@ -73,7 +73,7 @@ ul {
 
 .column{
     float: center;
-    width: 50%;
+    width: 33.3%;
     padding: 15px;
 }
 

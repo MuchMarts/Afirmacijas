@@ -357,3 +357,4 @@ function rerender() {
 }
 
 new ResizeObserver(() => rerender()).observe(imgcanvas);
+
