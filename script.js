@@ -59,12 +59,12 @@ function constructCanva(canva){
     img.src = imgURL;
     img.onload = function(){
         ctx.drawImage(img,0,0,canva.clientWidth,canva.clientHeight);
-        if(borderCol != "null"){setBorder(borderCol, ctx, canva.clientWidth, canva.clientHeight);}
+        if(borderCol != ""){setBorder(borderCol, ctx, canva.clientWidth, canva.clientHeight);}
         ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 0; //wtf is this???
-        if(text.topTxt != "null" && text.txtRatio != -1){
+        if(text.topTxt != "" && text.txtRatio != -1){
             drawTopTxt(canva, text.topTxt, text.txtRatioTop);
         }
-        if(text.botTxt != "null" && text.txtRatio != -1){
+        if(text.botTxt != "" && text.txtRatio != -1){
             drawBotTxt(canva, text.botTxt, text.txtRatioBot);
         }
         
