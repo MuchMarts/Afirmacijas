@@ -58,12 +58,10 @@ function constructCanva(canva){
     if(imgURL == ""){
         if(borderCol != ""){setBorder(borderCol, ctx, canva.clientWidth, canva.clientHeight);}
         ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 0; //wtf is this???
-        if(text.topTxt != ""){
-            drawTopTxt(canva, text.topTxt, text.txtRatioTop);
-        }
-        if(text.botTxt != ""){
-            drawBotTxt(canva, text.botTxt, text.txtRatioBot);
-        }
+
+        drawTopTxt(canva, text.topTxt, text.txtRatioTop);        
+        drawBotTxt(canva, text.botTxt, text.txtRatioBot);
+        
         const temp = document.createElement("a");
         temp.href = canva.toDataURL();
         temp.download = "afirmacija";
@@ -259,20 +257,24 @@ document.getElementById("textcolor").addEventListener("change", function(){
 })
 
 function drawTopTxt(canva, text, txtRatio){
+    if(text == ""){return};
     var ctx = canva.getContext("2d");
     drawText(text, txtRatio, canva.clientWidth/2, canva.clientHeight*(0.15 + txtRatio * 0.4), ctx, canva.clientWidth);
 }
 
 function drawBotTxt(canva, text, txtRatio){
+    if(text == ""){return};
     var ctx = canva.getContext("2d");
     drawText(text, txtRatio, canva.clientWidth/2, canva.clientHeight*0.95, ctx, canva.clientWidth);
 }
 
 function redrawTopTxt(ctx, text, txtRatio, width, height){
+    if(text == ""){return};
     drawText(text, txtRatio, width/2, height*(0.15 + txtRatio * 0.4), ctx, width);
 }
 
 function redrawBotTxt(ctx, text, txtRatio, width, height){
+    if(text == ""){return};
     drawText(text, txtRatio, width/2, height*0.95, ctx, width);
 }
 function redrawText(ctx, width, height){
@@ -349,7 +351,7 @@ function rerender() {
 
     add_img(imgURL, imgcanvas, cssWidth, cssHeight);
     if(borderCol != ""){setBorder(borderCol, ctxb, cssWidth, cssHeight);}
-    if(text.topTxt != "" || text.botTxt != ""){redrawText(ctxt, cssWidth, cssHeight);}
+    redrawText(ctxt, cssWidth, cssHeight);
 }
 
 new ResizeObserver(() => rerender()).observe(imgcanvas);
