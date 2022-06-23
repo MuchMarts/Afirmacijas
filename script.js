@@ -58,10 +58,10 @@ function constructCanva(canva){
     if(imgURL == ""){
         if(borderCol != ""){setBorder(borderCol, ctx, canva.clientWidth, canva.clientHeight);}
         ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 0; //wtf is this???
-        if(text.topTxt != "" && text.txtRatio != -1){
+        if(text.topTxt != ""){
             drawTopTxt(canva, text.topTxt, text.txtRatioTop);
         }
-        if(text.botTxt != "" && text.txtRatio != -1){
+        if(text.botTxt != ""){
             drawBotTxt(canva, text.botTxt, text.txtRatioBot);
         }
         const temp = document.createElement("a");
@@ -79,12 +79,9 @@ function constructCanva(canva){
         ctx.drawImage(img,0,0,canva.clientWidth,canva.clientHeight);
         if(borderCol != ""){setBorder(borderCol, ctx, canva.clientWidth, canva.clientHeight);}
         ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 0; //wtf is this???
-        if(text.topTxt != "" && text.txtRatio != -1){
-            drawTopTxt(canva, text.topTxt, text.txtRatioTop);
-        }
-        if(text.botTxt != "" && text.txtRatio != -1){
-            drawBotTxt(canva, text.botTxt, text.txtRatioBot);
-        }
+        
+        drawTopTxt(canva, text.topTxt, text.txtRatioTop);
+        drawBotTxt(canva, text.botTxt, text.txtRatioBot);
         
         const temp = document.createElement("a");
         temp.href = canva.toDataURL();
@@ -263,16 +260,16 @@ document.getElementById("textcolor").addEventListener("change", function(){
 
 function drawTopTxt(canva, text, txtRatio){
     var ctx = canva.getContext("2d");
-    drawText(text, txtRatio, canva.clientWidth/2, canva.clientHeight*(0.2 + text.txtRatioTop *0.4), ctx, canva.clientWidth);
+    drawText(text, txtRatio, canva.clientWidth/2, canva.clientHeight*(0.15 + txtRatio * 0.4), ctx, canva.clientWidth);
 }
 
 function drawBotTxt(canva, text, txtRatio){
     var ctx = canva.getContext("2d");
-    drawText(text, txtRatio, canva.width/2, canva.height*0.95, ctx, canva.width);
+    drawText(text, txtRatio, canva.clientWidth/2, canva.clientHeight*0.95, ctx, canva.clientWidth);
 }
 
 function redrawTopTxt(ctx, text, txtRatio, width, height){
-    drawText(text, txtRatio, width/2, height*(0.2 + text.txtRatioTop *0.4), ctx, width);
+    drawText(text, txtRatio, width/2, height*(0.15 + txtRatio * 0.4), ctx, width);
 }
 
 function redrawBotTxt(ctx, text, txtRatio, width, height){
@@ -287,7 +284,7 @@ function setTopTxt(){
     //TOP text setter
     ctxt.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight/2);
     text.topTxt = document.getElementById("toptext").value.toUpperCase();
-    drawText(text.topTxt, text.txtRatioTop, textcanvas.clientWidth/2, textcanvas.clientHeight*(0.2 + text.txtRatioTop * 0.4), ctxt, textcanvas.clientWidth);
+    drawText(text.topTxt, text.txtRatioTop, textcanvas.clientWidth/2, textcanvas.clientHeight*(0.15 + text.txtRatioTop * 0.4), ctxt, textcanvas.clientWidth);
 }
 
 function setBttmTxt(){
@@ -352,7 +349,7 @@ function rerender() {
 
     add_img(imgURL, imgcanvas, cssWidth, cssHeight);
     if(borderCol != ""){setBorder(borderCol, ctxb, cssWidth, cssHeight);}
-    if(text.topTxt !== "" && text.botTxt !== ""){redrawText(ctxt, cssWidth, cssHeight);}
+    if(text.topTxt != "" || text.botTxt != ""){redrawText(ctxt, cssWidth, cssHeight);}
 }
 
 new ResizeObserver(() => rerender()).observe(imgcanvas);
