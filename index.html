@@ -56,11 +56,8 @@
             <p id="text">Spied lejā, lai izvēlētos un augšupielādētu savu bildi!</p>
 
             <div id="inputFile" class="section">      
-                <input type="file" id="userFile" class="button" name="filename" accept="image/*">
-                    
-                <!-- <label for="userFile">Izvēlēties failu</label> -->
-                <input type="submit" id="submit" class="sneaky" onclick="handleFiles()">
-                <label for="submit">Augšupielādēt</label> 
+                <input type="file" id="userFile" class="" name="filename" accept="image/*" onchange="handleFiles()">
+                <label for="userFile" id="btn-style-label">Izvēlies attēlu</label>
             </div>
 
             <div id="colors" class="section"> 
