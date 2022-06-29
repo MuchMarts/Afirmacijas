@@ -354,5 +354,9 @@ function rerender() {
     redrawText(ctxt, cssWidth, cssHeight);
 }
 
+function toggleHide(elemID){
+    document.getElementById(elemID).classList.toggle("hidden");    
+}
+
 new ResizeObserver(() => rerender()).observe(imgcanvas);
 

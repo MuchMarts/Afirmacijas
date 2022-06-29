@@ -31,11 +31,11 @@
 
 </head>
 
-<header class="header">
-    <div id="title">
+<header>
+    <span id="title">
         <h1> Afirmāciju taisītājs</h1>
-        <h3>Dalies ar savām afirmācijām <i>Instagram</i> un ietago @rv1g_afirmacijas!</h3>
-    </div>
+        <!--<h3>Dalies ar savām afirmācijām <i>Instagram</i> un ietago @rv1g_afirmacijas!</h3>-->
+    </span>
     <a href="about.html"><div id="aboutUs">Kas mēs esam?</div></a>
 </header>
 
@@ -43,6 +43,7 @@
 
     <div class="row">
         <!--colum results-->
+        <div id="canvases">
         <figure id="result">
             <div class="relative-full">
                 <canvas id="image" class="creator relative-full" style="width: 100%; height: 100%"></canvas>
@@ -50,8 +51,24 @@
                 <canvas id="text" class="creator relative-full" style="width: 100%; height: 100%"></canvas>
             </div>
         </figure>
+        </div>
 
-        <div id="interface" class="column">
+        <div id="button-menu">
+            <button class="button" role="button" onclick="toggleHide('imgOverlay')"><h3>Bilde</h3></button>
+            <button class="button" role="button" onclick="toggleHide('borderOverlay')"><h3>Rāmis</h3></button>
+            <button class="button" role="button" onclick="toggleHide('textOverlay')"><h3>Teksts</h3></button>
+        </div>
+
+        <div id="overlays">
+            <div id="imgOverlay" class="hidden">
+                <div id="inputFile" class="section">      
+                    <input type="file" id="userFile" class="" name="filename" accept="image/*" onchange="handleFiles()">
+                    <label for="userFile" id="btn-style-label"><h3>Izvēlies attēlu</h3></label>
+                </div>
+            </div>
+        </div>
+
+        <div id="interface" class="column" hidden>
              
             <p id="text">Spied lejā, lai izvēlētos un augšupielādētu savu bildi!</p>
 
@@ -97,6 +114,6 @@
     <div id="finished"></div>
     <script src="script.js"></script>
 </body>
-<footer class="footer">
-    <p>Epic mājaslapa created by <a href="https://instagram.com/rv1g_afirmacijas" target="_blank">@rv1g_afirmacijas</a> un <a href="https://instagram.com/much_marts" target="_blank">Mārtiņš</a></p>
+<footer>
+    <h3>Epic mājaslapa created by <a href="https://instagram.com/rv1g_afirmacijas" target="_blank">@rv1g_afirmacijas</a> un <a href="https://instagram.com/much_marts" target="_blank">Mārtiņš</a></h3>
 </footer>
