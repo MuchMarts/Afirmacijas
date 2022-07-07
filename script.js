@@ -20,6 +20,8 @@ var text = {
 var borderCol = "";
 var aspectAnchor = 0; // for 1080p whether bottom or left is 1080 px if 0 bottom if 1 side
 
+var openOverlay = "imgOverlay";
+
 function init(){
     document.getElementById("toptext").value = "";
     document.getElementById("bottomtext").value = "";
@@ -359,7 +361,13 @@ function rerender() {
 }
 
 function toggleHide(elemID){
-    document.getElementById(elemID).classList.toggle("hidden");    
+    var elem = document.getElementById(elemID);
+    elem.classList.toggle("hidden");
+}
+
+function updateColorPicker(){
+    var colour = document.getElementById("colorpicker").value;
+    document.getElementById("styledPicker").style.backgroundColor = colour;
 }
 
 new ResizeObserver(() => rerender()).observe(imgcanvas);

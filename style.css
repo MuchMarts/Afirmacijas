@@ -82,9 +82,10 @@ figure {
 .button {
     background-color: var(--ihardlyknowher);
     color: var(--accent);
-    border: none;
-    width: 24%;
+    border: 2px solid var(--main);
+    width: 32%;
     border-radius: 0.2rem;
+    cursor: pointer;
 
     transition: 0.5s;
 }
@@ -133,7 +134,20 @@ figure {
     font-family: sans-serif;
 }
 
+#colorpicker {
+    visibility: hidden;
+}
 
+#styledPicker {
+    cursor: pointer;
+    border-radius: 0.5rem;
+    border-color: var(--main);
+    border-style: outset;
+    background-color: black;
+    width: 7vh;
+    height: 7vh;
+    display: inline-block;
+}
 
 footer {
     color: var(--accent);
@@ -145,4 +159,16 @@ footer {
 
 h3 {
     font-family: "Work Sans";
+}
+
+#colors {
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+#colors h3 {
+    color: var(--ihardlyknowher);
 }
