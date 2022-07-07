@@ -32,8 +32,6 @@ function init(){
     document.getElementById("bottomtext").value = "";
     document.getElementById("TopRange").value = 100;
     document.getElementById("BotRange").value = 100;
-    document.getElementById("toptext").value = "TopText";
-    document.getElementById("bottomtext").value = "BottomText";
     }
 
 // Add image on canva
