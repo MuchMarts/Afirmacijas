@@ -92,12 +92,15 @@
                     </div>
 
                     <div id="textBot">
-                       
+                        <div>
                             <label for="bottomtext">Teksts apakšā: </label>
                             <input type="text" id="bottomtext">
-                      
+                        </div>
+                        <div>
                             <label for="textcolor"></label>
-                            <input type="range" min="1" max="200" value="100" class="slider" id="BotRange">                            
+                            <input type="range" min="1" max="200" value="100" class="slider" id="BotRange">    
+                        </div>
+                        
                     </div>
                     
                     <div id="settings">
@@ -145,6 +148,10 @@
         </div>
     </div>
     <div id="finished"></div>
+    
+    <div id="downloadButton">
+        <button class="download" role="button" onclick="saveFile(1080)"><h3>Lejupielādēt</h3></button>
+    </div>
     <script src="script.js"></script>
 </body>
 <footer>
