@@ -20,6 +20,11 @@ var text = {
 var borderCol = "";
 var aspectAnchor = 0; // for 1080p whether bottom or left is 1080 px if 0 bottom if 1 side
 
+const overlays = [
+    "imgOverlay",
+    "borderOverlay",
+    "textOverlay"
+]
 var openOverlay = "imgOverlay";
 
 function init(){
@@ -198,7 +203,7 @@ function setBorder(borderColour, ctxborder, width, height){
     console.log(width);
     console.log(height)
 
-    borderWidth = width/50;
+    borderWidth = width/30;
     ctxborder.fillStyle = borderColour;
     ctxborder.shadowColor = borderColour;
     ctxborder.shadowBlur = 30;
@@ -362,6 +367,13 @@ function rerender() {
 
 function toggleHide(elemID){
     var elem = document.getElementById(elemID);
+    
+    for(i = 0; i<overlays.length; i++){
+        if(!document.getElementById(overlays[i]).classList.contains("hidden")){
+            document.getElementById(overlays[i]).classList.toggle("hidden");
+        }
+    }
+    
     elem.classList.toggle("hidden");
 }
 

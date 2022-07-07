@@ -172,3 +172,11 @@ h3 {
 #colors h3 {
     color: var(--ihardlyknowher);
 }
+#textTop {
+    display: flex;
+    flex-direction: row;
+}
+#textBot {
+    display: flex;
+    flex-direction: row;
+}

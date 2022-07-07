@@ -75,6 +75,37 @@
                     <input type="color" id="colorpicker" onchange="updateColorPicker()">
                 </div>
             </div>
+
+            <div id="textOverlay" class="hidden">
+                <div id="input">
+                    <div id="textTop">
+                        <div>   
+                            <label for="toptext">Teksts augšā: </label>
+                            <input type="text" id="toptext">
+                        </div>
+                        <div>
+                            <label for="textcolor"></label>
+                            <input type="range" min="1" max="200" value="100" class="slider" id="TopRange">
+                        </div>
+                        
+                        
+                    </div>
+
+                    <div id="textBot">
+                       
+                            <label for="bottomtext">Teksts apakšā: </label>
+                            <input type="text" id="bottomtext">
+                      
+                            <label for="textcolor"></label>
+                            <input type="range" min="1" max="200" value="100" class="slider" id="BotRange">                            
+                    </div>
+                    
+                    <div id="settings">
+                        <label for="textcolor">Krāsa tekstam: </label>
+                        <input type="color" id="textcolor">
+                    </div>     
+                </div>
+            </div>  
         </div>
 
         <div id="interface" class="column" hidden>
@@ -104,10 +135,7 @@
                         <input type="range" min="1" max="200" value="100" class="slider" id="BotRange">
                     </div>
                 </div>
-                <div id="settings">
-                    <label for="textcolor">Krāsa tekstam: </label>
-                    <input type="color" id="textcolor">     
-                </div>
+                
             </div>
 
             <div id="finalControls" class="section">
