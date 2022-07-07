@@ -52,66 +52,66 @@
             </div>
         </figure>
         </div>
-
-        <div id="button-menu">
-            <button class="button" role="button" onclick="toggleHide('imgOverlay')"><h3>Bilde</h3></button>
-            <button class="button" role="button" onclick="toggleHide('borderOverlay')"><h3>Rāmis</h3></button>
-            <button class="button" role="button" onclick="toggleHide('textOverlay')"><h3>Teksts</h3></button>
-        </div>
-
-        <div id="overlays">
-            <div id="imgOverlay" class="">
-                <div id="inputFile" class="section">      
-                    <input type="file" id="userFile" class="" name="filename" accept="image/*" onchange="handleFiles()">
-                    <label for="userFile" id="btn-style-label">Izvēlies attēlu</label>
-                    <span id="file-chosen">trūkst attēla ;-;</span>
-                </div>
+        <div id="interface">
+            <div id="button-menu">
+                <button class="button" role="button" onclick="toggleHide('imgOverlay')"><h3>Bilde</h3></button>
+                <button class="button" role="button" onclick="toggleHide('borderOverlay')"><h3>Rāmis</h3></button>
+                <button class="button" role="button" onclick="toggleHide('textOverlay')"><h3>Teksts</h3></button>
             </div>
 
-            <div id="borderOverlay" class="hidden">
-                <div id="colors" class="section">
-                    <h3>Izvēlies rāmja krāsu:</h3>
-                    <label id="styledPicker" for="colorpicker"></label>
-                    <input type="color" id="colorpicker" onchange="updateColorPicker()">
+            <div id="overlays">
+                <div id="imgOverlay" class="hidden">
+                    <div id="inputFile" class="section">      
+                        <input type="file" id="userFile" class="" name="filename" accept="image/*" onchange="handleFiles()">
+                        <label for="userFile" id="btn-style-label">Izvēlies attēlu</label>
+                        <span id="file-chosen">trūkst attēla ;-;</span>
+                    </div>
                 </div>
+
+                <div id="borderOverlay" class="hidden">
+                    <div id="colors" class="section">
+                        <h3>Izvēlies rāmja krāsu:</h3>
+                        <label id="styledPicker" for="colorpicker"></label>
+                        <input type="color" id="colorpicker" onchange="updateColorPicker()">
+                    </div>
+                </div>
+
+                <div id="textOverlay" class="">
+                    <div id="input">
+                        <div id="textTop">
+                            <div>   
+                                <input type="text" id="toptext">
+                            </div>
+                            <div>
+                                <input type="range" min="1" max="200" value="100" class="slider" id="TopRange">
+                            </div>
+                            
+                            
+                        </div>
+
+                        <div id="textBot">
+                            <div>
+                                <input type="text" id="bottomtext">
+                            </div>
+                            <div>
+                                <input type="range" min="1" max="200" value="100" class="slider" id="BotRange">    
+                            </div>
+                            
+                        </div>
+                        
+                        <div id="settings">
+                            <label for="textcolor">Krāsa tekstam: </label>
+                            <input type="color" id="textcolor">
+                        </div>     
+                    </div>
+                </div>  
             </div>
-
-            <div id="textOverlay" class="hidden">
-                <div id="input">
-                    <div id="textTop">
-                        <div>   
-                            <label for="toptext">Teksts augšā: </label>
-                            <input type="text" id="toptext">
-                        </div>
-                        <div>
-                            <label for="textcolor"></label>
-                            <input type="range" min="1" max="200" value="100" class="slider" id="TopRange">
-                        </div>
-                        
-                        
-                    </div>
-
-                    <div id="textBot">
-                        <div>
-                            <label for="bottomtext">Teksts apakšā: </label>
-                            <input type="text" id="bottomtext">
-                        </div>
-                        <div>
-                            <label for="textcolor"></label>
-                            <input type="range" min="1" max="200" value="100" class="slider" id="BotRange">    
-                        </div>
-                        
-                    </div>
-                    
-                    <div id="settings">
-                        <label for="textcolor">Krāsa tekstam: </label>
-                        <input type="color" id="textcolor">
-                    </div>     
-                </div>
-            </div>  
+            <div id="downloadButton">
+                <button class="download" role="button" onclick="saveFile(1080)"><h3>Lejupielādēt</h3></button>
+            </div>
         </div>
 
-        <div id="interface" class="column" hidden>
+        <div id="" class="column" hidden>
              
             <p id="text">Spied lejā, lai izvēlētos un augšupielādētu savu bildi!</p>
 
@@ -149,9 +149,6 @@
     </div>
     <div id="finished"></div>
     
-    <div id="downloadButton">
-        <button class="download" role="button" onclick="saveFile(1080)"><h3>Lejupielādēt</h3></button>
-    </div>
     <script src="script.js"></script>
 </body>
 <footer>
