@@ -150,6 +150,10 @@ function handleFiles(){
         tempUrl = URL.createObjectURL(userFile.files[0]);
         imgURL = tempUrl;
         add_img(tempUrl, imgcanvas, imgcanvas.clientWidth, imgcanvas.clientHeight);
+
+        const txtSpan = document.getElementById("file-chosen");
+        txtSpan.textContent = userFile.files[0].name;
+
     }
 }
 
@@ -359,4 +363,3 @@ function toggleHide(elemID){
 }
 
 new ResizeObserver(() => rerender()).observe(imgcanvas);
-

@@ -59,7 +59,6 @@ a:hover {
 figure { 
     aspect-ratio: 1/1;
     max-height: 100%;
-
     position: relative;
     
     margin: 0px;
@@ -84,7 +83,10 @@ figure {
     background-color: var(--ihardlyknowher);
     color: var(--accent);
     border: none;
-    width: 33%;
+    width: 24%;
+    border-radius: 0.2rem;
+
+    transition: 0.5s;
 }
 
 .button:disabled {
@@ -101,18 +103,37 @@ figure {
 }
 
 #imgOverlay {
-    margin: 10px;
+    margin: 15px;
+
 }
 
 #btn-style-label {
     background-color: var(--ihardlyknowher);
     color: var(--accent);
+    padding: 0.5rem;
+    font-family: "Work Sans";
+    font-size: larger;
+    border-radius: 0.2rem;
     cursor: pointer;
+    margin-top: 1rem;
+    transition: 0.5s;
+}
+
+#btn-style-label:hover {
+    background-color: var(--main);
+    color: var(--ihardlyknowher);
 }
 
 #userFile {
     display: none;
 }
+
+#file-chosen{
+    margin-left: 0.3rem;
+    font-family: sans-serif;
+}
+
+
 
 footer {
     color: var(--accent);

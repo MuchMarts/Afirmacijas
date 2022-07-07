@@ -57,13 +57,23 @@
             <button class="button" role="button" onclick="toggleHide('imgOverlay')"><h3>Bilde</h3></button>
             <button class="button" role="button" onclick="toggleHide('borderOverlay')"><h3>Rāmis</h3></button>
             <button class="button" role="button" onclick="toggleHide('textOverlay')"><h3>Teksts</h3></button>
+            <button class="button" role="button" onclick="saveFile(1080)"><h3>Lejupielādēt</h3></button>
+
         </div>
 
         <div id="overlays">
             <div id="imgOverlay" class="hidden">
                 <div id="inputFile" class="section">      
                     <input type="file" id="userFile" class="" name="filename" accept="image/*" onchange="handleFiles()">
-                    <label for="userFile" id="btn-style-label"><h3>Izvēlies attēlu</h3></label>
+                    <label for="userFile" id="btn-style-label">Izvēlies attēlu</label>
+                    <span id="file-chosen">trūkst attēla ;-;</span>
+                </div>
+            </div>
+
+            <div id="borderOverlay" class="">
+                <div id="colors" class="section"> 
+                    <label for="colorpicker">Izvēlies krāsu rāmim: </label>
+                    <input type="color" id="colorpicker">
                 </div>
             </div>
         </div>
@@ -72,11 +82,7 @@
              
             <p id="text">Spied lejā, lai izvēlētos un augšupielādētu savu bildi!</p>
 
-            <div id="inputFile" class="section">      
-                <input type="file" id="userFile" class="" name="filename" accept="image/*" onchange="handleFiles()">
-                <label for="userFile" id="btn-style-label">Izvēlies attēlu</label>
-            </div>
-
+    
             <div id="colors" class="section"> 
                 <label for="colorpicker">Izvēlies krāsu rāmim: </label>
                 <input type="color" id="colorpicker">
