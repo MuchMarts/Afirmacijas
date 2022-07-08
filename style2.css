@@ -107,6 +107,8 @@ p a{
     font-size: 1.25rem;
 }
 
+
+
 @media only screen and (max-width: 900px) {
     p{
         max-width: 90vw;
@@ -127,5 +129,12 @@ p a{
     h3 {
         font-family: 'Work Sans', sans-serif;
         font-size: 1.5rem;
+    }
+    .columnig {
+        display: none;
+    }
+
+    .columnig:first-child {
+        display: block;
     }
 }
