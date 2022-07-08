@@ -13,10 +13,9 @@
 }
 
 body {
-    height: 100%;
+    height: 100vh;
     margin: 0px auto;
     padding: 0px;
-    
 }
 
 header {
@@ -63,13 +62,15 @@ figure {
     
     margin: 0px;
     margin-left: auto;
-    margin-right: auto;
+    margin-right: auto; 
+    background-color: var(--accent);
+    border: 10px double var(--ihardlyknowher);
 }
 
 .relative-full { position: absolute; width: 100%; height: 100%; left: 0px; top: 0px;}
 
 #canvases {
-    border: 10px solid var(--ihardlyknowher);
+    background-color: var(--ihardlyknowher);
 }
 
 #button-menu {
@@ -160,6 +161,11 @@ footer {
     padding-top: 1vh;
 }
 
+h2 {
+    font-family: "Work Sans";
+    margin: 0px;
+}
+
 h3 {
     font-family: "Work Sans";
 }
@@ -212,7 +218,7 @@ h3 {
 #interface{
     width: 95%;
     margin-left: auto;
-    margin-right: auto;
+    margin-right: auto;    
 }
 
 #overlays {
@@ -233,4 +239,22 @@ h3 {
 #textBot {
     display: flex;
     align-items: center;
+}
+
+@media only screen and (min-width: 1080px) {
+    figure {
+        max-height: 60vh;
+    }
+    #interface {
+        max-width: 70vh;
+    }
+
+    h1 {
+        font-size: 4rem;
+    }
+
+    h3 {
+        font-size: 2rem;
+        margin: 1.5vh;
+    }
 }
