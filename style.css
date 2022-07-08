@@ -138,11 +138,11 @@ figure {
     font-family: 'Work Sans', sans-serif;
 }
 
-#colorpicker {
+.hiddenpicker {
     display: none;
 }
 
-#styledPicker {
+.styledPicker {
     cursor: pointer;
     border-radius: 0.5rem;
     border-color: var(--main);
@@ -179,7 +179,7 @@ h3 {
     align-items: center;
 }
 
-#colors h3 {
+.section h3 {
     color: var(--ihardlyknowher);
 }
 #textTop {

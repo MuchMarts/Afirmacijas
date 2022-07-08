@@ -69,15 +69,15 @@
                 </div>
 
                 <div id="borderOverlay" class="hidden">
-                    <div id="colors" class="section">
+                    <div id="colors"  class="section">
                         <h3>Izvēlies rāmja krāsu:</h3>
-                        <label id="styledPicker" for="colorpicker"></label>
-                        <input type="color" id="colorpicker" onchange="updateColorPicker()">
+                        <label class="styledPicker" for="colorpicker"></label>
+                        <input type="color" class="hiddenpicker" id="colorpicker" onchange="updateColorPicker()">
                     </div>
                 </div>
 
                 <div id="textOverlay" class="hidden">
-                    <div id="input">
+                    <div id="input" class="section">
                         <div id="textInput">
                         <div id="textTop">
                             <div>   
@@ -99,12 +99,14 @@
                             </div>
                             
                         </div>
-                        </div>
+                        
                         <div id="settings">
-                            <label for="textcolor">Krāsa tekstam: </label>
-                            <input type="color" id="textcolor">
+                            <h3>Izvēlies teksta krāsu:</h3>
+                            <label class="styledPicker" for="textcolor"></label>
+                            <input type="color" class="hiddenpicker" id="textcolor">
                         </div>     
                     </div>
+                </div>
                 </div>  
             </div>
             <div id="downloadButton">
