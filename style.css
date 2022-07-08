@@ -8,7 +8,7 @@
 }
 
 @font-face {
-    font-family: 'Work Sans';
+    font-family: 'Work Sans', sans-serif;
     src: url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@600;700&display=swap');
 }
 
@@ -27,7 +27,7 @@ header {
 }
 
 h1 {
-    font-family: "Work Sans";
+    font-family: 'Work Sans', sans-serif;
     font-weight: 600;
     font-size: 2.5em;
     margin: 0px;
@@ -116,7 +116,7 @@ figure {
     background-color: var(--ihardlyknowher);
     color: var(--accent);
     padding: 0.5rem;
-    font-family: "Work Sans";
+    font-family: 'Work Sans', sans-serif;
     font-size: larger;
     border-radius: 0.2rem;
     cursor: pointer;
@@ -135,11 +135,11 @@ figure {
 
 #file-chosen{
     margin-left: 0.3rem;
-    font-family: sans-serif;
+    font-family: 'Work Sans', sans-serif;
 }
 
 #colorpicker {
-    visibility: hidden;
+    display: none;
 }
 
 #styledPicker {
@@ -162,12 +162,12 @@ footer {
 }
 
 h2 {
-    font-family: "Work Sans";
+    font-family: 'Work Sans', sans-serif;
     margin: 0px;
 }
 
 h3 {
-    font-family: "Work Sans";
+    font-family: 'Work Sans', sans-serif;
 }
 
 #colors {
@@ -218,7 +218,8 @@ h3 {
 #interface{
     width: 95%;
     margin-left: auto;
-    margin-right: auto;    
+    margin-right: auto;
+        
 }
 
 #overlays {
@@ -229,7 +230,7 @@ h3 {
 
 #textOverlay h4{
     margin: 0;
-    font-family: "Work Sans";
+    font-family: 'Work Sans', sans-serif;
     color: var(--ihardlyknowher);
 }
 #textTop {
@@ -257,4 +258,15 @@ h3 {
         font-size: 2rem;
         margin: 1.5vh;
     }
+
+    #overlays {
+        font-size: 2rem;
+        font-family: 'Work Sans', sans-serif;
+    }
+    #input {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
 }

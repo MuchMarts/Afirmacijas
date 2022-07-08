@@ -60,7 +60,7 @@
             </div>
 
             <div id="overlays">
-                <div id="imgOverlay" class="hidden">
+                <div id="imgOverlay" class="">
                     <div id="inputFile" class="section">      
                         <input type="file" id="userFile" class="" name="filename" accept="image/*" onchange="handleFiles()">
                         <label for="userFile" id="btn-style-label">Izvēlies attēlu</label>
@@ -76,8 +76,9 @@
                     </div>
                 </div>
 
-                <div id="textOverlay" class="">
+                <div id="textOverlay" class="hidden">
                     <div id="input">
+                        <div id="textInput">
                         <div id="textTop">
                             <div>   
                                 <input type="text" id="toptext" placeholder="Augšējais Teksts">
@@ -98,7 +99,7 @@
                             </div>
                             
                         </div>
-                        
+                        </div>
                         <div id="settings">
                             <label for="textcolor">Krāsa tekstam: </label>
                             <input type="color" id="textcolor">
