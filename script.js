@@ -178,7 +178,6 @@ function convertHex(hexCode, opacity = 1){
         g = parseInt(hex.substring(2,4), 16),
         b = parseInt(hex.substring(4,6), 16);
 
-    /* Backward compatibility for whole number based opacity values. */
     if (opacity > 1 && opacity <= 100) {
         opacity = opacity / 100;   
     }
@@ -237,8 +236,6 @@ function setGradient(x, y, x1, y1, color){
 }
 
 //Text
-
-
 
 function drawText(text, fontSize, x, y, txtCon, size){
     var  maxWidth = size * 0.9;
