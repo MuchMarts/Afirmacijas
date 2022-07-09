@@ -139,7 +139,9 @@ figure {
 }
 
 .hiddenpicker {
-    display: none;
+    height: 0;
+    position: absolute;
+    width: 0;
 }
 
 .styledPicker {
