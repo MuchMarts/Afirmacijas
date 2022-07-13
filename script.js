@@ -301,10 +301,10 @@ function initTxtPos(txtType, width){
 document.getElementById("textcolor").addEventListener("change", function(){
     //Changes text color on user color input
     if(text.topTxt.length != 0){
-        drawTopText(textcanvas, textcanvas.clientWidth/2, initTxtPos("top", textcanvas.clientHeight));
+        drawTopText(textcanvas, topTextCords.x, topTextCords.y);
     }
     if(text.botTxt.length != 0){
-        drawBotText(textcanvas, textcanvas.clientWidth/2, initTxtPos("bot", textcanvas.clientHeight));
+        drawBotText(textcanvas, botTextCords.x, botTextCords.y);
     }
 })
 
@@ -312,14 +312,14 @@ document.getElementById("toptext").addEventListener("change", function(){
     //Sets TOP text on user text input
     ctxt.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight/2);
     text.topTxt = document.getElementById("toptext").value.toUpperCase();
-    drawTopText(textcanvas, textcanvas.clientWidth/2 ,initTxtPos("top", textcanvas.clientHeight));
+    drawTopText(textcanvas, topTextCords.x, topTextCords.y);
 });
 
 document.getElementById("bottomtext").addEventListener("change", function(){
     //Sets BOTTOM text on user text input
     ctxt.clearRect(0, textcanvas.clientHeight/2, textcanvas.clientWidth, textcanvas.clientHeight/2);
     text.botTxt = document.getElementById("bottomtext").value.toUpperCase();
-    drawBotText(textcanvas, textcanvas.clientWidth/2 ,initTxtPos("bot", textcanvas.clientHeight));
+    drawBotText(textcanvas, botTextCords.x, botTextCords.y);
 });
 
 var sliderTop = document.getElementById("TopRange"); 
@@ -358,9 +358,9 @@ function dragText(e){
     }
  
     if( e.pageX < botTextCords.x+ textcanvas.clientWidth*0.45 +document.getElementById('result').offsetLeft &&
-    e.pageX > botTextCords.x- textcanvas.clientWidth*0.45 +document.getElementById('result').offsetLeft &&
-    e.pageY < botTextCords.y + 20 + document.getElementById('result').offsetTop &&
-    e.pageY > botTextCords.y - textcanvas.clientHeight/4 +document.getElementById('result').offsetTop)
+        e.pageX > botTextCords.x- textcanvas.clientWidth*0.45 +document.getElementById('result').offsetLeft &&
+        e.pageY < botTextCords.y + 20 + document.getElementById('result').offsetTop &&
+        e.pageY > botTextCords.y - textcanvas.clientHeight/4 +document.getElementById('result').offsetTop)
         {
             dragok = true;
 
