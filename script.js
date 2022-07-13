@@ -13,6 +13,9 @@ const ctxt = textcanvas.getContext("2d");
 textcanvas.onmousedown = dragText;
 textcanvas.onmouseup = dropText;
 
+textcanvas.addEventListener("touchstart", dragText);
+textcanvas.addEventListener("touchend", dropText);
+
 var imgURL = "";
 var text = {  
     topTxt : "",
