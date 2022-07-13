@@ -10,8 +10,6 @@ const ctxb = bordercanvas.getContext("2d");
 const textcanvas = document.getElementById("text");
 const ctxt = textcanvas.getContext("2d");
 //for moving text
-textcanvas.onmousedown = dragText;
-textcanvas.onmouseup = dropText;
 
 textcanvas.addEventListener("touchstart", function(){
     this.onmousedown.preventDefault();
@@ -20,6 +18,9 @@ textcanvas.addEventListener("touchstart", function(){
     dragText;
 });
 textcanvas.addEventListener("touchend", dropText);
+
+textcanvas.onmousedown = dragText;
+textcanvas.onmouseup = dropText;
 
 var imgURL = "";
 var text = {  
