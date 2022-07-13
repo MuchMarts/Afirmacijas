@@ -94,7 +94,7 @@ function constructCanva(canva){
         drawBotText(canva, (botTextCords.x/textcanvas.clientWidth) * canva.clientWidth, (botTextCords.y/textcanvas.clientHeight) * canva.clientHeight);     
         
         const temp = document.createElement("a");
-        temp.href = canva.toDataURL();
+        temp.href = canva.toDataURL(); 
         temp.download = "afirmacija";
         temp.click();
         temp.remove;
@@ -271,7 +271,9 @@ function drawTopText(canva, x, y){
 } 
 
 function drawBotText(canva, x, y){
-    if(text.botTxt == ""){console.log("Missing Bot Text"); return};
+    if(text.botTxt == ""){console.log("Missing Bottom Text"); return};
+    ctxt.clearRect(0, textcanvas.clientHeight/2, textcanvas.clientWidth, textcanvas.clientHeight/2);
+
     var ctx = canva.getContext("2d");
 
     ctx.clearRect(0, textcanvas.clientHeight/2, textcanvas.clientWidth, textcanvas.clientHeight/2);
@@ -293,11 +295,11 @@ function initTxtPos(txtType, width){
 
 document.getElementById("textcolor").addEventListener("change", function(){
     //Changes text color on user color input
-    if(text.botTxt.length != 0){
-        drawTopText(textcanvas, textcanvas.clientWidth/2 ,initTxtPos("top", textcanvas.clientHeight));
+    if(text.topTxt.length != 0){
+        drawTopText(textcanvas, textcanvas.clientWidth/2, initTxtPos("top", textcanvas.clientHeight));
     }
     if(text.botTxt.length != 0){
-        drawBotText(textcanvas, textcanvas.clientWidth/2 ,initTxtPos("bot", textcanvas.clientHeight));
+        drawBotText(textcanvas, textcanvas.clientWidth/2, initTxtPos("bot", textcanvas.clientHeight));
     }
 })
 
