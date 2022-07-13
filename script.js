@@ -71,8 +71,8 @@ function constructCanva(canva){
         if(borderCol != ""){setBorder(borderCol, ctx, canva.clientWidth, canva.clientHeight);}
         ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 0; //wtf is this???
 
-        drawTopText(canva, (topTextCords.x/textcanvas.clientWidth) * canva.clientWidth, (topTextCords.y/textcanvas.clientHeight) * canva.clientHeight);
-        drawBotText(canva, (botTextCords.x/textcanvas.clientWidth) * canva.clientWidth, (botTextCords.y/textcanvas.clientHeight) * canva.clientHeight);     
+        drawTopText(canva, (topTextCords.x/textcanvas.clientWidth) * canva.clientWidth, (topTextCords.y/textcanvas.clientHeight) * canva.clientHeight, 1);
+        drawBotText(canva, (botTextCords.x/textcanvas.clientWidth) * canva.clientWidth, (botTextCords.y/textcanvas.clientHeight) * canva.clientHeight, 1);     
         
         const temp = document.createElement("a");
         temp.href = canva.toDataURL();
@@ -90,8 +90,8 @@ function constructCanva(canva){
         if(borderCol != ""){setBorder(borderCol, ctx, canva.clientWidth, canva.clientHeight);}
         ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 0; //wtf is this???
         
-        drawTopText(canva, (topTextCords.x/textcanvas.clientWidth) * canva.clientWidth, (topTextCords.y/textcanvas.clientHeight) * canva.clientHeight);
-        drawBotText(canva, (botTextCords.x/textcanvas.clientWidth) * canva.clientWidth, (botTextCords.y/textcanvas.clientHeight) * canva.clientHeight);     
+        drawTopText(canva, (topTextCords.x/textcanvas.clientWidth) * canva.clientWidth, (topTextCords.y/textcanvas.clientHeight) * canva.clientHeight, 1);
+        drawBotText(canva, (botTextCords.x/textcanvas.clientWidth) * canva.clientWidth, (botTextCords.y/textcanvas.clientHeight) * canva.clientHeight, 1);     
         
         const temp = document.createElement("a");
         temp.href = canva.toDataURL(); 
@@ -258,26 +258,26 @@ function drawText(text, fontSize, x, y, txtCon, size){
     txtCon.fillText(text, x, y, maxWidth);
 }
 
-function drawTopText(canva, x, y){
+function drawTopText(canva, x, y, final){
     if(text.topTxt == ""){console.log("Missing Top Text"); return};
     var ctx = canva.getContext("2d");
-    
-    ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight/2);
-
+    if(!final){
+        ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight/2);
+    }
     topTextCords.x = x;
     topTextCords.y = y;
 
     drawText(text.topTxt, text.txtRatioTop, x, y, ctx, canva.clientWidth);
 } 
 
-function drawBotText(canva, x, y){
+function drawBotText(canva, x, y, final){
     if(text.botTxt == ""){console.log("Missing Bottom Text"); return};
     ctxt.clearRect(0, textcanvas.clientHeight/2, textcanvas.clientWidth, textcanvas.clientHeight/2);
 
     var ctx = canva.getContext("2d");
-
-    ctx.clearRect(0, textcanvas.clientHeight/2, textcanvas.clientWidth, textcanvas.clientHeight/2);
-
+    if(!final){
+        ctx.clearRect(0, textcanvas.clientHeight/2, textcanvas.clientWidth, textcanvas.clientHeight/2);
+    }
     botTextCords.x = x;
     botTextCords.y = y;    
 
