@@ -272,9 +272,10 @@ function drawTopText(canva, x, y, final){
 
 function drawBotText(canva, x, y, final){
     if(text.botTxt == ""){console.log("Missing Bottom Text"); return};
-    ctxt.clearRect(0, textcanvas.clientHeight/2, textcanvas.clientWidth, textcanvas.clientHeight/2);
-
     var ctx = canva.getContext("2d");
+
+    ctx.clearRect(0, textcanvas.clientHeight/2, textcanvas.clientWidth, textcanvas.clientHeight/2);
+
     if(!final){
         ctx.clearRect(0, textcanvas.clientHeight/2, textcanvas.clientWidth, textcanvas.clientHeight/2);
     }
