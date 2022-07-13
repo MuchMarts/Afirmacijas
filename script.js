@@ -294,14 +294,14 @@ function setTopTxt(){
     //TOP text setter
     ctxt.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight/2);
     text.topTxt = document.getElementById("toptext").value.toUpperCase();
-    drawText(text.topTxt, text.txtRatioTop, textcanvas.clientWidth/2, textcanvas.clientHeight*(0.15 + text.txtRatioTop * 0.4), ctxt, textcanvas.clientWidth);
+    drawText(text.topTxt, text.txtRatioTop, textcanvas.clientWidth/2, textcanvas.clientHeight*(0.15 + text.txtRatioTop * 0.15), ctxt, textcanvas.clientWidth);
 }
 
 function setBttmTxt(){
     //BOTTOM text setter
     ctxt.clearRect(0, textcanvas.clientHeight/2, textcanvas.clientWidth, textcanvas.clientHeight/2);
     text.botTxt = document.getElementById("bottomtext").value.toUpperCase();
-    drawText(text.botTxt, text.txtRatioBot, textcanvas.clientWidth/2, textcanvas.clientHeight*0.9, ctxt, textcanvas.clientWidth);
+    drawText(text.botTxt, text.txtRatioBot, textcanvas.clientWidth/2, textcanvas.clientHeight*0.92, ctxt, textcanvas.clientWidth);
 }
 
 document.getElementById("toptext").addEventListener("change", function(){

@@ -80,7 +80,7 @@ figure {
     justify-content: space-between;
     padding-top: 2px;
     padding-bottom: 2px;
-    width: 100%;
+    width: 95%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -117,9 +117,9 @@ figure {
 #btn-style-label {
     background-color: var(--ihardlyknowher);
     color: var(--accent);
+    border: 2px solid var(--main);
     padding: 0.5rem;
     font-family: 'Work Sans', sans-serif;
-    font-size: larger;
     border-radius: 0.2rem;
     cursor: pointer;
     margin-top: 1rem;
@@ -265,7 +265,7 @@ h3 {
     }
 
     #overlays {
-        font-size: 2rem;
+        font-size: 1.5rem;
         font-family: 'Work Sans', sans-serif;
     }
     #input {
