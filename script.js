@@ -360,6 +360,7 @@ function dragText(e){
             relTextCords.y = topTextCords.y - tempy;
 
             textcanvas.onmousemove = moveTextTop;
+            textcanvas.addEventListener("touchmove", moveTextTop);
     }
  
     if( e.pageX < botTextCords.x+ textcanvas.clientWidth*0.45 +document.getElementById('result').offsetLeft &&
@@ -376,6 +377,7 @@ function dragText(e){
             relTextCords.y = botTextCords.y - tempy;
 
             textcanvas.onmousemove = moveTextBot;
+            textcanvas.addEventListener("touchmove", moveTextBot);
     }
 }
 
