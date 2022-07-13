@@ -44,21 +44,7 @@ function add_img(src, canva) {
     }
 }
 
-//Merge multiple canvas
-function mergeCanvas(imageID, borderID, textID, ctx, size){
-    var baseCanva = document.getElementById(imageID);
-    var border = document.getElementById(borderID);
-    var text = document.getElementById(textID);
-    //var textBlur = document.getElementById(textBlurID);
-    
-    ctx.drawImage(baseCanva, 0, 0, size, size);
-    ctx.drawImage(border, 0, 0, size, size);
-    //ctx.drawImage(textBlur, 0, 0, size, size);
-    ctx.drawImage(text, 0, 0, size, size);
-}
-
 //Construct canva from stored data
-
 function constructCanva(canva){
     var ctx = canva.getContext("2d");
 
@@ -109,7 +95,8 @@ function changeAspect(){
 //Clear canvas
 function clearCanvas(elem){
     var ctx = elem.getContext("2d");
-    ctx.clearRect(0, 0, imgcanvas.clientWidth, imgcanvas.clientHeight);}
+    ctx.clearRect(0, 0, imgcanvas.clientWidth, imgcanvas.clientHeight);
+}
 
 //Clear all
 function clearAll(){
@@ -117,6 +104,7 @@ function clearAll(){
     clearCanvas(document.getElementById("border"));
     clearCanvas(document.getElementById("text"));
 }
+
 // Creates final canva and exports it
 function downloadCanvas(size){
         
@@ -130,7 +118,7 @@ function downloadCanvas(size){
     
     if(aspectAnchor){
         //size == height
-        new_canvas.width = size * aspectRatio; 
+        new_canvas.width = size; 
         new_canvas.height = size;   
     } else {
         new_canvas.width = size;
@@ -185,8 +173,6 @@ function convertHex(hexCode, opacity = 1){
     return rgba;
 }
 
-
-
 var color = document.getElementById("colorpicker").value;
 
 document.getElementById("colorpicker").addEventListener("change", function(){
@@ -199,10 +185,8 @@ document.getElementById("colorpicker").addEventListener("change", function(){
 function setBorder(borderColour, ctxborder, width, height){  
     //Formats and sets border with user color input
 
-    console.log(width);
-    console.log(height)
-
     borderWidth = width/30;
+    
     ctxborder.fillStyle = borderColour;
     ctxborder.shadowColor = borderColour;
     ctxborder.shadowBlur = 30;
@@ -229,7 +213,7 @@ function setGradient(x, y, x1, y1, color){
     var r = rgba[0], g = rgba[1], b = rgba[2];
     var gradient = ctxb.createLinearGradient(x, y, x1, y1);
     gradient.addColorStop(0, `rgba(${r},${g},${b},1)`);
-    //gradient.addColorStop(0.35, `rgba(${r},${g},${b},.95)`);
+    //gradient.addColorStop(0.35, `rgba(${r},${g},${b},.95)`); //idk
     gradient.addColorStop(0.7, `rgba(${r},${g},${b},.2)`);
     gradient.addColorStop(1, `rgba(${r},${g},${b},0)`);
     return gradient;
@@ -374,9 +358,9 @@ function toggleHide(elemID){
     elem.classList.toggle("hidden");
 }
 
-function updateColorPicker(){
-    var colour = document.getElementById("colorpicker").value;
-    document.getElementById("styledPicker").style.backgroundColor = colour;
+function updateColorPicker(btn_index){
+    var colour = document.getElementsByClassName("hiddenpicker")[btn_index].value;
+    document.getElementsByClassName("styledPicker")[btn_index].style.backgroundColor = colour;
 }
 
 new ResizeObserver(() => rerender()).observe(imgcanvas);
