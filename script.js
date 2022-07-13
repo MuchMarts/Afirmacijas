@@ -261,9 +261,12 @@ function drawText(text, fontSize, x, y, txtCon, size){
 function drawTopText(canva, x, y, final){
     if(text.topTxt == ""){console.log("Missing Top Text"); return};
     var ctx = canva.getContext("2d");
-    if(!final){
-        ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight/2);
+    
+    if(text.botTxt != "" && !final){
+        ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight);
+        drawText(text.botTxt, text.txtRatioBot, botTextCords.x, botTextCords.y, ctx, canva.clientWidth);
     }
+
     topTextCords.x = x;
     topTextCords.y = y;
 
@@ -274,11 +277,12 @@ function drawBotText(canva, x, y, final){
     if(text.botTxt == ""){console.log("Missing Bottom Text"); return};
     var ctx = canva.getContext("2d");
 
-    ctx.clearRect(0, textcanvas.clientHeight/2, textcanvas.clientWidth, textcanvas.clientHeight/2);
-
-    if(!final){
-        ctx.clearRect(0, textcanvas.clientHeight/2, textcanvas.clientWidth, textcanvas.clientHeight/2);
+    
+    if(text.topTxt != "" && !final){
+        ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight);
+        drawText(text.topTxt, text.txtRatioTop, topTextCords.x, topTextCords.y, ctx, canva.clientWidth);
     }
+
     botTextCords.x = x;
     botTextCords.y = y;    
 
