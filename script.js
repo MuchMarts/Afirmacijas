@@ -13,7 +13,11 @@ const ctxt = textcanvas.getContext("2d");
 textcanvas.onmousedown = dragText;
 textcanvas.onmouseup = dropText;
 
-textcanvas.addEventListener("touchstart", dragText);
+textcanvas.addEventListener("touchstart", function(){
+    this.onmousedown.preventDefault();
+    this.onmouseup.preventDefault();
+    dragText;
+});
 textcanvas.addEventListener("touchend", dropText);
 
 var imgURL = "";
