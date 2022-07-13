@@ -19,6 +19,7 @@ var text = {
     botTxt : "",
     txtRatioTop: 100/imgcanvas.clientWidth,
     txtRatioBot: 100/imgcanvas.clientWidth,
+    borderBlurRatio: 15/textcanvas.clientWidth,
 }
 
 var topTextCords = {
@@ -37,6 +38,7 @@ var relTextCords = {
 }
 
 var borderCol = "";
+
 var aspectAnchor = 0; // for 1080p whether bottom or left is 1080 px if 0 bottom if 1 side
 
 const overlays = [
@@ -241,7 +243,7 @@ function setGradient(x, y, x1, y1, color){
 //Text
 var maxWidth = 0;
 
-function drawText(text, fontSize, x, y, txtCon, size){
+function drawText(text, fontSize, x, y, txtCon, size, blurRatio){
     maxWidth = size * 0.9;
     
     //Text formatting
@@ -252,7 +254,7 @@ function drawText(text, fontSize, x, y, txtCon, size){
     txtCon.font = '700 '+ fontSize * size + 'px Work Sans';
     txtCon.fillStyle = '#FFFFFF';
     txtCon.shadowColor = document.getElementById("textcolor").value;
-    txtCon.shadowBlur = 15;
+    txtCon.shadowBlur = blurRatio * size;
 
     txtCon.fillText(text, x, y, maxWidth);
     txtCon.fillText(text, x, y, maxWidth);
@@ -270,7 +272,7 @@ function drawTopText(canva, x, y, final){
     topTextCords.x = x;
     topTextCords.y = y;
 
-    drawText(text.topTxt, text.txtRatioTop, x, y, ctx, canva.clientWidth);
+    drawText(text.topTxt, text.txtRatioTop, x, y, ctx, canva.clientWidth, text.borderBlurRatio);
 } 
 
 function drawBotText(canva, x, y, final){
@@ -286,7 +288,7 @@ function drawBotText(canva, x, y, final){
     botTextCords.x = x;
     botTextCords.y = y;    
 
-    drawText(text.botTxt, text.txtRatioBot, x, y, ctx, canva.clientWidth);
+    drawText(text.botTxt, text.txtRatioBot, x, y, ctx, canva.clientWidth, text.borderBlurRatio);
 }
 
 function initTxtPos(txtType, width){
