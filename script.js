@@ -9,6 +9,9 @@ const ctxb = bordercanvas.getContext("2d");
 
 const textcanvas = document.getElementById("text");
 const ctxt = textcanvas.getContext("2d");
+//for moving text
+textcanvas.onmousedown = dragText;
+textcanvas.onmouseup = dropText;
 
 var imgURL = "";
 var text = {  
@@ -220,9 +223,9 @@ function setGradient(x, y, x1, y1, color){
 }
 
 //Text
-
+var maxWidth = 0;
 function drawText(text, fontSize, x, y, txtCon, size){
-    var  maxWidth = size * 0.9;
+    maxWidth = size * 0.9;
     
     //Text formatting
     
@@ -313,6 +316,28 @@ sliderBot.oninput = function() {
     text.txtRatioBot = this.value/textcanvas.clientWidth;
     setBttmTxt();
 }
+
+var dragok = false;
+
+function dragText(e){
+    if(e.pageX > textcanvas.clientWidth - maxWidth && e.pageX < textcanvas.clientWidth + maxWidth &&
+        e.pageY ){
+
+    }
+}
+
+function dropText(e){
+
+}
+
+function moveText(){
+if (dragok){
+    x = e.pageX - canvas.offsetLeft;
+    y = e.pageY - canvas.offsetTop;
+    }
+}
+
+//dynamic canvas
 
 function canvasDims(canvas) {
     let dpr = window.devicePixelRatio;
