@@ -55,8 +55,8 @@ function constructCanva(canva){
         if(borderCol != ""){setBorder(borderCol, ctx, canva.clientWidth, canva.clientHeight);}
         ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 0; //wtf is this???
 
-        drawTopTxt(canva, text.topTxt, text.txtRatioTop);        
-        drawBotTxt(canva, text.botTxt, text.txtRatioBot);
+        drawTopText(canva, canva.clientWidth/2 , initTxtPos("top", canva.clientHeight));
+        drawBotText(canva, canva.clientWidth/2 , initTxtPos("bot", canva.clientHeight));    
         
         const temp = document.createElement("a");
         temp.href = canva.toDataURL();
@@ -74,8 +74,8 @@ function constructCanva(canva){
         if(borderCol != ""){setBorder(borderCol, ctx, canva.clientWidth, canva.clientHeight);}
         ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 0; //wtf is this???
         
-        drawTopTxt(canva, text.topTxt, text.txtRatioTop);
-        drawBotTxt(canva, text.botTxt, text.txtRatioBot);
+        drawTopText(canva, canva.clientWidth/2 , initTxtPos("top", canva.clientHeight));
+        drawBotText(canva, canva.clientWidth/2 , initTxtPos("bot", canva.clientHeight));        
         
         const temp = document.createElement("a");
         temp.href = canva.toDataURL();
@@ -224,11 +224,12 @@ function setGradient(x, y, x1, y1, color){
 
 //Text
 var maxWidth = 0;
+
 function drawText(text, fontSize, x, y, txtCon, size){
     maxWidth = size * 0.9;
     
     //Text formatting
-    
+
     txtCon.textAlign = 'center';    
     //if add changable boldness
     //txtCon.font = fontWeight + ' '+ fontSize * size + 'px Work Sans';
@@ -241,64 +242,55 @@ function drawText(text, fontSize, x, y, txtCon, size){
     txtCon.fillText(text, x, y, maxWidth);
 }
 
+function drawTopText(canva, x, y){
+    if(text.topTxt == ""){console.log("Missing Top Text"); return};
+    ctxt.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight/2);
+
+    var ctx = canva.getContext("2d");
+
+    drawText(text.topTxt, text.txtRatioTop, x, y, ctx, canva.clientWidth);
+} 
+
+function drawBotText(canva, x, y){
+    if(text.botTxt == ""){console.log("Missing Bot Text"); return};
+    ctxt.clearRect(0, textcanvas.clientHeight/2, textcanvas.clientWidth, textcanvas.clientHeight/2);
+
+    var ctx = canva.getContext("2d");
+
+    drawText(text.botTxt, text.txtRatioBot, x, y, ctx, canva.clientWidth);
+}
+
+function initTxtPos(txtType, width){
+    switch(txtType){
+        case "top":
+            return (width * 0.15 + text.txtRatioTop * 0.15);
+        case "bot":
+            return (width * 0.92);
+    }
+}
+
 document.getElementById("textcolor").addEventListener("change", function(){
     //Changes text color on user color input
     if(text.botTxt.length != 0){
-        setTopTxt();
+        drawTopText(textcanvas, textcanvas.clientWidth/2 ,initTxtPos("top", textcanvas.clientHeight));
     }
     if(text.botTxt.length != 0){
-        setBttmTxt();
+        drawBotText(textcanvas, textcanvas.clientWidth/2 ,initTxtPos("bot", textcanvas.clientHeight));
     }
 })
 
-function drawTopTxt(canva, text, txtRatio){
-    if(text == ""){return};
-    var ctx = canva.getContext("2d");
-    drawText(text, txtRatio, canva.clientWidth/2, canva.clientHeight*(0.15 + txtRatio * 0.15), ctx, canva.clientWidth);
-}
-
-function drawBotTxt(canva, text, txtRatio){
-    if(text == ""){return};
-    var ctx = canva.getContext("2d");
-    drawText(text, txtRatio, canva.clientWidth/2, canva.clientHeight*0.92, ctx, canva.clientWidth);
-}
-
-function redrawTopTxt(ctx, text, txtRatio, width, height){
-    if(text == ""){return};
-    drawText(text, txtRatio, width/2, height*(0.15 + txtRatio * 0.15), ctx, width);
-}
-
-function redrawBotTxt(ctx, text, txtRatio, width, height){
-    if(text == ""){return};
-    drawText(text, txtRatio, width/2, height*0.92, ctx, width);
-}
-function redrawText(ctx, width, height){
-    redrawTopTxt(ctx, text.topTxt, text.txtRatioTop, width, height);
-    redrawBotTxt(ctx, text.botTxt, text.txtRatioBot, width, height);
-}
-
-function setTopTxt(){
-    //TOP text setter
-    ctxt.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight/2);
-    text.topTxt = document.getElementById("toptext").value.toUpperCase();
-    drawText(text.topTxt, text.txtRatioTop, textcanvas.clientWidth/2, textcanvas.clientHeight*(0.15 + text.txtRatioTop * 0.15), ctxt, textcanvas.clientWidth);
-}
-
-function setBttmTxt(){
-    //BOTTOM text setter
-    ctxt.clearRect(0, textcanvas.clientHeight/2, textcanvas.clientWidth, textcanvas.clientHeight/2);
-    text.botTxt = document.getElementById("bottomtext").value.toUpperCase();
-    drawText(text.botTxt, text.txtRatioBot, textcanvas.clientWidth/2, textcanvas.clientHeight*0.92, ctxt, textcanvas.clientWidth);
-}
-
 document.getElementById("toptext").addEventListener("change", function(){
     //Sets TOP text on user text input
-    setTopTxt();
+    ctxt.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight/2);
+    text.topTxt = document.getElementById("toptext").value.toUpperCase();
+    drawTopText(textcanvas, textcanvas.clientWidth/2 ,initTxtPos("top", textcanvas.clientHeight));
 });
 
 document.getElementById("bottomtext").addEventListener("change", function(){
     //Sets BOTTOM text on user text input
-    setBttmTxt();
+    ctxt.clearRect(0, textcanvas.clientHeight/2, textcanvas.clientWidth, textcanvas.clientHeight/2);
+    text.botTxt = document.getElementById("bottomtext").value.toUpperCase();
+    drawBotText(textcanvas, textcanvas.clientWidth/2 ,initTxtPos("bot", textcanvas.clientHeight));
 });
 
 var sliderTop = document.getElementById("TopRange"); 
@@ -306,7 +298,7 @@ var sliderTop = document.getElementById("TopRange");
 sliderTop.oninput = function() {
     //Changes TOP text size on user slider input
     text.txtRatioTop = this.value/textcanvas.clientWidth;
-    setTopTxt();
+    drawTopText(textcanvas, textcanvas.clientWidth/2 ,initTxtPos("top", textcanvas.clientHeight));
 }
 
 var sliderBot = document.getElementById("BotRange");
@@ -314,7 +306,7 @@ var sliderBot = document.getElementById("BotRange");
 sliderBot.oninput = function() {
     //Changes BOTTOM text size on user slider input
     text.txtRatioBot = this.value/textcanvas.clientWidth;
-    setBttmTxt();
+    drawBotText(textcanvas, textcanvas.clientWidth/2 ,initTxtPos("bot", textcanvas.clientHeight));
 }
 
 var dragok = false;
@@ -368,7 +360,9 @@ function rerender() {
 
     add_img(imgURL, imgcanvas, cssWidth, cssHeight);
     if(borderCol != ""){setBorder(borderCol, ctxb, cssWidth, cssHeight);}
-    redrawText(ctxt, cssWidth, cssHeight);
+
+    drawTopText(textcanvas, cssWidth/2 , initTxtPos("top", cssHeight));
+    drawBotText(textcanvas, cssWidth/2 , initTxtPos("bot", cssHeight));    
 }
 
 function toggleHide(elemID){
