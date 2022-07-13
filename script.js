@@ -267,23 +267,23 @@ document.getElementById("textcolor").addEventListener("change", function(){
 function drawTopTxt(canva, text, txtRatio){
     if(text == ""){return};
     var ctx = canva.getContext("2d");
-    drawText(text, txtRatio, canva.clientWidth/2, canva.clientHeight*(0.15 + txtRatio * 0.4), ctx, canva.clientWidth);
+    drawText(text, txtRatio, canva.clientWidth/2, canva.clientHeight*(0.15 + txtRatio * 0.15), ctx, canva.clientWidth);
 }
 
 function drawBotTxt(canva, text, txtRatio){
     if(text == ""){return};
     var ctx = canva.getContext("2d");
-    drawText(text, txtRatio, canva.clientWidth/2, canva.clientHeight*0.95, ctx, canva.clientWidth);
+    drawText(text, txtRatio, canva.clientWidth/2, canva.clientHeight*0.92, ctx, canva.clientWidth);
 }
 
 function redrawTopTxt(ctx, text, txtRatio, width, height){
     if(text == ""){return};
-    drawText(text, txtRatio, width/2, height*(0.15 + txtRatio * 0.4), ctx, width);
+    drawText(text, txtRatio, width/2, height*(0.15 + txtRatio * 0.15), ctx, width);
 }
 
 function redrawBotTxt(ctx, text, txtRatio, width, height){
     if(text == ""){return};
-    drawText(text, txtRatio, width/2, height*0.95, ctx, width);
+    drawText(text, txtRatio, width/2, height*0.92, ctx, width);
 }
 function redrawText(ctx, width, height){
     redrawTopTxt(ctx, text.topTxt, text.txtRatioTop, width, height);
