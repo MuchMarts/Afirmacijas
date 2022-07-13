@@ -15,6 +15,7 @@ textcanvas.onmouseup = dropText;
 
 textcanvas.addEventListener("touchstart", function(){
     this.onmousedown.preventDefault();
+    this.onmousemove.preventDefault();
     this.onmouseup.preventDefault();
     dragText;
 });
