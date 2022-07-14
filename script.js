@@ -384,10 +384,7 @@ function dragText(e){
 
             textcanvas.onmousemove = moveTextTop;
             document.getElementById("finished").innerHTML = "brrrrr";
-            textcanvas.addEventListener("touchmove", function(e){
-                document.getElementById("finished").innerHTML = "brr touchmove";
-                moveTextTop;
-            });
+            textcanvas.addEventListener("touchmove", moveTextTop);
     }
  
     if( e.pageX < botTextCords.x+ textcanvas.clientWidth*0.45 +document.getElementById('result').offsetLeft &&
