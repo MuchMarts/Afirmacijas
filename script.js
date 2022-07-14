@@ -277,6 +277,8 @@ function drawTopText(canva, x, y, final){
     if(text.botTxt != "" && !final){
         ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight);
         drawText(text.botTxt, text.txtRatioBot, botTextCords.x, botTextCords.y, ctx, canva.clientWidth);
+    }else{
+        ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight);
     }
 
     topTextCords.x = x;
@@ -293,6 +295,8 @@ function drawBotText(canva, x, y, final){
     if(text.topTxt != "" && !final){
         ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight);
         drawText(text.topTxt, text.txtRatioTop, topTextCords.x, topTextCords.y, ctx, canva.clientWidth);
+    }else{
+        ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight);
     }
 
     botTextCords.x = x;
@@ -367,7 +371,9 @@ function dragText(e){
             relTextCords.y = topTextCords.y - tempy;
 
             textcanvas.onmousemove = moveTextTop;
+            document.getElementById("finished").innerHTML = "brrrrr";
             textcanvas.addEventListener("touchmove", function(e){
+                document.getElementById("finished").innerHTML = "brr touchmove";
                 e.preventDefault();
                 moveTextTop;
             });
@@ -398,6 +404,7 @@ function dropText(){
     dragok = false;
     relTextCords = {x: 0, y: 0}
     textcanvas.onmousemove = null;
+    textcanvas.removeEventListener("touchmove");
 }
 
 function moveTextTop(e){
