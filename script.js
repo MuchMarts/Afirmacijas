@@ -11,14 +11,26 @@ const textcanvas = document.getElementById("text");
 const ctxt = textcanvas.getContext("2d");
 //for moving text
 
-textcanvas.addEventListener("touchstart", function(e){
-    e.preventDefault();
-    dragText;
-});
-textcanvas.addEventListener("touchend", function(e){
-    e.preventDefault();
-    dropText;
-});
+textcanvas.addEventListener("touchstart", dragText);
+textcanvas.addEventListener("touchend", dropText);
+
+document.body.addEventListener("touchstart", function(e){
+    if(e.target == textcanvas){
+        e.preventDefault();
+    }
+}, false);
+
+document.body.addEventListener("touchend", function(e){
+    if(e.target == textcanvas){
+        e.preventDefault();
+    }
+}, false);
+
+document.body.addEventListener("touchmove", function(e){
+    if(e.target == textcanvas){
+        e.preventDefault();
+    }
+}, false);
 
 textcanvas.onmousedown = dragText;
 textcanvas.onmouseup = dropText;
@@ -374,7 +386,6 @@ function dragText(e){
             document.getElementById("finished").innerHTML = "brrrrr";
             textcanvas.addEventListener("touchmove", function(e){
                 document.getElementById("finished").innerHTML = "brr touchmove";
-                e.preventDefault();
                 moveTextTop;
             });
     }
@@ -393,10 +404,7 @@ function dragText(e){
             relTextCords.y = botTextCords.y - tempy;
 
             textcanvas.onmousemove = moveTextBot;
-            textcanvas.addEventListener("touchmove", function(e){
-                e.preventDefault();
-                moveTextBot;
-            });
+            textcanvas.addEventListener("touchmove", moveTextBot);
     }
 }
 
