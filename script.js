@@ -295,7 +295,7 @@ function drawTopText(canva, x, y, final){
     if(text.botTxt != "" && !final){
         ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight);
         drawText(text.botTxt, text.txtRatioBot, botTextCords.x, botTextCords.y, ctx, canva.clientWidth);
-    }else{
+    }else if (!final){
         ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight);
     }
 
@@ -313,7 +313,7 @@ function drawBotText(canva, x, y, final){
     if(text.topTxt != "" && !final){
         ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight);
         drawText(text.topTxt, text.txtRatioTop, topTextCords.x, topTextCords.y, ctx, canva.clientWidth);
-    }else{
+    }else if (!final){
         ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight);
     }
 
