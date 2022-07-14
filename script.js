@@ -11,8 +11,14 @@ const textcanvas = document.getElementById("text");
 const ctxt = textcanvas.getContext("2d");
 //for moving text
 
-textcanvas.addEventListener("touchstart", dragText);
-textcanvas.addEventListener("touchend", dropText);
+textcanvas.addEventListener("touchstart", function(){
+    //var touch = e.touches[0];
+    //var mouseEvent = new MouseEvent("mousedown", {})
+    textcanvas.dispatchEvent("mousedown");
+}, false);
+textcanvas.addEventListener("touchend", function(){
+    textcanvas.dispatchEvent("mouseup");
+}, false);
 
 document.body.addEventListener("touchstart", function(e){
     if(e.target == textcanvas){
@@ -384,7 +390,9 @@ function dragText(e){
 
             textcanvas.onmousemove = moveTextTop;
             document.getElementById("finished").innerHTML = "brrrrr";
-            textcanvas.addEventListener("touchmove", moveTextTop);
+            textcanvas.addEventListener("touchmove", function(){
+                textcanvas.dispatchEvent("mousemove");
+            });
     }
  
     if( e.pageX < botTextCords.x+ textcanvas.clientWidth*0.45 +document.getElementById('result').offsetLeft &&
