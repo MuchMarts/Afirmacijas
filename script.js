@@ -10,16 +10,7 @@ const ctxb = bordercanvas.getContext("2d");
 const textcanvas = document.getElementById("text");
 const ctxt = textcanvas.getContext("2d");
 //for moving text
-
-textcanvas.addEventListener("touchstart", function(){
-    //var touch = e.touches[0];
-    //var mouseEvent = new MouseEvent("mousedown", {})
-    textcanvas.dispatchEvent("mousedown");
-}, false);
-textcanvas.addEventListener("touchend", function(){
-    textcanvas.dispatchEvent("mouseup");
-}, false);
-
+/** 
 document.body.addEventListener("touchstart", function(e){
     if(e.target == textcanvas){
         e.preventDefault();
@@ -37,6 +28,15 @@ document.body.addEventListener("touchmove", function(e){
         e.preventDefault();
     }
 }, false);
+*/
+function startup() {
+    el = document.getElementById("text");
+    el.addEventListener('touchstart', dragText);
+    el.addEventListener('touchend', dropText);
+    log('Initialized.');
+}
+
+document.addEventListener("DOMContentLoaded", startup);
 
 textcanvas.onmousedown = dragText;
 textcanvas.onmouseup = dropText;
@@ -387,6 +387,7 @@ sliderBot.oninput = function() {
 var dragok = false;
 
 function dragText(e){
+    e.preventDefault();
     if( e.pageX < topTextCords.x+ textcanvas.clientWidth*0.45 +document.getElementById('result').offsetLeft &&
         e.pageX > topTextCords.x- textcanvas.clientWidth*0.45 +document.getElementById('result').offsetLeft &&
         e.pageY < topTextCords.y + 20 + document.getElementById('result').offsetTop &&
@@ -402,6 +403,7 @@ function dragText(e){
             relTextCords.x = topTextCords.x - tempx;
             relTextCords.y = topTextCords.y - tempy;
 
+            textcanvas.addEventListener('touchmove', moveTextTop);
             textcanvas.onmousemove = moveTextTop;
     }
  
@@ -417,7 +419,8 @@ function dragText(e){
 
             relTextCords.x = botTextCords.x - tempx;
             relTextCords.y = botTextCords.y - tempy;
-
+            
+            textcanvas.addEventListener('touchmove', moveTextBot);
             textcanvas.onmousemove = moveTextBot;
     }
 }
