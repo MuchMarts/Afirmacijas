@@ -429,6 +429,7 @@ function dropText(){
     dragok = false;
     relTextCords = {x: 0, y: 0}
     textcanvas.onmousemove = null;
+    textcanvas.removeEventListener("touchmove");
 }
 
 function moveTextTop(e){
