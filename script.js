@@ -10,34 +10,7 @@ const ctxb = bordercanvas.getContext("2d");
 const textcanvas = document.getElementById("text");
 const ctxt = textcanvas.getContext("2d");
 //for moving text
-/** 
-document.body.addEventListener("touchstart", function(e){
-    if(e.target == textcanvas){
-        e.preventDefault();
-    }
-}, false);
 
-document.body.addEventListener("touchend", function(e){
-    if(e.target == textcanvas){
-        e.preventDefault();
-    }
-}, false);
-
-document.body.addEventListener("touchmove", function(e){
-    if(e.target == textcanvas){
-        e.preventDefault();
-    }
-}, false);
-*//*
-function startup() {
-    el = document.getElementById("text");
-    el.addEventListener('touchstart', dragText);
-    el.addEventListener('touchend', dropText);
-    log('Initialized.');
-}
-
-document.addEventListener("DOMContentLoaded", startup);
-*/
 textcanvas.onpointerdown = dragText;
 textcanvas.onpointerup = dropText;
 
