@@ -332,7 +332,7 @@ function drawBotText(canva, x, y, final){
 function initTxtPos(txtType, height){
     switch(txtType){
         case "top":
-            return (height * (0.15 + text.txtRatioTop * 0.4));
+            return (height * (0.15 + text.txtRatioTop * 0.25));
         case "bot":
             return (height * 0.92);
     }
@@ -403,10 +403,6 @@ function dragText(e){
             relTextCords.y = topTextCords.y - tempy;
 
             textcanvas.onmousemove = moveTextTop;
-            document.getElementById("finished").innerHTML = "brrrrr";
-            textcanvas.addEventListener("touchmove", function(){
-                textcanvas.dispatchEvent("mousemove");
-            });
     }
  
     if( e.pageX < botTextCords.x+ textcanvas.clientWidth*0.45 +document.getElementById('result').offsetLeft &&
@@ -423,7 +419,6 @@ function dragText(e){
             relTextCords.y = botTextCords.y - tempy;
 
             textcanvas.onmousemove = moveTextBot;
-            textcanvas.addEventListener("touchmove", moveTextBot);
     }
 }
 
@@ -431,7 +426,6 @@ function dropText(){
     dragok = false;
     relTextCords = {x: 0, y: 0}
     textcanvas.onmousemove = null;
-    textcanvas.removeEventListener("touchmove");
 }
 
 function moveTextTop(e){
