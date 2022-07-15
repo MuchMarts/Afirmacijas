@@ -138,11 +138,4 @@ p a{
         font-family: 'Work Sans', sans-serif;
         font-size: 1.5rem;
     }
-    .columnig {
-        display: none;
-    }
-
-    .columnig:first-child {
-        display: block;
-    }
 }
