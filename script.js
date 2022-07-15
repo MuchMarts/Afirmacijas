@@ -69,6 +69,8 @@ var relTextCords = {
     y: 0, 
 }
 
+var defaultCords = true; //Used to determine wheter user has used drag feature to create custom placement
+
 var borderCol = "";
 
 var aspectAnchor = 0; // for 1080p whether bottom or left is 1080 px if 0 bottom if 1 side
@@ -327,12 +329,12 @@ function drawBotText(canva, x, y, final){
     drawText(text.botTxt, text.txtRatioBot, x, y, ctx, canva.clientWidth, text.borderBlurRatio);
 }
 
-function initTxtPos(txtType, width){
+function initTxtPos(txtType, height){
     switch(txtType){
         case "top":
-            return (width * 0.15 + text.txtRatioTop * 0.2);
+            return (height * (0.15 + text.txtRatioTop * 0.4));
         case "bot":
-            return (width * 0.92);
+            return (height * 0.92);
     }
 }
 
@@ -365,6 +367,12 @@ var sliderTop = document.getElementById("TopRange");
 sliderTop.oninput = function() {
     //Changes TOP text size on user slider input
     text.txtRatioTop = this.value/textcanvas.clientWidth;
+    if(defaultCords){
+        newy = initTxtPos("top", textcanvas.clientHeight);  
+        topTextCords.ry = newy / textcanvas.clientHeight;
+        drawTopText(textcanvas, topTextCords.x, newy);
+        return;
+    }
     drawTopText(textcanvas, topTextCords.x ,topTextCords.y);
 }
 
@@ -385,6 +393,8 @@ function dragText(e){
         e.pageY > topTextCords.y - textcanvas.clientHeight/4 +document.getElementById('result').offsetTop)
         {
             dragok = true;
+
+            defaultCords = false;
 
             tempx = e.pageX - document.getElementById('result').offsetLeft;
             tempy = e.pageY - document.getElementById('result').offsetTop;
