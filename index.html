@@ -4,16 +4,120 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">    
-    <script src="script.js"></script> 
-    <link id="dynamic-favicon" rel="icon" type="image/jpg" href="A_Icon.ico"/>
-    <title>Afirmacijas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@600;700&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/jpg" href="A_Icon.ico"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Primary Meta Tags -->
+    <title>Afirmacijas - Veido savu afirmāciju!</title>
+    <meta name="title" content="Afirmacijas - Veido savu afirmāciju!">
+    <meta name="description" content="Afirmāciju taisītājs ļauj tev izveidot paša izdomātu afirmāciju">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="www.afirmacijas.lv">
+    <meta property="og:title" content="Afirmacijas - Veido savu afirmāciju!">
+    <meta property="og:description" content="Afirmāciju taisītājs ļauj tev izveidot sevis paša izdomātu afirmāciju">
+    <meta property="og:image" content="www.afirmacijas.lv/imgcard.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="www.afirmacijas.lv">
+    <meta property="twitter:title" content="Afirmacijas - Veido savu afirmāciju!">
+    <meta property="twitter:description" content="Afirmāciju taisītājs ļauj tev izveidot sevis paša izdomātu afirmāciju">
+    <meta property="twitter:image" content="www.afirmacijas.lv/imgcard.png">
+
 </head>
-<body>   
-    <img class="banana" id="1" src="a1.png" alt="banana" onclick="changeType('1')">
-    <img class="banana" id="2" src="a2.png" alt="banana" onclick="changeType('2')">
-    <img class="banana" id="3" src="a3.png" alt="banana" onclick="changeType('3')">
-    <img class="banana" id="4" src="a69.png" alt="banana" onclick="changeType('4')">
-    <script>randomEqualFunny()</script>
+
+<header>
+    <span id="title">
+        <h1> Afirmāciju taisītājs</h1>
+        <h3>Dalies ar savām afirmācijām <i>Instagram</i> un ietago @rv1g_afirmacijas!</h3>
+    </span>
+    <a href="about.html"><h2>Kas mēs esam?</h2></a>
+</header>
+
+<body>
+
+    <div class="row">
+        <div id="canvases">
+            <figure id="result">
+                <div class="relative-full">
+                    <canvas id="image" class="creator relative-full"></canvas>
+                    <canvas id="border" class="creator relative-full"></canvas>
+                    <canvas id="text" class="creator relative-full"></canvas>
+                </div>
+            </figure>
+        </div>
+
+        <div id="interface">
+            <div id="button-menu">
+                <button class="button" role="button" onclick="toggleHide('imgOverlay')"><h3>Bilde</h3></button>
+                <button class="button" role="button" onclick="toggleHide('borderOverlay')"><h3>Rāmis</h3></button>
+                <button class="button" role="button" onclick="toggleHide('textOverlay')"><h3>Teksts</h3></button>
+            </div>
+
+            <div id="overlays">
+                <div id="imgOverlay" class="">
+                    <div id="inputFile" class="section">      
+                        <input type="file" id="userFile" class="" name="filename" accept="image/*" onchange="handleFiles()">
+                        <label for="userFile" id="btn-style-label">Izvēlies attēlu</label>
+                        <span id="file-chosen">trūkst attēla ;-;</span>
+                    </div>
+                </div>
+
+                <div id="borderOverlay" class="hidden">
+                    <div id="colors"  class="section">
+                        <h3>Izvēlies rāmja krāsu:</h3>
+                        <label class="styledPicker" for="colorpicker"></label>
+                        <input type="color" class="hiddenpicker" id="colorpicker" onchange="updateColorPicker(0)">
+                    </div>
+                </div>
+
+                <div id="textOverlay" class="hidden">
+                    <div id="input" class="section">
+                        <div id="textInput">
+                        <div id="textTop">
+                            <div>   
+                                <input type="text" id="toptext" placeholder="Augšējais Teksts">
+                            </div>
+                            <div>
+                                <input type="range" min="1" max="200" value="100" class="slider" id="TopRange">
+                            </div>
+                            
+                            
+                        </div>
+
+                        <div id="textBot">
+                            <div>
+                                <input type="text" id="bottomtext" placeholder="Apakšējais Teksts">
+                            </div>
+                            <div>
+                                <input type="range" min="1" max="200" value="100" class="slider" id="BotRange">    
+                            </div>
+                            
+                        </div>
+                        
+                        <div id="colors">
+                            <h3>Izvēlies teksta krāsu: </h3>
+                            <label class="styledPicker" for="textcolor"></label>
+                            <input type="color" class="hiddenpicker" id="textcolor" onchange="updateColorPicker(1)">
+                        </div>     
+                    </div>
+                </div>  
+            </div>
+
+            <div id="downloadButton">
+                <button class="download" role="button" onclick="saveFile(1080)"><h3>Lejupielādēt</h3></button>
+            </div>
+        </div>
+    </div>
+    <div id="finished"></div>
+    
+    <script src="script.js"></script>
 </body>
-</html>
+<footer>
+    <h3>Epic mājaslapa created by <a href="https://instagram.com/rv1g_afirmacijas" target="_blank">@rv1g_afirmacijas</a> un <a href="https://instagram.com/much_marts" target="_blank">Mārtiņš</a></h3>
+</footer>

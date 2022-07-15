@@ -1,0 +1,151 @@
+:root {
+    --main: #B3B2D2;
+    --ui: #629460;
+    --accent: #F5EBE0;
+    --altAc: #053225;
+    --ihardlyknowher: #454372;
+    --nav: #000080;
+}
+
+header {
+    color: var(--accent);
+    background-color: var(--ihardlyknowher);
+    text-align: center;
+    padding-top: 2vh;
+    padding-bottom: 2vh;
+}
+
+body {
+    height: 100vh;
+    margin: 0px auto;
+    padding: 0px;
+    background-color: var(--main);
+    font-family: 'Work Sans', sans-serif;
+}
+
+body a:hover{
+    color: var(--ihardlyknowher);
+}
+
+header a:hover{
+    color: var(--main);
+}
+
+h1 {
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 600;
+    font-size: 4rem;
+    margin: 0px;
+}
+
+a:link {
+    color: var(--accent);
+}
+a:visited {
+    color: var(--accent);
+}
+a:hover {
+    color: var(--main);
+}
+
+
+.rowig {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+h2 {
+    font-family: 'Work Sans', sans-serif;
+    margin: 0px;
+}
+
+h3 {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 2rem;
+    margin: 1.5vh;
+}
+
+footer {
+    color: var(--accent);
+    background-color: var(--ihardlyknowher);
+    text-align: center;
+    padding-bottom: 1vh;
+    padding-top: 1vh;
+}
+
+footer a:hover {
+    color: var(--main);
+}
+
+#profile {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: max-content;
+    text-align: center;
+}
+
+#profile{
+    color: var(--ihardlyknowher);
+}
+
+#aboutUs h1, #aboutWebpage h3, #aboutInsta h3{
+    max-width: max-content;
+    margin-left: auto;
+    margin-right: auto;
+    color: var(--ihardlyknowher);
+}
+
+#aboutUs img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40vh;
+}
+
+p {
+    text-align: center ;
+    max-width: 50vw;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+p a{
+    font-size: 1.25rem;
+}
+
+#aboutUs p {
+    font-size: 1.5rem;
+}
+#aboutUs a {
+    font-size: 1.5rem;
+    color: var(--ihardlyknowher);
+}
+
+#aboutUs a:hover {
+    color: var(--accent);
+}
+
+@media only screen and (max-width: 900px) {
+    p{
+        max-width: 90vw;
+    }
+   
+    h1 {
+        font-family: 'Work Sans', sans-serif;
+        font-weight: 600;
+        font-size: 3em;
+        margin: 0px;
+    }
+
+    h2 {
+        font-family: 'Work Sans', sans-serif;
+        margin: 0px;
+    }
+    
+    h3 {
+        font-family: 'Work Sans', sans-serif;
+        font-size: 1.5rem;
+    }
+}

@@ -1,24 +1,278 @@
-html {
-    background-color: var(--main-bg-color);
+:root {
+    --body: #d4d4e4;
+    --main: rgb(183, 153, 192);
+    --ui: #629460;
+    --accent: #F5EBE0;
+    --altAc: #053225;
+    --ihardlyknowher: #454372;
+    --nav: #000080;
+}
+
+@font-face {
+    font-family: 'Work Sans', sans-serif;
+    src: url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@600;700&display=swap');
 }
 
 body {
-    margin: 0;
-}
-
-img {
-    width: 100vw;
     height: 100vh;
-    object-fit: contain;
+    margin: 0px auto;
+    padding: 0px;
+    background-color: var(--body);
+}
+
+header {
+    color: var(--accent);
+    background-color: var(--ihardlyknowher);
+    text-align: center;
+    padding-top: 2vh;
+    padding-bottom: 2vh;
+}
+
+h1 {
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 600;
+    font-size: 2.5em;
+    margin: 0px;
+}
+
+a:link {
+    color: var(--accent);
+}
+a:visited {
+    color: var(--accent);
+}
+a:hover {
+    color: var(--body);
+}
+
+#image {
+    z-index: 1;
+}
+
+#border {
+    z-index: 2;
+}
+
+#text {
+    z-index: 3;
+}
+
+figure { 
+    touch-action: none;
+    aspect-ratio: 1/1;
+    max-height: 100vh;
+    position: relative;
+    
+    margin: 5px;
+    margin-left: auto;
+    margin-right: auto; 
+    background-color: var(--accent);
+    border: 10px double var(--ihardlyknowher);
+}
+
+.relative-full { position: absolute; width: 100%; height: 100%; left: 0px; top: 0px;}
+
+#canvases {
+    background-color: var(--body);
+}
+
+#button-menu {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.button {
+    background-color: var(--ihardlyknowher);
+    color: var(--accent);
+    border: 2px solid var(--main);
+    width: 32%;
+    border-radius: 0.2rem;
+    cursor: pointer;
+
+    transition: 0.5s;
+}
+
+.button:disabled {
+  pointer-events: none;
+}
+
+.button:hover {
+    background-color: var(--main);
+    color: var(--ihardlyknowher);
+}
+
+.hidden {
     display: none;
-    visibility: hidden;
 }
 
-.shown {
-    display: initial;
-    visibility: initial;
+#imgOverlay {
+    margin-top: 2vh;
+    margin-bottom: 2vh;
 }
 
-.bigBoi {
-    object-fit: fill;
+#btn-style-label {
+    background-color: var(--ihardlyknowher);
+    color: var(--accent);
+    border: 2px solid var(--main);
+    padding: 0.5rem;
+    font-family: 'Work Sans', sans-serif;
+    border-radius: 0.2rem;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: 0.5s;
+}
+
+#btn-style-label:hover {
+    background-color: var(--main);
+    color: var(--ihardlyknowher);
+}
+
+#userFile {
+    display: none;
+}
+
+#file-chosen{
+    margin-left: 0.3rem;
+    font-family: 'Work Sans', sans-serif;
+}
+
+.hiddenpicker {
+    height: 0;
+    position: absolute;
+    width: 0;
+    opacity: 0;
+}
+
+.styledPicker {
+    cursor: pointer;
+    border-radius: 0.5rem;
+    border-color: var(--main);
+    border-style: outset;
+    background-color: black;
+    width: 8vh;
+    height: 4vh;
+    display: inline-block;
+}
+
+footer {
+    color: var(--accent);
+    background-color: var(--ihardlyknowher);
+    text-align: center;
+    padding-bottom: 1vh;
+    padding-top: 1vh;
+}
+
+h2 {
+    font-family: 'Work Sans', sans-serif;
+    margin: 0px;
+}
+
+h3 {
+    font-family: 'Work Sans', sans-serif;
+}
+
+#colors {
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.section h3 {
+    color: var(--ihardlyknowher);
+}
+#textTop {
+    display: flex;
+    flex-direction: row;
+}
+#textBot {
+    display: flex;
+    flex-direction: row;
+}
+#downloadButton {
+    padding-bottom: 1vh;
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.download {
+    background-color: var(--ihardlyknowher);
+    color: var(--accent);
+    border: 2px solid var(--main);
+    border-radius: 0.2rem;
+    cursor: pointer;
+    width: 100%;
+    transition: 0.5s;
+}
+.download:disabled {
+    pointer-events: none;
+}
+  
+.download:hover {
+    background-color: var(--main);
+    color: var(--ihardlyknowher);
+}
+
+#interface{
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+        
+}
+
+#overlays {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#textOverlay h4{
+    margin: 0;
+    font-family: 'Work Sans', sans-serif;
+    color: var(--ihardlyknowher);
+}
+#textTop {
+    display: flex;
+    align-items: center;
+}
+#textBot {
+    display: flex;
+    align-items: center;
+}
+
+@media only screen and (min-width: 1080px) {
+    figure {
+        max-height: 60vh;
+    }
+    #interface {
+        max-width: 70vh;
+    }
+
+    h1 {
+        font-size: 4rem;
+    }
+
+    h3 {
+        font-size: 1.8rem;
+        margin: 1.5vh;
+    }
+
+    #overlays {
+        font-size: 1.5rem;
+        font-family: 'Work Sans', sans-serif;
+    }
+    #input {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
 }
