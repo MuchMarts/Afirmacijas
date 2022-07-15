@@ -115,7 +115,17 @@ p a{
     font-size: 1.25rem;
 }
 
+#aboutUs p {
+    font-size: 1.5rem;
+}
+#aboutUs a {
+    font-size: 1.5rem;
+    color: var(--ihardlyknowher);
+}
 
+#aboutUs a:hover {
+    color: var(--accent);
+}
 
 @media only screen and (max-width: 900px) {
     p{
