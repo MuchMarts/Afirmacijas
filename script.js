@@ -52,12 +52,16 @@ var text = {
 
 var topTextCords = {
     x: textcanvas.clientWidth/2,
-    y: initTxtPos("top", textcanvas.clientWidth),
+    y: initTxtPos("top", textcanvas.clientHeight),
+    rx: (textcanvas.clientWidth/2) / textcanvas.clientWidth,
+    ry: initTxtPos("top", textcanvas.clientHeight) / textcanvas.clientHeight,
 }
 
 var botTextCords = {
     x: textcanvas.clientWidth/2,
     y: initTxtPos("bot", textcanvas.clientWidth),
+    rx: (textcanvas.clientWidth/2) / textcanvas.clientWidth,
+    ry: initTxtPos("bot", textcanvas.clientHeight) / textcanvas.clientHeight,
 }
 
 var relTextCords = {
@@ -424,6 +428,8 @@ function moveTextTop(e){
     if (dragok){
         x = e.pageX - document.getElementById('result').offsetLeft + relTextCords.x;
         y = e.pageY - document.getElementById('result').offsetTop + relTextCords.y;
+        topTextCords.rx = x / textcanvas.clientWidth;
+        topTextCords.ry = y / textcanvas.clientHeight;
         drawTopText(textcanvas, x, y);
     }
 }
@@ -432,6 +438,8 @@ function moveTextBot(e){
     if (dragok){
         x = e.pageX - document.getElementById('result').offsetLeft + relTextCords.x;
         y = e.pageY - document.getElementById('result').offsetTop + relTextCords.y;
+        botTextCords.rx = x / textcanvas.clientWidth;
+        topTextCords.ry = y / textcanvas.clientHeight;
         drawBotText(textcanvas, x, y);
     }
 }
@@ -468,8 +476,8 @@ function rerender() {
     add_img(imgURL, imgcanvas, cssWidth, cssHeight);
     if(borderCol != ""){setBorder(borderCol, ctxb, cssWidth, cssHeight);}
 
-    drawTopText(textcanvas, topTextCords.x, topTextCords.y);
-    drawBotText(textcanvas, botTextCords.x, botTextCords.y);    
+    drawTopText(textcanvas, topTextCords.rx * cssWidth, topTextCords.ry * cssHeight);
+    drawBotText(textcanvas, botTextCords.rx * cssWidth, botTextCords.ry * cssHeight);    
 }
 
 function toggleHide(elemID){
