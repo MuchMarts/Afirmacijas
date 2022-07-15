@@ -332,7 +332,7 @@ function drawBotText(canva, x, y, final){
 function initTxtPos(txtType, height){
     switch(txtType){
         case "top":
-            return (height * (0.15 + text.txtRatioTop * 0.25));
+            return (height * (0.15 + text.txtRatioTop * 0.35));
         case "bot":
             return (height * 0.92);
     }
