@@ -28,7 +28,7 @@ document.body.addEventListener("touchmove", function(e){
         e.preventDefault();
     }
 }, false);
-*/
+*//*
 function startup() {
     el = document.getElementById("text");
     el.addEventListener('touchstart', dragText);
@@ -37,9 +37,9 @@ function startup() {
 }
 
 document.addEventListener("DOMContentLoaded", startup);
-
-textcanvas.onmousedown = dragText;
-textcanvas.onmouseup = dropText;
+*/
+textcanvas.onpointerdown = dragText;
+textcanvas.onpointerup = dropText;
 
 var imgURL = "";
 var text = {  
@@ -403,8 +403,8 @@ function dragText(e){
             relTextCords.x = topTextCords.x - tempx;
             relTextCords.y = topTextCords.y - tempy;
 
-            textcanvas.addEventListener('touchmove', moveTextTop);
-            textcanvas.onmousemove = moveTextTop;
+            //textcanvas.addEventListener('touchmove', moveTextTop);
+            textcanvas.onpointermove = moveTextTop;
     }
  
     if( e.pageX < botTextCords.x+ textcanvas.clientWidth*0.45 +document.getElementById('result').offsetLeft &&
@@ -420,16 +420,16 @@ function dragText(e){
             relTextCords.x = botTextCords.x - tempx;
             relTextCords.y = botTextCords.y - tempy;
             
-            textcanvas.addEventListener('touchmove', moveTextBot);
-            textcanvas.onmousemove = moveTextBot;
+            //textcanvas.addEventListener('touchmove', moveTextBot);
+            textcanvas.onpointermove = moveTextBot;
     }
 }
 
 function dropText(){
     dragok = false;
     relTextCords = {x: 0, y: 0}
-    textcanvas.onmousemove = null;
-    textcanvas.removeEventListener("touchmove");
+    textcanvas.onpointermove = null;
+    //textcanvas.removeEventListener("touchmove");
 }
 
 function moveTextTop(e){
