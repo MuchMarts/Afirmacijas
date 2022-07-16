@@ -10,34 +10,7 @@ const ctxb = bordercanvas.getContext("2d");
 const textcanvas = document.getElementById("text");
 const ctxt = textcanvas.getContext("2d");
 //for moving text
-/** 
-document.body.addEventListener("touchstart", function(e){
-    if(e.target == textcanvas){
-        e.preventDefault();
-    }
-}, false);
 
-document.body.addEventListener("touchend", function(e){
-    if(e.target == textcanvas){
-        e.preventDefault();
-    }
-}, false);
-
-document.body.addEventListener("touchmove", function(e){
-    if(e.target == textcanvas){
-        e.preventDefault();
-    }
-}, false);
-*//*
-function startup() {
-    el = document.getElementById("text");
-    el.addEventListener('touchstart', dragText);
-    el.addEventListener('touchend', dropText);
-    log('Initialized.');
-}
-
-document.addEventListener("DOMContentLoaded", startup);
-*/
 textcanvas.onpointerdown = dragText;
 textcanvas.onpointerup = dropText;
 
@@ -299,15 +272,13 @@ function drawTopText(canva, x, y, final){
     var ctx = canva.getContext("2d");
     
     if(text.botTxt != "" && !final){
-        ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight);
+        ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight);   
+        topTextCords.x = x;
+        topTextCords.y = y;
         drawText(text.botTxt, text.txtRatioBot, botTextCords.x, botTextCords.y, ctx, canva.clientWidth);
     }else if (!final){
-        ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight);
+        ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight);   
     }
-
-    topTextCords.x = x;
-    topTextCords.y = y;
-
     drawText(text.topTxt, text.txtRatioTop, x, y, ctx, canva.clientWidth, text.borderBlurRatio);
 } 
 
@@ -318,14 +289,12 @@ function drawBotText(canva, x, y, final){
     
     if(text.topTxt != "" && !final){
         ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight);
+        botTextCords.x = x;
+        botTextCords.y = y; 
         drawText(text.topTxt, text.txtRatioTop, topTextCords.x, topTextCords.y, ctx, canva.clientWidth);
     }else if (!final){
         ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight);
     }
-
-    botTextCords.x = x;
-    botTextCords.y = y;    
-
     drawText(text.botTxt, text.txtRatioBot, x, y, ctx, canva.clientWidth, text.borderBlurRatio);
 }
 
