@@ -416,7 +416,8 @@ function moveTextTop(e){
         y = e.pageY - document.getElementById('result').offsetTop + relTextCords.y;
         topTextCords.rx = x / textcanvas.clientWidth;
         topTextCords.ry = y / textcanvas.clientHeight;
-
+        topTextCords.x = x;
+        topTextCords.y = y;
         drawTopText(textcanvas, x, y);
     }
 }
@@ -427,7 +428,8 @@ function moveTextBot(e){
         y = e.pageY - document.getElementById('result').offsetTop + relTextCords.y;
         botTextCords.rx = x / textcanvas.clientWidth;
         botTextCords.ry = y / textcanvas.clientHeight;
-
+        botTextCords.x = x;
+        botTextCords.y = y;
         drawBotText(textcanvas, x, y);
     }
 }
