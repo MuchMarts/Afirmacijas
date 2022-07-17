@@ -275,7 +275,7 @@ function drawTopText(canva, x, y, final){
         ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight);   
         topTextCords.x = x;
         topTextCords.y = y;
-        drawText(text.botTxt, text.txtRatioBot, botTextCords.x, botTextCords.y, ctx, canva.clientWidth);
+        drawText(text.botTxt, text.txtRatioBot, botTextCords.rx * textcanvas.clientWidth, botTextCords.ry * textcanvas.clientHeight, ctx, canva.clientWidth, text.borderBlurRatio);
     }else if (!final){
         ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight);   
     }
@@ -291,7 +291,7 @@ function drawBotText(canva, x, y, final){
         ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight);
         botTextCords.x = x;
         botTextCords.y = y; 
-        drawText(text.topTxt, text.txtRatioTop, topTextCords.x, topTextCords.y, ctx, canva.clientWidth);
+        drawText(text.topTxt, text.txtRatioTop, topTextCords.rx * textcanvas.clientWidth, topTextCords.ry * textcanvas.clientHeight, ctx, canva.clientWidth, text.borderBlurRatio);
     }else if (!final){
         ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight);
     }
@@ -317,19 +317,28 @@ document.getElementById("textcolor").addEventListener("change", function(){
     }
 })
 
-document.getElementById("toptext").addEventListener("change", function(){
-    //Sets TOP text on user text input
-    ctxt.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight/2);
-    text.topTxt = document.getElementById("toptext").value.toUpperCase();
-    drawTopText(textcanvas, topTextCords.x, topTextCords.y);
-});
 
-document.getElementById("bottomtext").addEventListener("change", function(){
-    //Sets BOTTOM text on user text input
+function topTextHndler(e) {
+    ctxt.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight/2);
+    text.topTxt = e.target.value.toUpperCase();
+    drawTopText(textcanvas, topTextCords.rx * textcanvas.clientWidth, topTextCords.ry * textcanvas.clientHeight);
+}
+
+function botTextHndler(e){
     ctxt.clearRect(0, textcanvas.clientHeight/2, textcanvas.clientWidth, textcanvas.clientHeight/2);
-    text.botTxt = document.getElementById("bottomtext").value.toUpperCase();
-    drawBotText(textcanvas, botTextCords.x, botTextCords.y);
-});
+    text.botTxt = e.target.value.toUpperCase();
+    drawBotText(textcanvas, botTextCords.rx * textcanvas.clientWidth, botTextCords.ry * textcanvas.clientHeight);
+}
+
+var topTxt = document.getElementById("toptext");
+var botTxt = document.getElementById("bottomtext");
+
+topTxt.addEventListener('input', topTextHndler);
+botTxt.addEventListener('input', botTextHndler);
+
+topTxt.addEventListener('propertychange', topTextHndler);
+botTxt.addEventListener('propertychange', botTextHndler);
+
 
 var sliderTop = document.getElementById("TopRange"); 
 
@@ -407,6 +416,8 @@ function moveTextTop(e){
         y = e.pageY - document.getElementById('result').offsetTop + relTextCords.y;
         topTextCords.rx = x / textcanvas.clientWidth;
         topTextCords.ry = y / textcanvas.clientHeight;
+        topTextCords.x = x;
+        topTextCords.y = y;
         drawTopText(textcanvas, x, y);
     }
 }
@@ -416,7 +427,9 @@ function moveTextBot(e){
         x = e.pageX - document.getElementById('result').offsetLeft + relTextCords.x;
         y = e.pageY - document.getElementById('result').offsetTop + relTextCords.y;
         botTextCords.rx = x / textcanvas.clientWidth;
-        topTextCords.ry = y / textcanvas.clientHeight;
+        botTextCords.ry = y / textcanvas.clientHeight;
+        botTextCords.x = x;
+        botTextCords.y = y;
         drawBotText(textcanvas, x, y);
     }
 }
