@@ -16,7 +16,11 @@ const overlays = [
 textcanvas.onpointerdown = dragText;
 textcanvas.onpointerup = dropText;
 
-class affData {
+interface IDictionary<TValue> {
+    [key: string]: TValue;
+}
+
+class affData{
     // Stores image data
     imgURL: string;
     
@@ -30,8 +34,11 @@ class affData {
         ry = number; text relative ry cordinate to canva width
         defaultPos = boolean; determines wheter text should use automatic positioning
     */
-    topText: { text: string; sizeRatio: number; textBorderBlur: number; x: number, y: number, rx: number, ry: number, defaultPos: boolean };
-    botTxt: { text: string; sizeRatio: number; textBorderBlur: number; x: number, y: number, rx: number, ry: number, defaultPos: boolean };
+    topText: IDictionary<any>; 
+    botTxt: IDictionary<any>; 
+
+    //topText: { text: string; sizeRatio: number; textBorderBlur: number; x: number, y: number, rx: number, ry: number, defaultPos: boolean };
+    //botTxt: { text: string; sizeRatio: number; textBorderBlur: number; x: number, y: number, rx: number, ry: number, defaultPos: boolean };
     
     // Temporary cordinates used when text is moved
     relativeTxtMove: { x: number; y: number };
@@ -86,7 +93,7 @@ class affData {
     }
 
     // Set, Get any bottxt field
-    setBotTxt(key: string, value: any){
+    setBotTxt(key: any, value: any){
         this.botTxt[key] = value;
     }
     getBotTxt(key: string){
@@ -367,7 +374,7 @@ function drawTopText(canva: HTMLCanvasElement, x: number, y:number, final: boole
     drawText(affD.getTopTxt("text"), affD.getTopTxt("sizeRatio"), x, y, ctx, canva.clientWidth, affD.getTopTxt("textBorderBlur"));
 } 
 
-function drawBotText(canva, x, y, final){
+function drawBotText(canva: HTMLCanvasElement, x: number, y: number, final: boolean){
     if(affD.getBotTxt("text") == ""){console.log("Missing Bottom Text"); return};
     var ctx = canva.getContext("2d");
 
@@ -453,79 +460,83 @@ sliderBot.oninput = () => function() {
 
 var dragok = false;
 
-function dragText(e){
+function dragText(e: any){
     e.preventDefault();
-    if( e.pageX < topTextCords.x+ textcanvas.clientWidth*0.45 +document.getElementById('result').offsetLeft &&
-        e.pageX > topTextCords.x- textcanvas.clientWidth*0.45 +document.getElementById('result').offsetLeft &&
-        e.pageY < topTextCords.y + 20 + document.getElementById('result').offsetTop &&
-        e.pageY > topTextCords.y - textcanvas.clientHeight/4 +document.getElementById('result').offsetTop)
+    if( e.pageX < affD.getTopTxt("x") + textcanvas.clientWidth * 0.45 + document.getElementById('result').offsetLeft &&
+        e.pageX > affD.getTopTxt("x") - textcanvas.clientWidth * 0.45 + document.getElementById('result').offsetLeft &&
+        e.pageY < affD.getTopTxt("y") + 20 + document.getElementById('result').offsetTop &&
+        e.pageY > affD.getTopTxt("y") - textcanvas.clientHeight / 4 + document.getElementById('result').offsetTop)
         {
             dragok = true;
 
-            defaultCords = false;
+            affD.setTopTxt("defaultPos", false);
 
-            tempx = e.pageX - document.getElementById('result').offsetLeft;
-            tempy = e.pageY - document.getElementById('result').offsetTop;
+            let tempx: number = e.pageX - document.getElementById('result').offsetLeft;
+            let tempy: number = e.pageY - document.getElementById('result').offsetTop;
 
-            relTextCords.x = topTextCords.x - tempx;
-            relTextCords.y = topTextCords.y - tempy;
+            let relTxtCords: number[] = [affD.getTopTxt("x") - tempx, affD.getTopTxt("y") - tempy];
+            affD.setRelCord(relTxtCords); 
 
             //textcanvas.addEventListener('touchmove', moveTextTop);
             textcanvas.onpointermove = moveTextTop;
     }
  
-    if( e.pageX < botTextCords.x+ textcanvas.clientWidth*0.45 +document.getElementById('result').offsetLeft &&
-        e.pageX > botTextCords.x- textcanvas.clientWidth*0.45 +document.getElementById('result').offsetLeft &&
-        e.pageY < botTextCords.y + 20 + document.getElementById('result').offsetTop &&
-        e.pageY > botTextCords.y - textcanvas.clientHeight/4 +document.getElementById('result').offsetTop)
+    if( e.pageX < affD.getBotTxt("x") + textcanvas.clientWidth * 0.45 + document.getElementById('result').offsetLeft &&
+        e.pageX > affD.getBotTxt("x") - textcanvas.clientWidth * 0.45 + document.getElementById('result').offsetLeft &&
+        e.pageY < affD.getBotTxt("y") + 20 + document.getElementById('result').offsetTop &&
+        e.pageY > affD.getBotTxt("y") - textcanvas.clientHeight / 4 + document.getElementById('result').offsetTop)
         {
             dragok = true;
 
-            tempx = e.pageX - document.getElementById('result').offsetLeft;
-            tempy = e.pageY - document.getElementById('result').offsetTop;
+            let tempx = e.pageX - document.getElementById('result').offsetLeft;
+            let tempy = e.pageY - document.getElementById('result').offsetTop;
 
-            relTextCords.x = botTextCords.x - tempx;
-            relTextCords.y = botTextCords.y - tempy;
-            
+            let relTxtCords: number[] = [affD.getBotTxt("x") - tempx, affD.getBotTxt("y") - tempy];
+            affD.setRelCord(relTxtCords); 
+
             //textcanvas.addEventListener('touchmove', moveTextBot);
             textcanvas.onpointermove = moveTextBot;
     }
 }
 
 function dropText(){
-    dragok = false;
-    relTextCords = {x: 0, y: 0}
+    if(affD.getTopTxt("defaultPos")){affD.setTopTxt("defaultPos", false)}
+    if(affD.getBotTxt("defaultPos")){affD.setBotTxt("defaultPos", false)}
+
+    affD.setRelCord([0,0])
     textcanvas.onpointermove = null;
     //textcanvas.removeEventListener("touchmove");
 }
 
-function moveTextTop(e){
+function moveTextTop(e: any){
     if (dragok){
-        x = e.pageX - document.getElementById('result').offsetLeft + relTextCords.x;
-        y = e.pageY - document.getElementById('result').offsetTop + relTextCords.y;
-        topTextCords.rx = x / textcanvas.clientWidth;
-        topTextCords.ry = y / textcanvas.clientHeight;
-        topTextCords.x = x;
-        topTextCords.y = y;
-        drawTopText(textcanvas, x, y);
+        let x = e.pageX - document.getElementById('result').offsetLeft + affD.getRelX();
+        let y = e.pageY - document.getElementById('result').offsetTop + affD.getRelY();
+        affD.setTopTxt("rx", x / textcanvas.clientWidth);
+        affD.setTopTxt("ry", y / textcanvas.clientHeight);
+        affD.setTopTxt("x", x);
+        affD.setTopTxt("y", y);
+
+        drawTopText(textcanvas, x, y, false);
     }
 }
 
-function moveTextBot(e){
+function moveTextBot(e: any){
     if (dragok){
-        x = e.pageX - document.getElementById('result').offsetLeft + relTextCords.x;
-        y = e.pageY - document.getElementById('result').offsetTop + relTextCords.y;
-        botTextCords.rx = x / textcanvas.clientWidth;
-        botTextCords.ry = y / textcanvas.clientHeight;
-        botTextCords.x = x;
-        botTextCords.y = y;
-        drawBotText(textcanvas, x, y);
+        let x = e.pageX - document.getElementById('result').offsetLeft + affD.getRelX();
+        let y = e.pageY - document.getElementById('result').offsetTop + affD.getRelY();
+        affD.setBotTxt("rx", x / textcanvas.clientWidth);
+        affD.setBotTxt("ry", y / textcanvas.clientHeight);
+        affD.setBotTxt("x", x);
+        affD.setBotTxt("y", y);
+
+        drawBotText(textcanvas, x, y, false);
     }
 }
 
 //dynamic canvas
 
-function canvasDims(canvas) {
+function canvasDims(canvas: HTMLCanvasElement) {
     let dpr = window.devicePixelRatio;
     let cssWidth = canvas.clientWidth;
     let cssHeight = canvas.clientHeight;
@@ -552,17 +563,17 @@ function rerender() {
     ctxb.scale(dpr, dpr);
     ctxt.scale(dpr, dpr);
 
-    add_img(imgURL, imgcanvas, cssWidth, cssHeight);
-    if(borderCol != ""){setBorder(borderCol, ctxb, cssWidth, cssHeight);}
+    add_img(affD.getImg(), imgcanvas);
+    if(affD.getBorder() != ""){setBorder(affD.getBorder(), bordercanvas, cssWidth, cssHeight);}
 
-    drawTopText(textcanvas, topTextCords.rx * cssWidth, topTextCords.ry * cssHeight);
-    drawBotText(textcanvas, botTextCords.rx * cssWidth, botTextCords.ry * cssHeight);    
+    drawTopText(textcanvas, affD.getTopTxt("rx") * cssWidth,affD.getTopTxt("ry") * cssHeight, false);
+    drawBotText(textcanvas, affD.getBotTxt("rx") * cssWidth, affD.getTopTxt("ry") * cssHeight, false);    
 }
 
-function toggleHide(elemID){
+function toggleHide(elemID: string){
     var elem = document.getElementById(elemID);
     
-    for(i = 0; i<overlays.length; i++){
+    for(let i = 0; i < overlays.length; i++){
         if(!document.getElementById(overlays[i]).classList.contains("hidden")){
             document.getElementById(overlays[i]).classList.toggle("hidden");
         }
@@ -571,9 +582,9 @@ function toggleHide(elemID){
     elem.classList.toggle("hidden");
 }
 
-function updateColorPicker(btn_index){
-    var colour = document.getElementsByClassName("hiddenpicker")[btn_index].value;
-    document.getElementsByClassName("styledPicker")[btn_index].style.backgroundColor = colour;
+function updateColorPicker(btn_index: number){
+    var colour = (document.getElementsByClassName("hiddenpicker")[btn_index] as HTMLInputElement).value;
+    (document.getElementsByClassName("styledPicker")[btn_index] as HTMLLabelElement).style.backgroundColor = colour;
 }
 
 new ResizeObserver(() => rerender()).observe(imgcanvas);
