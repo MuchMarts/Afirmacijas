@@ -150,11 +150,11 @@ function constructCanva(canva: HTMLCanvasElement){
 
     if(affD.getImg() == ""){
 
-        setBorder(affD.getBorder(), ctx, canva.clientWidth, canva.clientHeight);
+        setBorder(affD.getBorder(), canva, canva.clientWidth, canva.clientHeight);
         ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 0; //wtf is this???
 
-        drawTopText(canva, affD.getTopTxt("rx") * canva.clientWidth, affD.getTopTxt("ry") * canva.clientHeight, 1);
-        drawBotText(canva, affD.getBotTxt("rx") * canva.clientWidth, affD.getBotTxt("ry") * canva.clientHeight, 1);     
+        drawTopText(canva, affD.getTopTxt("rx") * canva.clientWidth, affD.getTopTxt("ry") * canva.clientHeight, true);
+        drawBotText(canva, affD.getBotTxt("rx") * canva.clientWidth, affD.getBotTxt("ry") * canva.clientHeight, true);     
         
         const temp = document.createElement("a");
         temp.href = canva.toDataURL();
@@ -171,11 +171,11 @@ function constructCanva(canva: HTMLCanvasElement){
     img.onload = function(){
         ctx.drawImage(img,0,0,canva.clientWidth,canva.clientHeight);
 
-        setBorder(affD.getBorder(), ctx, canva.clientWidth, canva.clientHeight);
+        setBorder(affD.getBorder(), canva, canva.clientWidth, canva.clientHeight);
         ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 0; //wtf is this???
         
-        drawTopText(canva, affD.getTopTxt("rx") * canva.clientWidth, affD.getTopTxt("ry") * canva.clientHeight, 1);
-        drawBotText(canva, affD.getBotTxt("rx") * canva.clientWidth, affD.getBotTxt("ry") * canva.clientHeight, 1);     
+        drawTopText(canva, affD.getTopTxt("rx") * canva.clientWidth, affD.getTopTxt("ry") * canva.clientHeight, true);
+        drawBotText(canva, affD.getBotTxt("rx") * canva.clientWidth, affD.getBotTxt("ry") * canva.clientHeight, true);     
          
         const temp = document.createElement("a");
         temp.href = canva.toDataURL(); 
@@ -209,12 +209,12 @@ function clearAll(){
 }
 
 // Creates final canva and exports it
-function downloadCanvas(size){
+function downloadCanvas(size: number){
         
     //Create final canva element
-    var anch = document.getElementById("finished");
-    var new_canvas = document.createElement("canvas");
-    var aspectRatio = imgcanvas.clientWidth/imgcanvas.clientHeight;
+    var anch: HTMLElement = document.getElementById("finished");
+    var new_canvas: HTMLCanvasElement = document.createElement("canvas");
+    var aspectRatio: number = imgcanvas.clientWidth/imgcanvas.clientHeight;
 
     anch.appendChild(new_canvas);
     new_canvas.id = "finalCopy";
@@ -234,7 +234,7 @@ function downloadCanvas(size){
 }
 
 //Handle image upload
-const userFile = document.getElementById("userFile");
+const userFile = document.getElementById("userFile") as HTMLInputElement;
 var place = document.getElementById ("text");
 
 function handleFiles(){
@@ -245,9 +245,9 @@ function handleFiles(){
         place.innerHTML = "Izvēlies vienu failu pls...:(";   
     } else {
         place.innerHTML = userFile.files[0].name + ": " + userFile.files[0].size + " biti";
-        tempUrl = URL.createObjectURL(userFile.files[0]);
-        imgURL = tempUrl;
-        add_img(tempUrl, imgcanvas, imgcanvas.clientWidth, imgcanvas.clientHeight);
+        let tempUrl:string = URL.createObjectURL(userFile.files[0]);
+        affD.setImg(tempUrl);
+        add_img(tempUrl, imgcanvas);
 
         const txtSpan = document.getElementById("file-chosen");
         txtSpan.textContent = userFile.files[0].name;
@@ -257,9 +257,9 @@ function handleFiles(){
 
 //Border
 
-function convertHex(hexCode, opacity = 1){ 
+function convertHex(hexCode: string, opacity: number = 1){ 
     //code src="https://gist.github.com/danieliser/b4b24c9f772066bcf0a6.js"
-    var hex = hexCode.replace('#', '');
+    var hex: string = hexCode.replace('#', '');
 
     if (hex.length === 3) {
         hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
@@ -276,57 +276,62 @@ function convertHex(hexCode, opacity = 1){
     return rgba;
 }
 
-var color = document.getElementById("colorpicker").value;
+var colourPicker: HTMLInputElement = document.getElementById("colorpicker") as HTMLInputElement;
+var color = colourPicker.value;
 
-document.getElementById("colorpicker").addEventListener("change", function(){
+colourPicker.addEventListener("change", function(){
     clearCanvas(bordercanvas);
     color = this.value;
-    borderCol = color;
-    setBorder(color, ctxb, bordercanvas.clientWidth, bordercanvas.clientHeight);
+    affD.setBorder(color);
+    setBorder(color, bordercanvas, bordercanvas.clientWidth, bordercanvas.clientHeight);
 });
 
-function setBorder(borderColour, ctxborder, width, height){  
+function setBorder(borderColour: string, canva: HTMLCanvasElement, width: number, height: number){  
     //Formats and sets border with user color input
     if(borderColour == ""){return};
     
+    let ctxborder = canva.getContext("2d");
+
     let borderWidth: number = width/30;
     
     ctxborder.fillStyle = borderColour;
     ctxborder.shadowColor = borderColour;
     ctxborder.shadowBlur = 30;
 
-    ctxborder.fillStyle = setGradient(0, 0, 0, borderWidth, borderColour);
+    ctxborder.fillStyle = setGradient(0, 0, 0, borderWidth, borderColour, ctxborder);
     ctxborder.shadowOffsetY = 5;
     ctxborder.fillRect(0, 0, width, borderWidth); //top
 
-    ctxborder.fillStyle = setGradient(0, 0, borderWidth, 0, borderColour);
+    ctxborder.fillStyle = setGradient(0, 0, borderWidth, 0, borderColour, ctxborder);
     ctxborder.shadowOffsetX = 5;
     ctxborder.fillRect(0, 0, borderWidth, height); //left
 
-    ctxborder.fillStyle = setGradient(0, height, 0, height-borderWidth, borderColour);
+    ctxborder.fillStyle = setGradient(0, height, 0, height-borderWidth, borderColour, ctxborder);
     ctxborder.shadowOffsetY = -5;
     ctxborder.fillRect(0, height-borderWidth, width, borderWidth); //bottom
 
-    ctxborder.fillStyle = setGradient(height, 0, height-borderWidth, 0, borderColour);
+    ctxborder.fillStyle = setGradient(height, 0, height-borderWidth, 0, borderColour, ctxborder);
     ctxborder.shadowOffsetX = -5;
     ctxborder.fillRect(width-borderWidth, 0, borderWidth, height); //right
 }
 
-function setGradient(x, y, x1, y1, color){
+function setGradient(x: number, y: number, x1: number, y1: number, color: string, ctxb: any){
     var rgba = convertHex(color, 1);
     var r = rgba[0], g = rgba[1], b = rgba[2];
     var gradient = ctxb.createLinearGradient(x, y, x1, y1);
+    
     gradient.addColorStop(0, `rgba(${r},${g},${b},1)`);
     //gradient.addColorStop(0.35, `rgba(${r},${g},${b},.95)`); //idk
     gradient.addColorStop(0.7, `rgba(${r},${g},${b},.2)`);
     gradient.addColorStop(1, `rgba(${r},${g},${b},0)`);
+    
     return gradient;
 }
 
 //Text
 var maxWidth = 0;
 
-function drawText(text, fontSize, x, y, txtCon, size, blurRatio){
+function drawText(text: string, fontSize: number, x: number, y: number, txtCon: any, size: number, blurRatio: number){
     maxWidth = size * 0.9;
     
     //Text formatting
@@ -336,48 +341,54 @@ function drawText(text, fontSize, x, y, txtCon, size, blurRatio){
     //txtCon.font = fontWeight + ' '+ fontSize * size + 'px Work Sans';
     txtCon.font = '700 '+ fontSize * size + 'px Work Sans';
     txtCon.fillStyle = '#FFFFFF';
-    txtCon.shadowColor = document.getElementById("textcolor").value;
+    let txtCol = document.getElementById("textcolor") as HTMLInputElement;
+    txtCon.shadowColor = txtCol.value;
     txtCon.shadowBlur = blurRatio * size;
 
     txtCon.fillText(text, x, y, maxWidth);
     txtCon.fillText(text, x, y, maxWidth);
 }
 
-function drawTopText(canva, x, y, final){
-    if(text.topTxt == ""){console.log("Missing Top Text"); return};
+function drawTopText(canva: HTMLCanvasElement, x: number, y:number, final: boolean){
+    if(affD.getTopTxt("text") == ""){console.log("Missing Top Text"); return};
+    
     var ctx = canva.getContext("2d");
     
-    if(text.botTxt != "" && !final){
+    if(affD.getBotTxt("text") != "" && !final){
         ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight);   
-        topTextCords.x = x;
-        topTextCords.y = y;
-        drawText(text.botTxt, text.txtRatioBot, botTextCords.rx * textcanvas.clientWidth, botTextCords.ry * textcanvas.clientHeight, ctx, canva.clientWidth, text.borderBlurRatio);
+
+        affD.setTopTxt("x", x);
+        affD.setTopTxt("y", y)
+
+        drawText(affD.getBotTxt("text"), affD.getBotTxt("sizeRatio"), affD.getBotTxt("rx") * textcanvas.clientWidth, affD.getBotTxt("ry") * textcanvas.clientHeight, ctx, canva.clientWidth, affD.getBotTxt("textBorderBlur"));
     }else if (!final){
         ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight);   
     }
-    drawText(text.topTxt, text.txtRatioTop, x, y, ctx, canva.clientWidth, text.borderBlurRatio);
+    drawText(affD.getTopTxt("text"), affD.getTopTxt("sizeRatio"), x, y, ctx, canva.clientWidth, affD.getTopTxt("textBorderBlur"));
 } 
 
 function drawBotText(canva, x, y, final){
-    if(text.botTxt == ""){console.log("Missing Bottom Text"); return};
+    if(affD.getBotTxt("text") == ""){console.log("Missing Bottom Text"); return};
     var ctx = canva.getContext("2d");
 
     
-    if(text.topTxt != "" && !final){
+    if(affD.getTopTxt("text") != "" && !final){
         ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight);
-        botTextCords.x = x;
-        botTextCords.y = y; 
-        drawText(text.topTxt, text.txtRatioTop, topTextCords.rx * textcanvas.clientWidth, topTextCords.ry * textcanvas.clientHeight, ctx, canva.clientWidth, text.borderBlurRatio);
+
+        affD.setBotTxt("x", x);
+        affD.setBotTxt("y", y)
+
+        drawText(affD.getTopTxt("text"), affD.getTopTxt("sizeRatio"), affD.getTopTxt("rx") * textcanvas.clientWidth, affD.getTopTxt("ry") * textcanvas.clientHeight, ctx, canva.clientWidth, affD.getTopTxt("textBorderBlur"));
     }else if (!final){
         ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight);
     }
-    drawText(text.botTxt, text.txtRatioBot, x, y, ctx, canva.clientWidth, text.borderBlurRatio);
+    drawText(affD.getBotTxt("text"), affD.getBotTxt("sizeRatio"), x, y, ctx, canva.clientWidth, affD.getBotTxt("textBorderBlur"));
 }
 
-function initTxtPos(txtType, height){
+function initTxtPos(txtType: "top"|"bot", height: number){
     switch(txtType){
         case "top":
-            return (height * (0.15 + text.txtRatioTop * 0.35));
+            return (height * (0.15 + affD.getTopTxt("sizeRatio") * 0.35));
         case "bot":
             return (height * 0.92);
     }
@@ -385,29 +396,31 @@ function initTxtPos(txtType, height){
 
 document.getElementById("textcolor").addEventListener("change", function(){
     //Changes text color on user color input
-    if(text.topTxt.length != 0){
-        drawTopText(textcanvas, topTextCords.x, topTextCords.y);
+    if(affD.getTopTxt("text").length != 0){
+        drawTopText(textcanvas, affD.getTopTxt("x"), affD.getTopTxt("y"), false);
     }
-    if(text.botTxt.length != 0){
-        drawBotText(textcanvas, botTextCords.x, botTextCords.y);
+    if(affD.getBotTxt("text").length != 0){
+        drawBotText(textcanvas, affD.getBotTxt("x"), affD.getBotTxt("y"), false);;
     }
 })
 
 
-function topTextHndler(e) {
+function topTextHndler(e: any) {
+    let ctxt = textcanvas.getContext("2d");
     ctxt.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight/2);
-    text.topTxt = e.target.value.toUpperCase();
-    drawTopText(textcanvas, topTextCords.rx * textcanvas.clientWidth, topTextCords.ry * textcanvas.clientHeight);
+    affD.setTopTxt("text", e.target.value.toUpperCase());
+    drawTopText(textcanvas, affD.getTopTxt("rx") * textcanvas.clientWidth, affD.getTopTxt("ry") * textcanvas.clientHeight, false);
 }
 
-function botTextHndler(e){
+function botTextHndler(e: any){
+    let ctxt = textcanvas.getContext("2d");
     ctxt.clearRect(0, textcanvas.clientHeight/2, textcanvas.clientWidth, textcanvas.clientHeight/2);
-    text.botTxt = e.target.value.toUpperCase();
-    drawBotText(textcanvas, botTextCords.rx * textcanvas.clientWidth, botTextCords.ry * textcanvas.clientHeight);
+    affD.setBotTxt("text", e.target.value.toUpperCase());
+    drawBotText(textcanvas, affD.getBotTxt("rx") * textcanvas.clientWidth, affD.getBotTxt("ry") * textcanvas.clientHeight, false);
 }
 
-var topTxt = document.getElementById("toptext");
-var botTxt = document.getElementById("bottomtext");
+var topTxt = document.getElementById("toptext") as HTMLInputElement;
+var botTxt = document.getElementById("bottomtext") as HTMLInputElement;
 
 topTxt.addEventListener('input', topTextHndler);
 botTxt.addEventListener('input', botTextHndler);
@@ -416,26 +429,26 @@ topTxt.addEventListener('propertychange', topTextHndler);
 botTxt.addEventListener('propertychange', botTextHndler);
 
 
-var sliderTop = document.getElementById("TopRange"); 
+var sliderTop = document.getElementById("TopRange") as HTMLInputElement; 
 
-sliderTop.oninput = function() {
+sliderTop.oninput = () => function() {
     //Changes TOP text size on user slider input
-    text.txtRatioTop = this.value/textcanvas.clientWidth;
-    if(defaultCords){
-        newy = initTxtPos("top", textcanvas.clientHeight);  
-        topTextCords.ry = newy / textcanvas.clientHeight;
-        drawTopText(textcanvas, topTextCords.x, newy);
+    affD.setTopTxt("sizeRatio", this.value/textcanvas.clientWidth);
+    if(affD.getTopTxt("defaultPos")){
+        let newy = initTxtPos("top", textcanvas.clientHeight);  
+        affD.setTopTxt("ry", newy / textcanvas.clientHeight);
+        drawTopText(textcanvas, affD.getTopTxt("x"), newy, false);
         return;
     }
-    drawTopText(textcanvas, topTextCords.x ,topTextCords.y);
+    drawTopText(textcanvas, affD.getTopTxt("x") ,affD.getTopTxt("y"), false);
 }
 
 var sliderBot = document.getElementById("BotRange");
 
-sliderBot.oninput = function() {
+sliderBot.oninput = () => function() {
     //Changes BOTTOM text size on user slider input
-    text.txtRatioBot = this.value/textcanvas.clientWidth;
-    drawBotText(textcanvas,  botTextCords.x, botTextCords.y);
+    affD.setBotTxt("sizeRatio", this.value/textcanvas.clientWidth);
+    drawBotText(textcanvas,  affD.getBotTxt("x"), affD.getBotTxt("y"), false);
 }
 
 var dragok = false;
