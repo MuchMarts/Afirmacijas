@@ -1,65 +1,102 @@
 window.onload = init;
 
 //  Properties
-const imgcanvas = document.getElementById("image");
-const ctxi = imgcanvas.getContext('2d');
-
-const bordercanvas = document.getElementById("border");
-const ctxb = bordercanvas.getContext("2d");
-
-const textcanvas = document.getElementById("text");
-const ctxt = textcanvas.getContext("2d");
-//for moving text
-
-textcanvas.onpointerdown = dragText;
-textcanvas.onpointerup = dropText;
-
-var imgURL = "";
-var text = {  
-    topTxt : "",
-    botTxt : "",
-    txtRatioTop: 100/imgcanvas.clientWidth,
-    txtRatioBot: 100/imgcanvas.clientWidth,
-    borderBlurRatio: 15/textcanvas.clientWidth,
-}
-
-var topTextCords = {
-    x: textcanvas.clientWidth/2,
-    y: initTxtPos("top", textcanvas.clientHeight),
-    rx: (textcanvas.clientWidth/2) / textcanvas.clientWidth,
-    ry: initTxtPos("top", textcanvas.clientHeight) / textcanvas.clientHeight,
-}
-
-var botTextCords = {
-    x: textcanvas.clientWidth/2,
-    y: initTxtPos("bot", textcanvas.clientWidth),
-    rx: (textcanvas.clientWidth/2) / textcanvas.clientWidth,
-    ry: initTxtPos("bot", textcanvas.clientHeight) / textcanvas.clientHeight,
-}
-
-var relTextCords = {
-    x: 0,
-    y: 0, 
-}
-
-var defaultCords = true; //Used to determine wheter user has used drag feature to create custom placement
-
-var borderCol = "";
-
-var aspectAnchor = 0; // for 1080p whether bottom or left is 1080 px if 0 bottom if 1 side
+const imgcanvas = <HTMLCanvasElement> document.getElementById("image");
+const bordercanvas = <HTMLCanvasElement> document.getElementById("border");
+const textcanvas = <HTMLCanvasElement> document.getElementById("text");
 
 const overlays = [
     "imgOverlay",
     "borderOverlay",
     "textOverlay"
 ]
+
+//for moving text
+
+textcanvas.onpointerdown = dragText;
+textcanvas.onpointerup = dropText;
+
+class affData {
+    // Stores image data
+    imgURL: string;
+    
+    /** Stores text data
+        text = text; input
+        sizeRatio = number; text size relative to canva width
+        textBorderBlur = number; text blur size relative to canva width
+        x = number; text x cordinate
+        y = number; text y cordinate
+        rx = number; text relative x cordinate to canva width
+        ry = number; text relative ry cordinate to canva width
+        defaultPos = boolean; determines wheter text should use automatic positioning
+    */
+    topText: { text: string; sizeRatio: number; textBorderBlur: number; x: number, y: number, rx: number, ry: number, defaultPos: boolean };
+    botTxt: { text: string; sizeRatio: number; textBorderBlur: number; x: number, y: number, rx: number, ry: number, defaultPos: boolean };
+    
+    // Temporary cordinates used when text is moved
+    relativeTxtMove: { x: number; y: number };
+
+    // Hex string for colour
+    borderColour: string;
+
+    constructor(){
+        this.imgURL = "";
+        this.topText = {
+            text : "",
+            sizeRatio: 100/imgcanvas.clientWidth,
+            textBorderBlur: 15/textcanvas.clientWidth,
+            x: textcanvas.clientWidth/2,
+            y: initTxtPos("top", textcanvas.clientHeight),
+            rx: (textcanvas.clientWidth/2) / textcanvas.clientWidth,
+            ry: initTxtPos("top", textcanvas.clientHeight) / textcanvas.clientHeight,
+            defaultPos: true,
+        };
+        this.botTxt = {
+            text : "",
+            sizeRatio: 100/imgcanvas.clientWidth,
+            textBorderBlur: 15/textcanvas.clientWidth,
+            x: textcanvas.clientWidth/2,
+            y: initTxtPos("bot", textcanvas.clientWidth),
+            rx: (textcanvas.clientWidth/2) / textcanvas.clientWidth,
+            ry: initTxtPos("bot", textcanvas.clientHeight) / textcanvas.clientHeight,
+            defaultPos: true,
+        };
+        this.relativeTxtMove = {
+            x: 0,
+            y: 0,
+        };
+        this.borderColour = "";
+    }
+
+    setImg(url: string) {
+        this.imgURL = url;
+    }
+    getImg() {
+        return this.imgURL;
+    }
+
+    setText(type: "top"|"bot", text: string){
+        switch(type){
+            case "top": this.topText.text = text;
+            case "bot": this.botTxt.text = text;
+        }
+    }
+}
+
+var aspectAnchor = 0; // for 1080p whether bottom or left is 1080 px if 0 bottom if 1 side
+
 var openOverlay = "imgOverlay";
 
 function init(){
-    document.getElementById("toptext").value = "";
-    document.getElementById("bottomtext").value = "";
-    document.getElementById("TopRange").value = 100;
-    document.getElementById("BotRange").value = 100;
+    let topText = document.getElementById("toptext") as HTMLInputElement;
+    let bottomText = document.getElementById("bottomtext") as HTMLInputElement;
+    let topRange = document.getElementById("TopRange") as HTMLInputElement;
+    let botRange = document.getElementById("BotRange") as HTMLInputElement;
+
+    topText.value = "";
+    bottomText.value = "";
+    topRange.value = "100";
+    botRange.value = "100";
     }
 
 // Add image on canva
