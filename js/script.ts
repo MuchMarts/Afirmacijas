@@ -68,20 +68,54 @@ class affData {
         this.borderColour = "";
     }
 
+    // Set IMG
     setImg(url: string) {
         this.imgURL = url;
     }
+    // Get IMG
     getImg() {
         return this.imgURL;
     }
+    
+    // Set, Get any toptxt field
+    setTopTxt(key: string, value: any){
+        this.topText[key] = value;
+    }
+    getTopTxt(key: string){
+        return this.topText[key];
+    }
 
-    setText(type: "top"|"bot", text: string){
-        switch(type){
-            case "top": this.topText.text = text;
-            case "bot": this.botTxt.text = text;
-        }
+    // Set, Get any bottxt field
+    setBotTxt(key: string, value: any){
+        this.botTxt[key] = value;
+    }
+    getBotTxt(key: string){
+        return this.botTxt[key];
+    }
+
+    setRelCord(value: number[]){
+        this.relativeTxtMove.x = value[0];
+        this.relativeTxtMove.y = value[1];
+    }
+
+    getRelX(){
+        return this.relativeTxtMove.x;
+    }
+    getRelY(){
+        return this.relativeTxtMove.y;
+    }
+
+
+    //Set,Get border Colour
+    setBorder(value: string){
+        this.borderColour = value;
+    }
+    getBorder(){
+        return this.borderColour;
     }
 }
+
+const affD: affData = new affData();
 
 var aspectAnchor = 0; // for 1080p whether bottom or left is 1080 px if 0 bottom if 1 side
 
@@ -100,25 +134,27 @@ function init(){
     }
 
 // Add image on canva
-function add_img(src, canva) {
-    ctx = canva.getContext("2d")
-    img = new Image();
+function add_img(src: string, canva: HTMLCanvasElement) {
+    let ctx = canva.getContext("2d")
+    let img = new Image();
     img.src = src;
     img.onload = function(){
-        ctx.drawImage(img,0,0,canva.clientWidth,canva.clientHeight);
+        ctx.drawImage(img, 0, 0, canva.clientWidth, canva.clientHeight );
     }
 }
 
 //Construct canva from stored data
-function constructCanva(canva){
-    var ctx = canva.getContext("2d");
+function constructCanva(canva: HTMLCanvasElement){
+    
+    let ctx = canva.getContext("2d");
 
-    if(imgURL == ""){
-        if(borderCol != ""){setBorder(borderCol, ctx, canva.clientWidth, canva.clientHeight);}
+    if(affD.getImg() == ""){
+
+        setBorder(affD.getBorder(), ctx, canva.clientWidth, canva.clientHeight);
         ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 0; //wtf is this???
 
-        drawTopText(canva, (topTextCords.x/textcanvas.clientWidth) * canva.clientWidth, (topTextCords.y/textcanvas.clientHeight) * canva.clientHeight, 1);
-        drawBotText(canva, (botTextCords.x/textcanvas.clientWidth) * canva.clientWidth, (botTextCords.y/textcanvas.clientHeight) * canva.clientHeight, 1);     
+        drawTopText(canva, affD.getTopTxt("rx") * canva.clientWidth, affD.getTopTxt("ry") * canva.clientHeight, 1);
+        drawBotText(canva, affD.getBotTxt("rx") * canva.clientWidth, affD.getBotTxt("ry") * canva.clientHeight, 1);     
         
         const temp = document.createElement("a");
         temp.href = canva.toDataURL();
@@ -129,16 +165,18 @@ function constructCanva(canva){
         return;
     }
 
-    img = new Image();
-    img.src = imgURL;
+    let img = new Image();
+    img.src = affD.getImg();
+
     img.onload = function(){
         ctx.drawImage(img,0,0,canva.clientWidth,canva.clientHeight);
-        if(borderCol != ""){setBorder(borderCol, ctx, canva.clientWidth, canva.clientHeight);}
+
+        setBorder(affD.getBorder(), ctx, canva.clientWidth, canva.clientHeight);
         ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 0; //wtf is this???
         
-        drawTopText(canva, (topTextCords.x/textcanvas.clientWidth) * canva.clientWidth, (topTextCords.y/textcanvas.clientHeight) * canva.clientHeight, 1);
-        drawBotText(canva, (botTextCords.x/textcanvas.clientWidth) * canva.clientWidth, (botTextCords.y/textcanvas.clientHeight) * canva.clientHeight, 1);     
-        
+        drawTopText(canva, affD.getTopTxt("rx") * canva.clientWidth, affD.getTopTxt("ry") * canva.clientHeight, 1);
+        drawBotText(canva, affD.getBotTxt("rx") * canva.clientWidth, affD.getBotTxt("ry") * canva.clientHeight, 1);     
+         
         const temp = document.createElement("a");
         temp.href = canva.toDataURL(); 
         temp.download = "afirmacija";
@@ -149,7 +187,7 @@ function constructCanva(canva){
 }
 
 //Used to save image
-function saveFile(exportSize){downloadCanvas(exportSize);}
+function saveFile(exportSize: number){downloadCanvas(exportSize);}
 
 //Update imgAspect
 function changeAspect(){
@@ -158,16 +196,16 @@ function changeAspect(){
 }
 
 //Clear canvas
-function clearCanvas(elem){
+function clearCanvas(elem: HTMLCanvasElement){
     var ctx = elem.getContext("2d");
     ctx.clearRect(0, 0, imgcanvas.clientWidth, imgcanvas.clientHeight);
 }
 
 //Clear all
 function clearAll(){
-    clearCanvas(document.getElementById("image"));
-    clearCanvas(document.getElementById("border"));
-    clearCanvas(document.getElementById("text"));
+    clearCanvas(<HTMLCanvasElement> document.getElementById("image"));
+    clearCanvas(<HTMLCanvasElement> document.getElementById("border"));
+    clearCanvas(<HTMLCanvasElement> document.getElementById("text"));
 }
 
 // Creates final canva and exports it
@@ -249,8 +287,9 @@ document.getElementById("colorpicker").addEventListener("change", function(){
 
 function setBorder(borderColour, ctxborder, width, height){  
     //Formats and sets border with user color input
-
-    borderWidth = width/30;
+    if(borderColour == ""){return};
+    
+    let borderWidth: number = width/30;
     
     ctxborder.fillStyle = borderColour;
     ctxborder.shadowColor = borderColour;
