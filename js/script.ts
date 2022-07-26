@@ -1,5 +1,3 @@
-window.onload = init;
-
 //  Properties
 const imgcanvas = <HTMLCanvasElement> document.getElementById("image");
 const bordercanvas = <HTMLCanvasElement> document.getElementById("border");
@@ -10,11 +8,6 @@ const overlays = [
     "borderOverlay",
     "textOverlay"
 ]
-
-//for moving text
-
-textcanvas.onpointerdown = dragText;
-textcanvas.onpointerup = dropText;
 
 interface IDictionary<TValue> {
     [key: string]: TValue;
@@ -122,11 +115,18 @@ class affData{
     }
 }
 
-const affD: affData = new affData();
+const affD = new affData();
+
+//for moving text
+
+textcanvas.onpointerdown = dragText;
+textcanvas.onpointerup = dropText;
 
 var aspectAnchor = 0; // for 1080p whether bottom or left is 1080 px if 0 bottom if 1 side
 
 var openOverlay = "imgOverlay";
+
+window.onload = init;
 
 function init(){
     let topText = document.getElementById("toptext") as HTMLInputElement;
@@ -241,11 +241,12 @@ function downloadCanvas(size: number){
 }
 
 //Handle image upload
-const userFile = document.getElementById("userFile") as HTMLInputElement;
-var place = document.getElementById ("text");
 
 function handleFiles(){
-    console.log(userFile.files.length);
+
+    var userFile = document.getElementById("userFile") as HTMLInputElement;
+    var place = document.getElementById ("text");
+
     if(!userFile.files.length){
         place.innerHTML = "Nav failu...:(";   
     } else if(userFile.files.length > 1){
