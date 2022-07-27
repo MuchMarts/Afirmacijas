@@ -97,11 +97,12 @@ function init(){
     let bottomText = document.getElementById("bottomtext") as HTMLInputElement;
     let topRange = document.getElementById("TopRange") as HTMLInputElement;
     let botRange = document.getElementById("BotRange") as HTMLInputElement;
-
+    let txtCol = document.getElementById("textcolor") as HTMLInputElement;
     topText.value = "";
     bottomText.value = "";
     topRange.value = "100";
     botRange.value = "100";
+    txtCol.value = "#000000";
     }
 
 // Add image on canva
@@ -405,14 +406,12 @@ botTxtInput.addEventListener('input', botTextHndler);
 topTxtInput.addEventListener('propertychange', topTextHndler);
 botTxtInput.addEventListener('propertychange', botTextHndler);
 
-
-var sliderTop = document.getElementById("TopRange") as HTMLInputElement; 
-
-sliderTop.oninput = () => function() {
+function getValueTopSlider(e: { target: { value: number; }; }) {
     //Changes TOP text size on user slider input
-    setTopTxt("sizeRatio", this.value/textcanvas.clientWidth);
+    setTopTxt("sizeRatio", e.target.value/textcanvas.clientWidth);
+
     if(topText.defaultPos){
-        let newy = initTxtPos("top", textcanvas.clientHeight, this.value/textcanvas.clientWidth);  
+        let newy = initTxtPos("top", textcanvas.clientHeight, e.target.value/textcanvas.clientWidth);  
         setTopTxt("ry", newy / textcanvas.clientHeight);
         drawTopText(textcanvas, topText.x, newy, false);
         return;
@@ -420,11 +419,9 @@ sliderTop.oninput = () => function() {
     drawTopText(textcanvas, topText.x ,topText.y, false);
 }
 
-var sliderBot = document.getElementById("BotRange");
-
-sliderBot.oninput = () => function() {
+function getValueBotSlider(e: { target: { value: number; }; }) {
     //Changes BOTTOM text size on user slider input
-    setBotTxt("sizeRatio", this.value/textcanvas.clientWidth);
+    setBotTxt("sizeRatio", e.target.value/textcanvas.clientWidth);
     drawBotText(textcanvas,  botText.x, botText.y, false);
 }
 

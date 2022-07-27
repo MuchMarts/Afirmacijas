@@ -77,10 +77,12 @@ function init() {
     var bottomText = document.getElementById("bottomtext");
     var topRange = document.getElementById("TopRange");
     var botRange = document.getElementById("BotRange");
+    var txtCol = document.getElementById("textcolor");
     topText.value = "";
     bottomText.value = "";
     topRange.value = "100";
     botRange.value = "100";
+    txtCol.value = "#000000";
 }
 // Add image on canva
 function add_img(src, canva) {
@@ -333,24 +335,22 @@ topTxtInput.addEventListener('input', topTextHndler);
 botTxtInput.addEventListener('input', botTextHndler);
 topTxtInput.addEventListener('propertychange', topTextHndler);
 botTxtInput.addEventListener('propertychange', botTextHndler);
-var sliderTop = document.getElementById("TopRange");
-sliderTop.oninput = function () { return function () {
+function getValueTopSlider(e) {
     //Changes TOP text size on user slider input
-    setTopTxt("sizeRatio", this.value / textcanvas.clientWidth);
+    setTopTxt("sizeRatio", e.target.value / textcanvas.clientWidth);
     if (topText.defaultPos) {
-        var newy = initTxtPos("top", textcanvas.clientHeight, this.value / textcanvas.clientWidth);
+        var newy = initTxtPos("top", textcanvas.clientHeight, e.target.value / textcanvas.clientWidth);
         setTopTxt("ry", newy / textcanvas.clientHeight);
         drawTopText(textcanvas, topText.x, newy, false);
         return;
     }
     drawTopText(textcanvas, topText.x, topText.y, false);
-}; };
-var sliderBot = document.getElementById("BotRange");
-sliderBot.oninput = function () { return function () {
+}
+function getValueBotSlider(e) {
     //Changes BOTTOM text size on user slider input
-    setBotTxt("sizeRatio", this.value / textcanvas.clientWidth);
+    setBotTxt("sizeRatio", e.target.value / textcanvas.clientWidth);
     drawBotText(textcanvas, botText.x, botText.y, false);
-}; };
+}
 var dragok = false;
 function dragText(e) {
     e.preventDefault();
