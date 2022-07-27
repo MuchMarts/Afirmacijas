@@ -9,6 +9,8 @@ const overlays = [
     "textOverlay"
 ]
 
+window.onload = init;
+
 interface IDictionary<TValue> {
     [key: string]: TValue;
 }
@@ -38,7 +40,6 @@ let relativeTxtMove: { x: number; y: number } = {
     y: 0,
 };
 let borderColour: string = "";
-
 
 // Set IMG
 function setImg(url: string) {
@@ -89,7 +90,7 @@ var aspectAnchor = 0; // for 1080p whether bottom or left is 1080 px if 0 bottom
 
 var openOverlay = "imgOverlay";
 
-window.onload = init;
+
 
 function init(){
     let topText = document.getElementById("toptext") as HTMLInputElement;
@@ -302,9 +303,11 @@ function setGradient(x: number, y: number, x1: number, y1: number, color: string
 //Text
 var maxWidth = 0;
 
-function drawText(text: string, fontSize: number, x: number, y: number, txtCon: any, size: number, blurRatio: number){
+function drawText(text: string, fontSize: number, x: number, y: number, canva: HTMLCanvasElement, size: number, blurRatio: number){
     maxWidth = size * 0.9;
-    
+
+    let txtCon = canva.getContext("2d")
+
     //Text formatting
 
     txtCon.textAlign = 'center';    
@@ -322,20 +325,21 @@ function drawText(text: string, fontSize: number, x: number, y: number, txtCon: 
 
 function drawTopText(canva: HTMLCanvasElement, x: number, y:number, final: boolean){
     if(topText.text == ""){console.log("Missing Top Text"); return};
-    
+
     var ctx = canva.getContext("2d");
-    
+
     if(botText.text != "" && !final){
         ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight);   
 
         setTopTxt("x", x);
         setTopTxt("y", y)
 
-        drawText(botText.text, botText.sizeRatio, botText.rx * textcanvas.clientWidth, botText.ry * textcanvas.clientHeight, ctx, canva.clientWidth, botText.textBorderBlur);
+        drawText(botText.text, botText.sizeRatio, botText.rx * textcanvas.clientWidth, botText.ry * textcanvas.clientHeight, canva, canva.clientWidth, botText.textBorderBlur);
     }else if (!final){
         ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight);   
     }
-    drawText(topText.text, topText.sizeRatio, x, y, ctx, canva.clientWidth, topText.textBorderBlur);
+
+    drawText(topText.text, topText.sizeRatio, x, y, canva, canva.clientWidth, topText.textBorderBlur);
 } 
 
 function drawBotText(canva: HTMLCanvasElement, x: number, y: number, final: boolean){
@@ -349,15 +353,14 @@ function drawBotText(canva: HTMLCanvasElement, x: number, y: number, final: bool
         setBotTxt("x", x);
         setBotTxt("y", y)
 
-        drawText(topText.text, topText.sizeRatio, topText.rx * textcanvas.clientWidth, topText.ry * textcanvas.clientHeight, ctx, canva.clientWidth, topText.textBorderBlur);
+        drawText(topText.text, topText.sizeRatio, topText.rx * textcanvas.clientWidth, topText.ry * textcanvas.clientHeight, canva, canva.clientWidth, topText.textBorderBlur);
     }else if (!final){
         ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight);
     }
-    drawText(botText.text, botText.sizeRatio, x, y, ctx, canva.clientWidth, botText.textBorderBlur);
+    drawText(botText.text, botText.sizeRatio, x, y, canva, canva.clientWidth, botText.textBorderBlur);
 }
 
 function initTxtPos(txtType: "top"|"bot", height: number, sizeRatio: number){
-    if(init){return }
     switch(txtType){
         case "top":
             return (height * (0.15 + sizeRatio * 0.35));
@@ -380,8 +383,7 @@ document.getElementById("textcolor").addEventListener("change", function(){
 function topTextHndler(e: any) {
     const target = e.target as HTMLInputElement;
     let ctxt = textcanvas.getContext("2d");
-    ctxt.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight/2);
-    console.log(target.value.toUpperCase());
+    ctxt.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight/2);    
     setTopTxt("text", target.value.toUpperCase());
     drawTopText(textcanvas, topText.rx * textcanvas.clientWidth, topText.ry * textcanvas.clientHeight, false);
 }
@@ -390,7 +392,6 @@ function botTextHndler(e: any){
     const target = e.target as HTMLInputElement;
     let ctxt = textcanvas.getContext("2d");
     ctxt.clearRect(0, textcanvas.clientHeight/2, textcanvas.clientWidth, textcanvas.clientHeight/2);
-    console.log(target.value.toUpperCase());
     setBotTxt("text", target.value.toUpperCase());
     drawBotText(textcanvas, botText.rx * textcanvas.clientWidth, botText.ry * textcanvas.clientHeight, false);
 }

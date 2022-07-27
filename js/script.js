@@ -7,6 +7,7 @@ var overlays = [
     "borderOverlay",
     "textOverlay"
 ];
+window.onload = init;
 var imgURL = "";
 var topText = {
     text: "",
@@ -71,7 +72,6 @@ textcanvas.onpointerdown = dragText;
 textcanvas.onpointerup = dropText;
 var aspectAnchor = 0; // for 1080p whether bottom or left is 1080 px if 0 bottom if 1 side
 var openOverlay = "imgOverlay";
-window.onload = init;
 function init() {
     var topText = document.getElementById("toptext");
     var bottomText = document.getElementById("bottomtext");
@@ -244,8 +244,9 @@ function setGradient(x, y, x1, y1, color, ctxb) {
 }
 //Text
 var maxWidth = 0;
-function drawText(text, fontSize, x, y, txtCon, size, blurRatio) {
+function drawText(text, fontSize, x, y, canva, size, blurRatio) {
     maxWidth = size * 0.9;
+    var txtCon = canva.getContext("2d");
     //Text formatting
     txtCon.textAlign = 'center';
     //if add changable boldness
@@ -269,12 +270,12 @@ function drawTopText(canva, x, y, final) {
         ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight);
         setTopTxt("x", x);
         setTopTxt("y", y);
-        drawText(botText.text, botText.sizeRatio, botText.rx * textcanvas.clientWidth, botText.ry * textcanvas.clientHeight, ctx, canva.clientWidth, botText.textBorderBlur);
+        drawText(botText.text, botText.sizeRatio, botText.rx * textcanvas.clientWidth, botText.ry * textcanvas.clientHeight, canva, canva.clientWidth, botText.textBorderBlur);
     }
     else if (!final) {
         ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight);
     }
-    drawText(topText.text, topText.sizeRatio, x, y, ctx, canva.clientWidth, topText.textBorderBlur);
+    drawText(topText.text, topText.sizeRatio, x, y, canva, canva.clientWidth, topText.textBorderBlur);
 }
 function drawBotText(canva, x, y, final) {
     if (botText.text == "") {
@@ -287,17 +288,14 @@ function drawBotText(canva, x, y, final) {
         ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight);
         setBotTxt("x", x);
         setBotTxt("y", y);
-        drawText(topText.text, topText.sizeRatio, topText.rx * textcanvas.clientWidth, topText.ry * textcanvas.clientHeight, ctx, canva.clientWidth, topText.textBorderBlur);
+        drawText(topText.text, topText.sizeRatio, topText.rx * textcanvas.clientWidth, topText.ry * textcanvas.clientHeight, canva, canva.clientWidth, topText.textBorderBlur);
     }
     else if (!final) {
         ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight);
     }
-    drawText(botText.text, botText.sizeRatio, x, y, ctx, canva.clientWidth, botText.textBorderBlur);
+    drawText(botText.text, botText.sizeRatio, x, y, canva, canva.clientWidth, botText.textBorderBlur);
 }
 function initTxtPos(txtType, height, sizeRatio) {
-    if (init) {
-        return;
-    }
     switch (txtType) {
         case "top":
             return (height * (0.15 + sizeRatio * 0.35));
@@ -319,7 +317,6 @@ function topTextHndler(e) {
     var target = e.target;
     var ctxt = textcanvas.getContext("2d");
     ctxt.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight / 2);
-    console.log(target.value.toUpperCase());
     setTopTxt("text", target.value.toUpperCase());
     drawTopText(textcanvas, topText.rx * textcanvas.clientWidth, topText.ry * textcanvas.clientHeight, false);
 }
@@ -327,7 +324,6 @@ function botTextHndler(e) {
     var target = e.target;
     var ctxt = textcanvas.getContext("2d");
     ctxt.clearRect(0, textcanvas.clientHeight / 2, textcanvas.clientWidth, textcanvas.clientHeight / 2);
-    console.log(target.value.toUpperCase());
     setBotTxt("text", target.value.toUpperCase());
     drawBotText(textcanvas, botText.rx * textcanvas.clientWidth, botText.ry * textcanvas.clientHeight, false);
 }
