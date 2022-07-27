@@ -316,15 +316,19 @@ document.getElementById("textcolor").addEventListener("change", function () {
     }
 });
 function topTextHndler(e) {
+    var target = e.target;
     var ctxt = textcanvas.getContext("2d");
     ctxt.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight / 2);
-    setTopTxt("text", e.target.value.toUpperCase());
+    console.log(target.value.toUpperCase());
+    setTopTxt("text", target.value.toUpperCase());
     drawTopText(textcanvas, topText.rx * textcanvas.clientWidth, topText.ry * textcanvas.clientHeight, false);
 }
 function botTextHndler(e) {
+    var target = e.target;
     var ctxt = textcanvas.getContext("2d");
     ctxt.clearRect(0, textcanvas.clientHeight / 2, textcanvas.clientWidth, textcanvas.clientHeight / 2);
-    setBotTxt("text", e.target.value.toUpperCase());
+    console.log(target.value.toUpperCase());
+    setBotTxt("text", target.value.toUpperCase());
     drawBotText(textcanvas, botText.rx * textcanvas.clientWidth, botText.ry * textcanvas.clientHeight, false);
 }
 var topTxtInput = document.getElementById("toptext");
