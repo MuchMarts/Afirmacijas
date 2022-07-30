@@ -81,8 +81,11 @@
                 <div id="borderOverlay" class="hidden">
                     <div id="colors"  class="section">
                         <h3>Izvēlies rāmja krāsu:</h3>
-                        <label class="styledPicker" for="colorpicker"></label>
-                        <input type="color" class="hiddenpicker" id="colorpicker" onchange="updateColorPicker(0)">
+                        <div>
+                            <label class="styledPicker" for="colorpicker"></label>
+                            <input type="color" class="hiddenpicker" id="colorpicker" onchange="updateColorPicker(0)">
+                            <img onclick="removeBorder()" src="images/delete_FILL0_wght300_GRAD0_opsz40.svg" id="removeIcon">
+                        </div>
                     </div>
                 </div>
 
@@ -94,7 +97,7 @@
                                 <input type="text" id="toptext" placeholder="Augšējais Teksts">
                             </div>
                             <div>
-                                <input type="range" min="1" max="200" value="100" class="slider" id="TopRange">
+                                <input type="range" min="1" max="200" value="100" class="slider" id="TopRange" onchange="getValueTopSlider(event)" oninput="getValueTopSlider(event)">
                             </div>
                             
                             
@@ -105,7 +108,7 @@
                                 <input type="text" id="bottomtext" placeholder="Apakšējais Teksts">
                             </div>
                             <div>
-                                <input type="range" min="1" max="200" value="100" class="slider" id="BotRange">    
+                                <input type="range" min="1" max="200" value="100" class="slider" id="BotRange" onchange="getValueBotSlider(event)" oninput="getValueBotSlider(event)">    
                             </div>
                             
                         </div>
@@ -114,6 +117,7 @@
                             <h3>Izvēlies teksta krāsu: </h3>
                             <label class="styledPicker" for="textcolor"></label>
                             <input type="color" class="hiddenpicker" id="textcolor" onchange="updateColorPicker(1)">
+                            <img onclick="removeTextBlur()" src="images/delete_FILL0_wght300_GRAD0_opsz40.svg" id="removeIcon">
                         </div>     
                     </div>
                 </div>  
