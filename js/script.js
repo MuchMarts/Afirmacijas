@@ -249,6 +249,7 @@ var maxWidth = 0;
 function drawText(text, fontSize, x, y, canva, size, blurRatio) {
     maxWidth = size * 0.9;
     var txtCon = canva.getContext("2d");
+    txtCon.save();
     //Text formatting
     txtCon.textAlign = 'center';
     //if add changable boldness
@@ -260,6 +261,7 @@ function drawText(text, fontSize, x, y, canva, size, blurRatio) {
     txtCon.shadowBlur = blurRatio * size;
     txtCon.fillText(text, x, y, maxWidth);
     txtCon.fillText(text, x, y, maxWidth);
+    txtCon.restore();
 }
 function drawTopText(canva, x, y, final) {
     if (topText.text == "") {
@@ -436,6 +438,9 @@ function rerender() {
     ctxi.scale(dpr, dpr);
     ctxb.scale(dpr, dpr);
     ctxt.scale(dpr, dpr);
+    ctxi.save();
+    ctxb.save();
+    ctxt.save();
     add_img(getImg(), imgcanvas);
     if (getBorderCol() != "") {
         setBorder(getBorderCol(), bordercanvas, cssWidth, cssHeight);

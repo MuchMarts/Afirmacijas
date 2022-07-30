@@ -308,7 +308,7 @@ function drawText(text: string, fontSize: number, x: number, y: number, canva: H
     maxWidth = size * 0.9;
 
     let txtCon = canva.getContext("2d")
-
+    txtCon.save();
     //Text formatting
 
     txtCon.textAlign = 'center';    
@@ -322,6 +322,7 @@ function drawText(text: string, fontSize: number, x: number, y: number, canva: H
 
     txtCon.fillText(text, x, y, maxWidth);
     txtCon.fillText(text, x, y, maxWidth);
+    txtCon.restore();
 }
 
 function drawTopText(canva: HTMLCanvasElement, x: number, y:number, final: boolean){
@@ -529,6 +530,10 @@ function rerender() {
     ctxi.scale(dpr, dpr);
     ctxb.scale(dpr, dpr);
     ctxt.scale(dpr, dpr);
+
+    ctxi.save();
+    ctxb.save();
+    ctxt.save();
 
     add_img(getImg(), imgcanvas);
     if(getBorderCol() != ""){setBorder(getBorderCol(), bordercanvas, cssWidth, cssHeight);}
