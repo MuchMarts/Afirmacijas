@@ -102,16 +102,20 @@ function init(){
     bottomText.value = "";
     topRange.value = "100";
     botRange.value = "100";
-    txtCol.value = "#000000";
+    txtCol.value = "";
     }
 
 // Add image on canva
 function add_img(src: string, canva: HTMLCanvasElement) {
     let ctx = canva.getContext("2d")
     let img = new Image();
+
+    ctx.save();
+
     img.src = src;
     img.onload = function(){
         ctx.drawImage(img, 0, 0, canva.clientWidth, canva.clientHeight );
+        ctx.restore();
     }
 }
 
@@ -264,7 +268,7 @@ function setBorder(borderColour: string, canva: HTMLCanvasElement, width: number
     if(borderColour == ""){return};
     
     let ctxborder = canva.getContext("2d");
-
+    ctxborder.save();
     let borderWidth: number = width/30;
     
     ctxborder.fillStyle = borderColour;
@@ -286,6 +290,7 @@ function setBorder(borderColour: string, canva: HTMLCanvasElement, width: number
     ctxborder.fillStyle = setGradient(height, 0, height-borderWidth, 0, borderColour, ctxborder);
     ctxborder.shadowOffsetX = -5;
     ctxborder.fillRect(width-borderWidth, 0, borderWidth, height); //right
+    ctxborder.restore();
 }
 
 function setGradient(x: number, y: number, x1: number, y1: number, color: string, ctxb: any){

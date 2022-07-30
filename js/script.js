@@ -82,15 +82,17 @@ function init() {
     bottomText.value = "";
     topRange.value = "100";
     botRange.value = "100";
-    txtCol.value = "#000000";
+    txtCol.value = "";
 }
 // Add image on canva
 function add_img(src, canva) {
     var ctx = canva.getContext("2d");
     var img = new Image();
+    ctx.save();
     img.src = src;
     img.onload = function () {
         ctx.drawImage(img, 0, 0, canva.clientWidth, canva.clientHeight);
+        ctx.restore();
     };
 }
 //Construct canva from stored data
@@ -217,6 +219,7 @@ function setBorder(borderColour, canva, width, height) {
     }
     ;
     var ctxborder = canva.getContext("2d");
+    ctxborder.save();
     var borderWidth = width / 30;
     ctxborder.fillStyle = borderColour;
     ctxborder.shadowColor = borderColour;
@@ -233,6 +236,7 @@ function setBorder(borderColour, canva, width, height) {
     ctxborder.fillStyle = setGradient(height, 0, height - borderWidth, 0, borderColour, ctxborder);
     ctxborder.shadowOffsetX = -5;
     ctxborder.fillRect(width - borderWidth, 0, borderWidth, height); //right
+    ctxborder.restore();
 }
 function setGradient(x, y, x1, y1, color, ctxb) {
     var rgba = convertHex(color, 1);
