@@ -247,6 +247,9 @@ h3 {
     display: flex;
     align-items: center;
 }
+#removeIcon:hover {
+    cursor: pointer;
+}
 
 @media only screen and (min-width: 1080px) {
     figure {
