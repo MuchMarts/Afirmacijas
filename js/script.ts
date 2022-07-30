@@ -386,11 +386,11 @@ function initTxtPos(txtType: "top"|"bot", height: number, sizeRatio: number){
 document.getElementById("textcolor").addEventListener("change", function(){
     //Changes text color on user color input
     if(topText.text.length != 0){
-        if(topText.textBorderBlur = 0){resetTextBorderBlur()};
+        if(topText.textBorderBlur == 0){resetTextBorderBlur()};
         drawTopText(textcanvas, topText.x, topText.y, false);
     }
     if(botText.text.length != 0){
-        if(botText.textBorderBlur = 0){resetTextBorderBlur()};
+        if(botText.textBorderBlur == 0){resetTextBorderBlur()};
         drawBotText(textcanvas, botText.x, botText.y, false);;
     }
 })

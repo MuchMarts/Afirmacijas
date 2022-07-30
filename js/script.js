@@ -60,6 +60,10 @@ function getRelX() {
 function getRelY() {
     return relativeTxtMove.y;
 }
+function resetTextBorderBlur() {
+    setTopTxt("textBorderBlur", 15 / textcanvas.clientWidth);
+    setBotTxt("textBorderBlur", 15 / textcanvas.clientWidth);
+}
 //Set,Get border Colour
 function setBorderCol(value) {
     borderColour = value;
@@ -314,9 +318,17 @@ function initTxtPos(txtType, height, sizeRatio) {
 document.getElementById("textcolor").addEventListener("change", function () {
     //Changes text color on user color input
     if (topText.text.length != 0) {
+        if (topText.textBorderBlur == 0) {
+            resetTextBorderBlur();
+        }
+        ;
         drawTopText(textcanvas, topText.x, topText.y, false);
     }
     if (botText.text.length != 0) {
+        if (botText.textBorderBlur == 0) {
+            resetTextBorderBlur();
+        }
+        ;
         drawBotText(textcanvas, botText.x, botText.y, false);
         ;
     }
@@ -464,5 +476,14 @@ function toggleHide(elemID) {
 function updateColorPicker(btn_index) {
     var colour = document.getElementsByClassName("hiddenpicker")[btn_index].value;
     document.getElementsByClassName("styledPicker")[btn_index].style.backgroundColor = colour;
+}
+function removeBorder() {
+    setBorderCol("");
+    rerender();
+}
+function removeTextBlur() {
+    setTopTxt("textBorderBlur", 0);
+    setBotTxt("textBorderBlur", 0);
+    rerender();
 }
 new ResizeObserver(function () { return rerender(); }).observe(imgcanvas);
