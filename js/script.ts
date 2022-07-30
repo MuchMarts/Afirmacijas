@@ -35,11 +35,14 @@ let botText: IDictionary<any> = {
     ry: initTxtPos("bot", textcanvas.clientHeight, 100/imgcanvas.clientWidth) / textcanvas.clientHeight,
     defaultPos: true,
 };
+
 let relativeTxtMove: { x: number; y: number } = {
     x: 0,
     y: 0,
 };
 let borderColour: string = "";
+
+
 
 // Set IMG
 function setImg(url: string) {
@@ -72,6 +75,10 @@ function getRelY(){
     return relativeTxtMove.y;
 }
 
+function resetTextBorderBlur(){
+    setTopTxt("textBorderBlur", 15/textcanvas.clientWidth);
+    setBotTxt("textBorderBlur", 15/textcanvas.clientWidth);
+}
 
 //Set,Get border Colour
 function setBorderCol(value: string){
@@ -379,9 +386,11 @@ function initTxtPos(txtType: "top"|"bot", height: number, sizeRatio: number){
 document.getElementById("textcolor").addEventListener("change", function(){
     //Changes text color on user color input
     if(topText.text.length != 0){
+        if(topText.textBorderBlur = 0){resetTextBorderBlur()};
         drawTopText(textcanvas, topText.x, topText.y, false);
     }
     if(botText.text.length != 0){
+        if(botText.textBorderBlur = 0){resetTextBorderBlur()};
         drawBotText(textcanvas, botText.x, botText.y, false);;
     }
 })
@@ -562,6 +571,17 @@ function toggleHide(elemID: string){
 function updateColorPicker(btn_index: number){
     var colour = (document.getElementsByClassName("hiddenpicker")[btn_index] as HTMLInputElement).value;
     (document.getElementsByClassName("styledPicker")[btn_index] as HTMLLabelElement).style.backgroundColor = colour;
+}
+
+function removeBorder(){
+    setBorderCol("");
+    rerender();
+}
+
+function removeTextBlur(){
+    setTopTxt("textBorderBlur", 0);
+    setBotTxt("textBorderBlur", 0);
+    rerender();
 }
 
 new ResizeObserver(() => rerender()).observe(imgcanvas);
