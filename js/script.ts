@@ -35,11 +35,14 @@ let botText: IDictionary<any> = {
     ry: initTxtPos("bot", textcanvas.clientHeight, 100/imgcanvas.clientWidth) / textcanvas.clientHeight,
     defaultPos: true,
 };
+
 let relativeTxtMove: { x: number; y: number } = {
     x: 0,
     y: 0,
 };
 let borderColour: string = "";
+
+
 
 // Set IMG
 function setImg(url: string) {
@@ -72,6 +75,10 @@ function getRelY(){
     return relativeTxtMove.y;
 }
 
+function resetTextBorderBlur(){
+    setTopTxt("textBorderBlur", 15/textcanvas.clientWidth);
+    setBotTxt("textBorderBlur", 15/textcanvas.clientWidth);
+}
 
 //Set,Get border Colour
 function setBorderCol(value: string){
@@ -102,16 +109,20 @@ function init(){
     bottomText.value = "";
     topRange.value = "100";
     botRange.value = "100";
-    txtCol.value = "#000000";
+    txtCol.value = "";
     }
 
 // Add image on canva
 function add_img(src: string, canva: HTMLCanvasElement) {
     let ctx = canva.getContext("2d")
     let img = new Image();
+
+    ctx.save();
+
     img.src = src;
     img.onload = function(){
         ctx.drawImage(img, 0, 0, canva.clientWidth, canva.clientHeight );
+        ctx.restore();
     }
 }
 
@@ -264,7 +275,7 @@ function setBorder(borderColour: string, canva: HTMLCanvasElement, width: number
     if(borderColour == ""){return};
     
     let ctxborder = canva.getContext("2d");
-
+    ctxborder.save();
     let borderWidth: number = width/30;
     
     ctxborder.fillStyle = borderColour;
@@ -286,6 +297,7 @@ function setBorder(borderColour: string, canva: HTMLCanvasElement, width: number
     ctxborder.fillStyle = setGradient(height, 0, height-borderWidth, 0, borderColour, ctxborder);
     ctxborder.shadowOffsetX = -5;
     ctxborder.fillRect(width-borderWidth, 0, borderWidth, height); //right
+    ctxborder.restore();
 }
 
 function setGradient(x: number, y: number, x1: number, y1: number, color: string, ctxb: any){
@@ -308,7 +320,7 @@ function drawText(text: string, fontSize: number, x: number, y: number, canva: H
     maxWidth = size * 0.9;
 
     let txtCon = canva.getContext("2d")
-
+    txtCon.save();
     //Text formatting
 
     txtCon.textAlign = 'center';    
@@ -322,6 +334,7 @@ function drawText(text: string, fontSize: number, x: number, y: number, canva: H
 
     txtCon.fillText(text, x, y, maxWidth);
     txtCon.fillText(text, x, y, maxWidth);
+    txtCon.restore();
 }
 
 function drawTopText(canva: HTMLCanvasElement, x: number, y:number, final: boolean){
@@ -373,9 +386,11 @@ function initTxtPos(txtType: "top"|"bot", height: number, sizeRatio: number){
 document.getElementById("textcolor").addEventListener("change", function(){
     //Changes text color on user color input
     if(topText.text.length != 0){
+        if(topText.textBorderBlur == 0){resetTextBorderBlur()};
         drawTopText(textcanvas, topText.x, topText.y, false);
     }
     if(botText.text.length != 0){
+        if(botText.textBorderBlur == 0){resetTextBorderBlur()};
         drawBotText(textcanvas, botText.x, botText.y, false);;
     }
 })
@@ -530,6 +545,10 @@ function rerender() {
     ctxb.scale(dpr, dpr);
     ctxt.scale(dpr, dpr);
 
+    ctxi.save();
+    ctxb.save();
+    ctxt.save();
+
     add_img(getImg(), imgcanvas);
     if(getBorderCol() != ""){setBorder(getBorderCol(), bordercanvas, cssWidth, cssHeight);}
 
@@ -552,6 +571,17 @@ function toggleHide(elemID: string){
 function updateColorPicker(btn_index: number){
     var colour = (document.getElementsByClassName("hiddenpicker")[btn_index] as HTMLInputElement).value;
     (document.getElementsByClassName("styledPicker")[btn_index] as HTMLLabelElement).style.backgroundColor = colour;
+}
+
+function removeBorder(){
+    setBorderCol("");
+    rerender();
+}
+
+function removeTextBlur(){
+    setTopTxt("textBorderBlur", 0);
+    setBotTxt("textBorderBlur", 0);
+    rerender();
 }
 
 new ResizeObserver(() => rerender()).observe(imgcanvas);

@@ -60,6 +60,10 @@ function getRelX() {
 function getRelY() {
     return relativeTxtMove.y;
 }
+function resetTextBorderBlur() {
+    setTopTxt("textBorderBlur", 15 / textcanvas.clientWidth);
+    setBotTxt("textBorderBlur", 15 / textcanvas.clientWidth);
+}
 //Set,Get border Colour
 function setBorderCol(value) {
     borderColour = value;
@@ -82,15 +86,17 @@ function init() {
     bottomText.value = "";
     topRange.value = "100";
     botRange.value = "100";
-    txtCol.value = "#000000";
+    txtCol.value = "";
 }
 // Add image on canva
 function add_img(src, canva) {
     var ctx = canva.getContext("2d");
     var img = new Image();
+    ctx.save();
     img.src = src;
     img.onload = function () {
         ctx.drawImage(img, 0, 0, canva.clientWidth, canva.clientHeight);
+        ctx.restore();
     };
 }
 //Construct canva from stored data
@@ -217,6 +223,7 @@ function setBorder(borderColour, canva, width, height) {
     }
     ;
     var ctxborder = canva.getContext("2d");
+    ctxborder.save();
     var borderWidth = width / 30;
     ctxborder.fillStyle = borderColour;
     ctxborder.shadowColor = borderColour;
@@ -233,6 +240,7 @@ function setBorder(borderColour, canva, width, height) {
     ctxborder.fillStyle = setGradient(height, 0, height - borderWidth, 0, borderColour, ctxborder);
     ctxborder.shadowOffsetX = -5;
     ctxborder.fillRect(width - borderWidth, 0, borderWidth, height); //right
+    ctxborder.restore();
 }
 function setGradient(x, y, x1, y1, color, ctxb) {
     var rgba = convertHex(color, 1);
@@ -249,6 +257,7 @@ var maxWidth = 0;
 function drawText(text, fontSize, x, y, canva, size, blurRatio) {
     maxWidth = size * 0.9;
     var txtCon = canva.getContext("2d");
+    txtCon.save();
     //Text formatting
     txtCon.textAlign = 'center';
     //if add changable boldness
@@ -260,6 +269,7 @@ function drawText(text, fontSize, x, y, canva, size, blurRatio) {
     txtCon.shadowBlur = blurRatio * size;
     txtCon.fillText(text, x, y, maxWidth);
     txtCon.fillText(text, x, y, maxWidth);
+    txtCon.restore();
 }
 function drawTopText(canva, x, y, final) {
     if (topText.text == "") {
@@ -308,9 +318,17 @@ function initTxtPos(txtType, height, sizeRatio) {
 document.getElementById("textcolor").addEventListener("change", function () {
     //Changes text color on user color input
     if (topText.text.length != 0) {
+        if (topText.textBorderBlur == 0) {
+            resetTextBorderBlur();
+        }
+        ;
         drawTopText(textcanvas, topText.x, topText.y, false);
     }
     if (botText.text.length != 0) {
+        if (botText.textBorderBlur == 0) {
+            resetTextBorderBlur();
+        }
+        ;
         drawBotText(textcanvas, botText.x, botText.y, false);
         ;
     }
@@ -436,6 +454,9 @@ function rerender() {
     ctxi.scale(dpr, dpr);
     ctxb.scale(dpr, dpr);
     ctxt.scale(dpr, dpr);
+    ctxi.save();
+    ctxb.save();
+    ctxt.save();
     add_img(getImg(), imgcanvas);
     if (getBorderCol() != "") {
         setBorder(getBorderCol(), bordercanvas, cssWidth, cssHeight);
@@ -455,5 +476,14 @@ function toggleHide(elemID) {
 function updateColorPicker(btn_index) {
     var colour = document.getElementsByClassName("hiddenpicker")[btn_index].value;
     document.getElementsByClassName("styledPicker")[btn_index].style.backgroundColor = colour;
+}
+function removeBorder() {
+    setBorderCol("");
+    rerender();
+}
+function removeTextBlur() {
+    setTopTxt("textBorderBlur", 0);
+    setBotTxt("textBorderBlur", 0);
+    rerender();
 }
 new ResizeObserver(function () { return rerender(); }).observe(imgcanvas);
