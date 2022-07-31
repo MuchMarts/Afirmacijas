@@ -11,28 +11,38 @@ const overlays = [
 
 window.onload = init;
 
-interface IDictionary<TValue> {
-    [key: string]: TValue;
+interface textModule {
+    text: string,
+    sizeRatio: number,
+    textBorderBlur: number,
+    rx: number,
+    ry: number,
+    x(canva:HTMLCanvasElement): number,
+    y(canva:HTMLCanvasElement): number,
+    defaultPos: boolean,
 }
+
 let imgURL: string = "";
-let topText: IDictionary<any> = {
+
+let topText: textModule = {
     text : "",
     sizeRatio: 100/imgcanvas.clientWidth,
     textBorderBlur: 15/textcanvas.clientWidth,
-    x: textcanvas.clientWidth/2,
-    y: initTxtPos("top", textcanvas.clientHeight, 100/imgcanvas.clientWidth),
     rx: (textcanvas.clientWidth/2) / textcanvas.clientWidth,
     ry: initTxtPos("top", textcanvas.clientHeight, 100/imgcanvas.clientWidth) / textcanvas.clientHeight,
+    x(canva) {return (this.rx * canva.clientWidth)},
+    y(canva) {return (this.ry * canva.clientHeight)},
     defaultPos: true,
 };
-let botText: IDictionary<any> = {
+
+let botText: textModule = {
     text : "",
     sizeRatio: 100/imgcanvas.clientWidth,
     textBorderBlur: 15/textcanvas.clientWidth,
-    x: textcanvas.clientWidth/2,
-    y: initTxtPos("bot", textcanvas.clientWidth, 100/imgcanvas.clientWidth),
     rx: (textcanvas.clientWidth/2) / textcanvas.clientWidth,
     ry: initTxtPos("bot", textcanvas.clientHeight, 100/imgcanvas.clientWidth) / textcanvas.clientHeight,
+    x(canva) {return (this.rx * canva.clientWidth)},
+    y(canva) {return (this.ry * canva.clientHeight)},
     defaultPos: true,
 };
 
@@ -42,8 +52,6 @@ let relativeTxtMove: { x: number; y: number } = {
 };
 let borderColour: string = "";
 
-
-
 // Set IMG
 function setImg(url: string) {
     imgURL = url;
@@ -51,16 +59,6 @@ function setImg(url: string) {
 // Get IMG
 function getImg() {
     return imgURL;
-}
-    
-// Set, Get any toptxt field
-function setTopTxt(key: string, value: any){
-    topText[key] = value;
-}
-
-// Set, Get any bottxt field
-function setBotTxt(key: any, value: any){
-    botText[key] = value;
 }
 
 function setRelCord(value: number[]){
@@ -76,8 +74,8 @@ function getRelY(){
 }
 
 function resetTextBorderBlur(){
-    setTopTxt("textBorderBlur", 15/textcanvas.clientWidth);
-    setBotTxt("textBorderBlur", 15/textcanvas.clientWidth);
+    topText.textBorderBlur = 15/textcanvas.clientWidth;
+    botText.textBorderBlur = 15/textcanvas.clientWidth;
 }
 
 //Set,Get border Colour
@@ -345,9 +343,6 @@ function drawTopText(canva: HTMLCanvasElement, x: number, y:number, final: boole
     if(botText.text != "" && !final){
         ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight);   
 
-        setTopTxt("x", x);
-        setTopTxt("y", y)
-
         drawText(botText.text, botText.sizeRatio, botText.rx * textcanvas.clientWidth, botText.ry * textcanvas.clientHeight, canva, canva.clientWidth, botText.textBorderBlur);
     }else if (!final){
         ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight);   
@@ -363,9 +358,6 @@ function drawBotText(canva: HTMLCanvasElement, x: number, y: number, final: bool
     
     if(topText.text != "" && !final){
         ctx.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight);
-
-        setBotTxt("x", x);
-        setBotTxt("y", y)
 
         drawText(topText.text, topText.sizeRatio, topText.rx * textcanvas.clientWidth, topText.ry * textcanvas.clientHeight, canva, canva.clientWidth, topText.textBorderBlur);
     }else if (!final){
@@ -387,11 +379,11 @@ document.getElementById("textcolor").addEventListener("change", function(){
     //Changes text color on user color input
     if(topText.text.length != 0){
         if(topText.textBorderBlur == 0){resetTextBorderBlur()};
-        drawTopText(textcanvas, topText.x, topText.y, false);
+        drawTopText(textcanvas, topText.x(textcanvas), topText.y(textcanvas), false);
     }
     if(botText.text.length != 0){
         if(botText.textBorderBlur == 0){resetTextBorderBlur()};
-        drawBotText(textcanvas, botText.x, botText.y, false);;
+        drawBotText(textcanvas, botText.x(textcanvas), botText.y(textcanvas), false);;
     }
 })
 
@@ -400,7 +392,7 @@ function topTextHndler(e: any) {
     const target = e.target as HTMLInputElement;
     let ctxt = textcanvas.getContext("2d");
     ctxt.clearRect(0, 0, textcanvas.clientWidth, textcanvas.clientHeight/2);    
-    setTopTxt("text", target.value.toUpperCase());
+    topText.text = target.value.toUpperCase();
     drawTopText(textcanvas, topText.rx * textcanvas.clientWidth, topText.ry * textcanvas.clientHeight, false);
 }
 
@@ -408,7 +400,7 @@ function botTextHndler(e: any){
     const target = e.target as HTMLInputElement;
     let ctxt = textcanvas.getContext("2d");
     ctxt.clearRect(0, textcanvas.clientHeight/2, textcanvas.clientWidth, textcanvas.clientHeight/2);
-    setBotTxt("text", target.value.toUpperCase());
+    botText.text = target.value.toUpperCase();
     drawBotText(textcanvas, botText.rx * textcanvas.clientWidth, botText.ry * textcanvas.clientHeight, false);
 }
 
@@ -423,60 +415,62 @@ botTxtInput.addEventListener('propertychange', botTextHndler);
 
 function getValueTopSlider(e: { target: { value: number; }; }) {
     //Changes TOP text size on user slider input
-    setTopTxt("sizeRatio", e.target.value/textcanvas.clientWidth);
+    topText.sizeRatio = e.target.value/textcanvas.clientWidth
 
     if(topText.defaultPos){
         let newy = initTxtPos("top", textcanvas.clientHeight, e.target.value/textcanvas.clientWidth);  
-        setTopTxt("ry", newy / textcanvas.clientHeight);
-        drawTopText(textcanvas, topText.x, newy, false);
+        topText.ry = newy / textcanvas.clientHeight
+        drawTopText(textcanvas, topText.x(textcanvas), newy, false);
         return;
     }
-    drawTopText(textcanvas, topText.x ,topText.y, false);
+    drawTopText(textcanvas, topText.x(textcanvas) ,topText.y(textcanvas), false);
 }
 
 function getValueBotSlider(e: { target: { value: number; }; }) {
     //Changes BOTTOM text size on user slider input
-    setBotTxt("sizeRatio", e.target.value/textcanvas.clientWidth);
-    drawBotText(textcanvas,  botText.x, botText.y, false);
+    botText.sizeRatio = e.target.value/textcanvas.clientWidth
+    drawBotText(textcanvas,  botText.x(textcanvas), botText.y(textcanvas), false);
 }
 
 var dragok = false;
 
-function dragText(e: any){
+function dragText(e: { preventDefault: () => void; pageX: number; pageY: number; }){
     //Check wheter tthere is text to be moved lets user to scroll website freely
     if(emptyTextCanva()){return};
 
     e.preventDefault();
-    if( e.pageX < topText.x + textcanvas.clientWidth * 0.45 + document.getElementById('result').offsetLeft &&
-        e.pageX > topText.x - textcanvas.clientWidth * 0.45 + document.getElementById('result').offsetLeft &&
-        e.pageY < topText.y + 20 + document.getElementById('result').offsetTop &&
-        e.pageY > topText.y - textcanvas.clientHeight / 4 + document.getElementById('result').offsetTop)
+    if( e.pageX < topText.x(textcanvas) + textcanvas.clientWidth * 0.45 + document.getElementById('result').offsetLeft &&
+        e.pageX > topText.x(textcanvas) - textcanvas.clientWidth * 0.45 + document.getElementById('result').offsetLeft &&
+        e.pageY < topText.y(textcanvas) + 20 + document.getElementById('result').offsetTop &&
+        e.pageY > topText.y(textcanvas) - textcanvas.clientHeight / 4 + document.getElementById('result').offsetTop)
         {
             dragok = true;
 
-            setTopTxt("defaultPos", false);
+            topText.defaultPos = false;
 
             let tempx: number = e.pageX - document.getElementById('result').offsetLeft;
             let tempy: number = e.pageY - document.getElementById('result').offsetTop;
 
-            let relTxtCords: number[] = [topText.x - tempx, topText.y - tempy];
+            let relTxtCords: number[] = [topText.x(textcanvas) - tempx, topText.y(textcanvas) - tempy];
             setRelCord(relTxtCords); 
 
             //textcanvas.addEventListener('touchmove', moveTextTop);
             textcanvas.onpointermove = moveTextTop;
     }
  
-    if( e.pageX < botText.x + textcanvas.clientWidth * 0.45 + document.getElementById('result').offsetLeft &&
-        e.pageX > botText.x - textcanvas.clientWidth * 0.45 + document.getElementById('result').offsetLeft &&
-        e.pageY < botText.y + 20 + document.getElementById('result').offsetTop &&
-        e.pageY > botText.y - textcanvas.clientHeight / 4 + document.getElementById('result').offsetTop)
+    if( e.pageX < botText.x(textcanvas) + textcanvas.clientWidth * 0.45 + document.getElementById('result').offsetLeft &&
+        e.pageX > botText.x(textcanvas) - textcanvas.clientWidth * 0.45 + document.getElementById('result').offsetLeft &&
+        e.pageY < botText.y(textcanvas) + 20 + document.getElementById('result').offsetTop &&
+        e.pageY > botText.y(textcanvas) - textcanvas.clientHeight / 4 + document.getElementById('result').offsetTop)
         {
             dragok = true;
+
+            botText.defaultPos = false;
 
             let tempx = e.pageX - document.getElementById('result').offsetLeft;
             let tempy = e.pageY - document.getElementById('result').offsetTop;
 
-            let relTxtCords: number[] = [botText.x - tempx, botText.y - tempy];
+            let relTxtCords: number[] = [botText.x(textcanvas) - tempx, botText.y(textcanvas) - tempy];
             setRelCord(relTxtCords); 
 
             //textcanvas.addEventListener('touchmove', moveTextBot);
@@ -485,9 +479,6 @@ function dragText(e: any){
 }
 
 function dropText(){
-    if(topText.defaultPos){setTopTxt("defaultPos", false)}
-    if(botText.defaultPos){setBotTxt("defaultPos", false)}
-
     setRelCord([0,0])
     textcanvas.onpointermove = null;
     //textcanvas.removeEventListener("touchmove");
@@ -497,10 +488,8 @@ function moveTextTop(e: any){
     if (dragok){
         let x = e.pageX - document.getElementById('result').offsetLeft + getRelX();
         let y = e.pageY - document.getElementById('result').offsetTop + getRelY();
-        setTopTxt("rx", x / textcanvas.clientWidth);
-        setTopTxt("ry", y / textcanvas.clientHeight);
-        setTopTxt("x", x);
-        setTopTxt("y", y);
+        topText.rx = x / textcanvas.clientWidth;
+        topText.ry = y / textcanvas.clientHeight
 
         drawTopText(textcanvas, x, y, false);
     }
@@ -510,10 +499,8 @@ function moveTextBot(e: any){
     if (dragok){
         let x = e.pageX - document.getElementById('result').offsetLeft + getRelX();
         let y = e.pageY - document.getElementById('result').offsetTop + getRelY();
-        setBotTxt("rx", x / textcanvas.clientWidth);
-        setBotTxt("ry", y / textcanvas.clientHeight);
-        setBotTxt("x", x);
-        setBotTxt("y", y);
+        botText.rx = x / textcanvas.clientWidth;
+        botText.ry = y / textcanvas.clientHeight
 
         drawBotText(textcanvas, x, y, false);
     }
@@ -582,8 +569,8 @@ function removeBorder(){
 }
 
 function removeTextBlur(){
-    setTopTxt("textBorderBlur", 0);
-    setBotTxt("textBorderBlur", 0);
+    topText.textBorderBlur = 0;
+    botText.textBorderBlur = 0;
     rerender();
 }
 
