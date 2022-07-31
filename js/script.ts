@@ -443,6 +443,9 @@ function getValueBotSlider(e: { target: { value: number; }; }) {
 var dragok = false;
 
 function dragText(e: any){
+    //Check wheter tthere is text to be moved lets user to scroll website freely
+    if(emptyTextCanva()){return};
+
     e.preventDefault();
     if( e.pageX < topText.x + textcanvas.clientWidth * 0.45 + document.getElementById('result').offsetLeft &&
         e.pageX > topText.x - textcanvas.clientWidth * 0.45 + document.getElementById('result').offsetLeft &&
@@ -582,6 +585,11 @@ function removeTextBlur(){
     setTopTxt("textBorderBlur", 0);
     setBotTxt("textBorderBlur", 0);
     rerender();
+}
+
+function emptyTextCanva(){
+    if(topText.text == ""&&botText.text == ""){return true};
+    return false;
 }
 
 new ResizeObserver(() => rerender()).observe(imgcanvas);
